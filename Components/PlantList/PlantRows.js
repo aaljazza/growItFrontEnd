@@ -19,9 +19,6 @@ import {
   Right
 } from "native-base";
 
-// Plant Database
-import plantdatabase from "./plantdatabase";
-
 class PlantRow extends React.Component {
   constructor(props) {
     super(props);
@@ -34,12 +31,12 @@ class PlantRow extends React.Component {
     return (
       <Card>
         <CardItem>
-          <Button transparent onPress={() => alert("image Zoom")}>
-            <Thumbnail source={{ uri: plant.imageURL }} />
+          <Button transparent>
+            <Thumbnail source={{ uri: plant.img }} />
           </Button>
           <Body>
-            <Text>{plant.localName}</Text>
-            <Text note>{plant.scientificName}</Text>
+            <Text>{plant.local_name}</Text>
+            <Text note>{plant.scientific_name}</Text>
           </Body>
 
           <Right style={{ flexDirection: "row" }}>
@@ -58,15 +55,15 @@ class PlantRow extends React.Component {
           <CardItem bordered>
             <Body>
               <Text>Care Level:</Text>
-              <Text note>{plant.careLevel === 0 ? "Easy" : "Difficult"}</Text>
+              <Text note>"Easy"</Text>
             </Body>
             <Body>
               <Text>Toxic:</Text>
-              <Text note>{plant.toxic === true ? "Yes" : "No"}</Text>
+              <Text note>No</Text>
             </Body>
             <Body>
               <Text>Size:</Text>
-              <Text note>{plant.size}</Text>
+              <Text note>Medium</Text>
             </Body>
           </CardItem>
         )}
@@ -74,7 +71,7 @@ class PlantRow extends React.Component {
           <CardItem bordered>
             <Body>
               <Text>Theme:</Text>
-              <Text note>{plant.theme}</Text>
+              <Text note>Modern</Text>
             </Body>
             <Body>
               <Text>Location:</Text>

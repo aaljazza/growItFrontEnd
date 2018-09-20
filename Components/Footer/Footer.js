@@ -25,16 +25,6 @@ class FooterBar extends Component {
     return (
       <Footer style={{ borderColor: "green", borderTopWidth: 5 }}>
         <FooterTab>
-          {/* <LinearGradient
-            colors={["#458500", "#65c400"]}
-            style={{
-              position: "absolute",
-              left: 0,
-              right: 0,
-              top: 0,
-              height: "300%"
-            }}
-          /> */}
           <LinearGradient
             colors={["#ffffff", "#ffffff"]}
             style={{
@@ -65,7 +55,29 @@ class FooterBar extends Component {
           </Button>
           <Button
             vertical
-            onPress={() => this.props.navigation.navigate("Login")}
+            onPress={() => this.props.navigation.navigate("Statistics")}
+          >
+            <Icon
+              style={
+                pageName === "Statistics"
+                  ? { color: "green" }
+                  : { color: "#003a12" }
+              }
+              name="ios-stats"
+            />
+            <Text
+              style={
+                pageName === "Statistics"
+                  ? { color: "green" }
+                  : { color: "#003a12" }
+              }
+            >
+              Stats
+            </Text>
+          </Button>
+          <Button
+            vertical
+            onPress={() => this.props.navigation.navigate("Profile")}
           >
             <Icon
               style={
@@ -91,7 +103,8 @@ class FooterBar extends Component {
                   ? { color: "green" }
                   : { color: "#003a12" }
               }
-              name="ios-flower"
+              type="Foundation"
+              name="trees"
             />
             <Text
               style={
@@ -100,7 +113,7 @@ class FooterBar extends Component {
                   : { color: "#003a12" }
               }
             >
-              Plants List
+              Shop
             </Text>
           </Button>
         </FooterTab>
