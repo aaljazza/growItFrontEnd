@@ -23,9 +23,9 @@ class HeaderBar extends Component {
   render() {
     let pageName = this.props.pageNameProp;
     return (
-      <Header>
+      <Header style={{ borderBottomColor: "green", borderBottomWidth: 5 }}>
         <LinearGradient
-          colors={["#ffffff", "#e1ffc1"]}
+          colors={["#ffffff", "#ffffff"]}
           style={{
             position: "absolute",
             left: 0,
@@ -40,11 +40,11 @@ class HeaderBar extends Component {
             transparent
             onPress={() => this.props.navigation.openDrawer()}
           >
-            <Icon style={{ color: "black" }} name="menu" />
+            <Icon style={{ color: "#007c2f" }} name="menu" />
           </Button>
         </Left>
         <Body>
-          <Title style={{ color: "black" }}>{pageName}</Title>
+          <Title style={{ color: "#007c2f" }}>{pageName}</Title>
         </Body>
         <Right />
       </Header>

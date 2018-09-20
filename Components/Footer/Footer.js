@@ -23,10 +23,20 @@ class FooterBar extends Component {
   render() {
     let pageName = this.props.pageNameProp;
     return (
-      <Footer>
+      <Footer style={{ borderColor: "green", borderTopWidth: 5 }}>
         <FooterTab>
-          <LinearGradient
+          {/* <LinearGradient
             colors={["#458500", "#65c400"]}
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              top: 0,
+              height: "300%"
+            }}
+          /> */}
+          <LinearGradient
+            colors={["#ffffff", "#ffffff"]}
             style={{
               position: "absolute",
               left: 0,
@@ -37,26 +47,61 @@ class FooterBar extends Component {
           />
           <Button
             vertical
-            active={pageName === "Home"}
             onPress={() => this.props.navigation.navigate("Home")}
           >
-            <Icon style={{ color: "white" }} name="ios-home" />
-            <Text>Home</Text>
+            <Icon
+              style={
+                pageName === "Home" ? { color: "green" } : { color: "#003a12" }
+              }
+              name="ios-home"
+            />
+            <Text
+              style={
+                pageName === "Home" ? { color: "green" } : { color: "#003a12" }
+              }
+            >
+              Home
+            </Text>
           </Button>
           <Button
             vertical
-            active={pageName === "Login"}
             onPress={() => this.props.navigation.navigate("Login")}
           >
-            <Icon name="ios-person" />
-            <Text>Profile</Text>
+            <Icon
+              style={
+                pageName === "Login" ? { color: "green" } : { color: "#003a12" }
+              }
+              name="ios-person"
+            />
+            <Text
+              style={
+                pageName === "Login" ? { color: "green" } : { color: "#003a12" }
+              }
+            >
+              Profile
+            </Text>
           </Button>
           <Button
-            active={pageName === "Plants"}
+            vertical
             onPress={() => this.props.navigation.navigate("Plants")}
           >
-            <Icon name="ios-flower" />
-            <Text>Plants List</Text>
+            <Icon
+              style={
+                pageName === "Plants"
+                  ? { color: "green" }
+                  : { color: "#003a12" }
+              }
+              name="ios-flower"
+            />
+            <Text
+              style={
+                pageName === "Plants"
+                  ? { color: "green" }
+                  : { color: "#003a12" }
+              }
+            >
+              Plants List
+            </Text>
           </Button>
         </FooterTab>
       </Footer>
