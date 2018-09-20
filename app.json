@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "Plant It",
+    "icon": "./Components/Logo/logo.png",
+    "version": "1.0.0",
+    "slug": "plant-it",
+    "sdkVersion": "27.0.0",
+    "ios": {
+      "bundleIdentifier": "com.codeexample.plantit"
+    },
+    "android": {
+      "package": "com.codeexample.plantit"
+    }
   }
 }
