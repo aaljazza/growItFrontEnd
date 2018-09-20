@@ -8,6 +8,7 @@ import plantdatabase from "./plantdatabase";
 import PlantRow from "./PlantRows";
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
+import PlantStore from "../Stores/PlantStore";
 
 class PlantScreen extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class PlantScreen extends React.Component {
   }
   render() {
     let plantItems;
-    plantItems = plantdatabase.map((plantItem, index) => (
+    plantItems = PlantStore.plants.map((plantItem, index) => (
       <PlantRow key={index} plant={plantItem} />
     ));
 

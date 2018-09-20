@@ -16,20 +16,17 @@ import {
 } from "native-base";
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
-import PlantStore from "../Stores/PlantStore";
 
-export default class HomeScreen extends React.Component {
+export default class AboutUsScreen extends React.Component {
   render() {
-    let plants;
-    plants = PlantStore.plants;
     return (
       <Container>
-        <HeaderBar pageNameProp="Home" />
+        <HeaderBar pageNameProp="Cart" />
         <Content padder>
           <Card>
             <CardItem>
               <Body>
-                <Text>Plant It!</Text>
+                <Text>There are no items in your cart</Text>
               </Body>
             </CardItem>
           </Card>
@@ -47,12 +44,12 @@ export default class HomeScreen extends React.Component {
             rounded
             primary
             style={{ marginTop: 10 }}
-            onPress={() => console.log(plants)}
+            onPress={() => this.props.navigation.navigate("Login")}
           >
             <Text>Login Here</Text>
           </Button>
         </Content>
-        <FooterBar pageNameProp="Home" />
+        <FooterBar pageNameProp="Cart" />
       </Container>
     );
   }

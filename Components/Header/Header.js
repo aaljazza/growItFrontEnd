@@ -46,7 +46,18 @@ class HeaderBar extends Component {
         <Body>
           <Title style={{ color: "#007c2f" }}>{pageName}</Title>
         </Body>
-        <Right />
+        <Right>
+          <Button
+            transparent
+            onPress={() => this.props.navigation.navigate("Cart")}
+          >
+            <Icon
+              active={pageName === "Cart"}
+              style={{ color: "green" }}
+              name="cart"
+            />
+          </Button>
+        </Right>
       </Header>
     );
   }
