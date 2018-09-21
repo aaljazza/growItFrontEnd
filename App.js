@@ -50,7 +50,7 @@ class App extends React.Component {
     this.fadeAnimation = new Animated.Value(0);
     this.state = {
       isReady: false,
-      moveOn: true
+      moveOn: false
     };
   }
 
