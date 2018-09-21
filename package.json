@@ -37,6 +37,7 @@
     "react-native-svg": "^7.0.2",
     "react-navigation": "^2.15.0",
     "react-navigation-material-bottom-tabs": "^0.4.0",
-    "react-router-native": "^4.3.0"
+    "react-router-native": "^4.3.0",
+    "toggle-switch-react-native": "^1.0.0"
   }
 }

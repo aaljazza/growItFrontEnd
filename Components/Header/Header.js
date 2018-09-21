@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from "react";
-import { View, StyleSheet, StatusBar } from "react-native";
+import { View, StyleSheet, StatusBar, Platform } from "react-native";
 import {
   Button,
   Text,
@@ -24,6 +24,7 @@ class HeaderBar extends Component {
     let pageName = this.props.pageNameProp;
     return (
       <Header style={{ borderBottomColor: "green", borderBottomWidth: 5 }}>
+        {Platform.OS !== "ios" && <StatusBar hidden={true} />}
         <LinearGradient
           colors={["#ffffff", "#ffffff"]}
           style={{
