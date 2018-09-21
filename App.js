@@ -82,6 +82,33 @@ class App extends React.Component {
               opacity: this.fadeAnimation
             }}
           >
+            <Text
+              style={{
+                fontSize: 35
+              }}
+            >
+              {" "}
+            </Text>
+            <Text
+              style={{
+                fontSize: 35,
+                fontWeight: "bold",
+                alignSelf: "center",
+                color: "green"
+              }}
+            >
+              Plant It!
+            </Text>
+            <Text
+              note
+              style={{
+                fontSize: 20,
+                alignSelf: "center",
+                fontStyle: "italic"
+              }}
+            >
+              Planting made Easy
+            </Text>
             <Animated.Image
               style={[{ height: 400 }, { width: 400 }]}
               source={logo}
