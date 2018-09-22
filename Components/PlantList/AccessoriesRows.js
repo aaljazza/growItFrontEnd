@@ -16,10 +16,11 @@ import {
   CardItem,
   Left,
   Body,
+  Badge,
   Right
 } from "native-base";
 
-class PlantRow extends React.Component {
+class AccessoriesRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,51 +29,41 @@ class PlantRow extends React.Component {
     };
   }
   render() {
-    let plant = this.props.plant;
+    let accessory = this.props.accessory;
     return (
       <Card>
-        <CardItem>
-          <Button transparent>
-            <Thumbnail source={{ uri: plant.img }} />
-          </Button>
+        <CardItem bordered>
+          <Left>
+            <Thumbnail source={{ uri: accessory.img }} />
+          </Left>
           <Body>
-            <Text>{plant.local_name}</Text>
-            <Text note>{plant.scientific_name}</Text>
+            <Text>{accessory.name}</Text>
             <Text note style={{ fontWeight: "bold" }}>
-              {plant.price} K.D.
+              {accessory.price} K.D.
             </Text>
           </Body>
-
           <Right style={{ flexDirection: "row" }}>
             <Button
               transparent
               onPress={() => this.setState({ open: !this.state.open })}
             >
-              {this.state.open ? <Text>Less</Text> : <Text>More</Text>}
+              <Text>{this.state.open ? "Less" : "More"}</Text>
             </Button>
           </Right>
         </CardItem>
-        {this.state.open && (
+        {this.state.open === true && (
           <View>
             <CardItem bordered>
               <Image
-                source={{ uri: plant.img }}
+                source={{ uri: accessory.img }}
                 style={{ width: "100%", height: 200 }}
               />
             </CardItem>
-            <CardItem bordered style={{ flexDirection: "column" }}>
-              <Text style={{ fontWeight: "bold" }}>About this Plant:</Text>
-              <Text note>
-                Plant information will go here to show which plant is the right
-                one for you.
-              </Text>
+            <CardItem>
+              <Text style={{ fontWeight: "bold" }}>Description:</Text>
             </CardItem>
-            <CardItem bordered style={{ flexDirection: "column" }}>
-              <Text style={{ fontWeight: "bold" }}>Inside the Box:</Text>
-              <Text note>
-                The box will include Seeds, Germination box, Plant Pot, Trowel,
-                and Soil.
-              </Text>
+            <CardItem bordered>
+              <Text note>{accessory.description}</Text>
             </CardItem>
             <CardItem bordered style={{ flexDirection: "row" }}>
               <Button
@@ -91,7 +82,7 @@ class PlantRow extends React.Component {
               <Button
                 transparent
                 success
-                disabled={this.state.quant >= plant.quantity}
+                disabled={this.state.quant >= accessory.quantity}
                 onPress={() => this.setState({ quant: this.state.quant + 1 })}
               >
                 <Icon
@@ -101,18 +92,8 @@ class PlantRow extends React.Component {
                 />
               </Button>
               <Button success bordered>
-                <Text>Add {this.state.quant} to Cart</Text>
+                <Text>Add {this.state.quant} items to Cart</Text>
               </Button>
-            </CardItem>
-            <CardItem style={{ flexDirection: "column" }}>
-              <Text note style={{ fontWeight: "bold" }}>
-                Note:
-              </Text>
-              <Text note>
-                Upon purchase, you will receive instructions to maintain your
-                plant from the seed until it is ready to eat. You will also have
-                access to the statistics page and reminders inside this app.
-              </Text>
             </CardItem>
           </View>
         )}
@@ -121,4 +102,4 @@ class PlantRow extends React.Component {
   }
 }
 
-export default PlantRow;
+export default AccessoriesRow;

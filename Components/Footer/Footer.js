@@ -18,6 +18,9 @@ import {
 import { withNavigation } from "react-navigation";
 import { LinearGradient } from "expo";
 
+//import Stores
+import PlantStore from "../Stores/PlantStore";
+
 // create a component
 class FooterBar extends Component {
   render() {
@@ -37,71 +40,13 @@ class FooterBar extends Component {
           />
           <Button
             vertical
-            onPress={() => this.props.navigation.navigate("Home")}
-          >
-            <Icon
-              style={
-                pageName === "Home" ? { color: "green" } : { color: "#003a12" }
-              }
-              name="ios-home"
-            />
-            <Text
-              style={
-                pageName === "Home" ? { color: "green" } : { color: "#003a12" }
-              }
-            >
-              Home
-            </Text>
-          </Button>
-          <Button
-            vertical
-            onPress={() => this.props.navigation.navigate("Statistics")}
-          >
-            <Icon
-              style={
-                pageName === "Statistics"
-                  ? { color: "green" }
-                  : { color: "#003a12" }
-              }
-              name="ios-stats"
-            />
-            <Text
-              style={
-                pageName === "Statistics"
-                  ? { color: "green" }
-                  : { color: "#003a12" }
-              }
-            >
-              Stats
-            </Text>
-          </Button>
-          <Button
-            vertical
-            onPress={() => this.props.navigation.navigate("Profile")}
-          >
-            <Icon
-              style={
-                pageName === "Login" ? { color: "green" } : { color: "#003a12" }
-              }
-              name="ios-person"
-            />
-            <Text
-              style={
-                pageName === "Login" ? { color: "green" } : { color: "#003a12" }
-              }
-            >
-              Profile
-            </Text>
-          </Button>
-          <Button
-            vertical
             onPress={() => this.props.navigation.navigate("Plants")}
           >
             <Icon
               style={
                 pageName === "Plants"
-                  ? { color: "green" }
-                  : { color: "#003a12" }
+                  ? { color: "green", fontSize: 30 }
+                  : { color: "#003a12", fontSize: 20 }
               }
               type="Foundation"
               name="trees"
@@ -109,11 +54,57 @@ class FooterBar extends Component {
             <Text
               style={
                 pageName === "Plants"
-                  ? { color: "green" }
-                  : { color: "#003a12" }
+                  ? { color: "green", fontSize: 15 }
+                  : { color: "#003a12", fontSize: 10 }
               }
             >
               Shop
+            </Text>
+          </Button>
+          {PlantStore.trackID && (
+            <Button
+              vertical
+              onPress={() => this.props.navigation.navigate("Statistics")}
+            >
+              <Icon
+                style={
+                  pageName === "Statistics"
+                    ? { color: "green", fontSize: 30 }
+                    : { color: "#003a12", fontSize: 20 }
+                }
+                name="ios-stats"
+              />
+              <Text
+                style={
+                  pageName === "Statistics"
+                    ? { color: "green", fontSize: 15 }
+                    : { color: "#003a12", fontSize: 10 }
+                }
+              >
+                Stats
+              </Text>
+            </Button>
+          )}
+          <Button
+            vertical
+            onPress={() => this.props.navigation.navigate("Profile")}
+          >
+            <Icon
+              style={
+                pageName === "Login"
+                  ? { color: "green", fontSize: 30 }
+                  : { color: "#003a12", fontSize: 20 }
+              }
+              name="ios-person"
+            />
+            <Text
+              style={
+                pageName === "Login"
+                  ? { color: "green", fontSize: 15 }
+                  : { color: "#003a12", fontSize: 10 }
+              }
+            >
+              Profile
             </Text>
           </Button>
         </FooterTab>

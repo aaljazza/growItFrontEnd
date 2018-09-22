@@ -2,7 +2,7 @@
   "expo": {
     "name": "Plant It",
     "icon": "./Components/Logo/logo.png",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "slug": "plant-it",
     "sdkVersion": "27.0.0",
     "ios": {

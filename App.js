@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   Animated,
+  ImageBackground,
   SafeAreaView
 } from "react-native";
 import {
@@ -31,6 +32,8 @@ import {
 import { withNavigation } from "react-navigation";
 
 import logo from "./Components/Logo/logo.png";
+import PlantBackground from "./Components/LoginScreen/PlantBackground.png";
+import PlantBackgroundDark from "./Components/LoginScreen/PlantBackgroundDark.png";
 
 import HomeScreen from "./Components/HomeScreen/HomeScreen";
 import LoginScreen from "./Components/LoginScreen/LoginScreen";
@@ -42,15 +45,13 @@ import ContactUsScreen from "./Components/Informative/ContactUsScreen";
 import TermsAndConditionsScreen from "./Components/Informative/TermsAndConditionsScreen";
 import CartScreen from "./Components/Cart/CartScreen";
 
-import "es6-symbol/implement";
-
 class App extends React.Component {
   constructor() {
     super();
     this.fadeAnimation = new Animated.Value(0);
     this.state = {
       isReady: false,
-      moveOn: false
+      moveOn: true
     };
   }
 
@@ -76,54 +77,80 @@ class App extends React.Component {
     }
     if (!this.state.moveOn) {
       return (
-        <SafeAreaView style={{ alignSelf: "center" }}>
-          <Animated.View
+        <ImageBackground
+          source={PlantBackgroundDark}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <SafeAreaView
             style={{
-              opacity: this.fadeAnimation
+              alignSelf: "center",
+              shadowOpacity: 0.3,
+              shadowRadius: 20,
+              shadowOffset: { width: 20, height: 20 }
             }}
           >
-            <Text
+            <Animated.View
               style={{
-                fontSize: 35
+                opacity: this.fadeAnimation
               }}
             >
-              {" "}
-            </Text>
-            <Text
-              style={{
-                fontSize: 35,
-                fontWeight: "bold",
-                alignSelf: "center",
-                color: "green"
-              }}
-            >
-              Plant It!
-            </Text>
-            <Text
-              note
-              style={{
-                fontSize: 20,
-                alignSelf: "center",
-                fontStyle: "italic"
-              }}
-            >
-              Planting made Easy
-            </Text>
-            <Animated.Image
-              style={[{ height: 400 }, { width: 400 }]}
-              source={logo}
-            />
-            <Button
-              bordered
-              success
-              full
-              style={{ alignSelf: "center" }}
-              onPress={() => this.setState({ moveOn: true })}
-            >
-              <Text>Start Planting!</Text>
-            </Button>
-          </Animated.View>
-        </SafeAreaView>
+              <Text
+                style={{
+                  fontSize: 35
+                }}
+              >
+                {" "}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 35,
+                  fontWeight: "bold",
+                  alignSelf: "center",
+                  color: "green"
+                }}
+              >
+                Plant It!
+              </Text>
+              <Text
+                note
+                style={{
+                  fontSize: 20,
+                  alignSelf: "center",
+                  fontStyle: "italic"
+                }}
+              >
+                Planting made Easy
+              </Text>
+              <Animated.Image
+                style={[{ height: 400 }, { width: 400 }]}
+                source={logo}
+              />
+              <Button
+                bordered
+                success
+                full
+                style={{ alignSelf: "center", width: 250 }}
+                onPress={() => this.setState({ moveOn: true })}
+              >
+                <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                  Start Planting!
+                </Text>
+              </Button>
+              <Text> </Text>
+              <Button
+                bordered
+                success
+                full
+                style={{ alignSelf: "center", width: 250 }}
+                onPress={() => this.setState({ moveOn: true })}
+              >
+                <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                  ابدأ بالزراعة
+                </Text>
+              </Button>
+            </Animated.View>
+          </SafeAreaView>
+        </ImageBackground>
       );
     }
     return <AppDrawerNavigator />;
@@ -165,14 +192,14 @@ const CustomDrawerComponent = props => (
 
 const AppDrawerNavigator = createDrawerNavigator(
   {
-    Home: HomeScreen,
     Plants: { screen: PlantScreen },
+    "Terms and Conditions": TermsAndConditionsScreen,
+    "About Us": AboutUsScreen,
+    Home: HomeScreen,
     Statistics: StatisticsScreen,
     Profile: LoginScreen,
     Orders: OrderHistoryScreeen,
-    "About Us": AboutUsScreen,
     "Contact Us": ContactUsScreen,
-    "Terms and Conditions": TermsAndConditionsScreen,
     Cart: CartScreen
   },
   {
