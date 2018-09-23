@@ -2,17 +2,16 @@
 import React, { Component } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { Container, Content, Text, Card, Button } from "native-base";
+import { observer } from "mobx-react";
 
 //Picture
 import back3 from "./Pictures/back3.png";
+import PlantStore from "../Stores/PlantStore";
 
 // create a component
 class Question3 extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: null
-    };
+  changeFilter(inputVal) {
+    PlantStore.changeFilterSize(inputVal);
   }
   render() {
     return (
@@ -27,7 +26,7 @@ class Question3 extends Component {
           style={{
             alignSelf: "center",
             width: 350,
-            height: 250,
+            height: 200,
             borderWidth: 0,
             borderRadius: 30,
             overflow: "hidden"
@@ -58,43 +57,28 @@ class Question3 extends Component {
           >
             <Button
               dark
-              bordered={this.state.filter !== 1}
-              onPress={() => this.setState({ filter: 1 })}
+              success={PlantStore.sizeFilter === "Desktop"}
+              bordered={PlantStore.sizeFilter !== "Desktop"}
+              onPress={() => this.changeFilter("Desktop")}
             >
               <Text style={{ fontWeight: "bold" }}>Desktop</Text>
             </Button>
             <Button
               dark
-              bordered={this.state.filter !== 0}
-              onPress={() => this.setState({ filter: 0 })}
+              success={PlantStore.sizeFilter === "Medium"}
+              bordered={PlantStore.sizeFilter !== "Medium"}
+              onPress={() => this.changeFilter("Medium")}
             >
               <Text style={{ fontWeight: "bold" }}>Medium</Text>
             </Button>
             <Button
               dark
-              bordered={this.state.filter !== 2}
-              onPress={() => this.setState({ filter: 2 })}
+              success={PlantStore.sizeFilter === "Tall"}
+              bordered={PlantStore.sizeFilter !== "Tall"}
+              onPress={() => this.changeFilter("Tall")}
             >
               <Text style={{ fontWeight: "bold" }}>Tall</Text>
             </Button>
-          </View>
-          <Text> </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              alignContent: "center",
-              justifyContent: "space-around"
-            }}
-          >
-            {this.state.filter !== null && (
-              <Button
-                danger
-                bordered
-                onPress={() => this.setState({ filter: null })}
-              >
-                <Text>Reset</Text>
-              </Button>
-            )}
           </View>
         </ImageBackground>
       </View>
@@ -103,4 +87,4 @@ class Question3 extends Component {
 }
 
 //make this component available to the app
-export default Question3;
+export default observer(Question3);

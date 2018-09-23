@@ -27,8 +27,8 @@ var userdatabase = [
       }
     ],
     plantingHistory: [
-      { plantid: 1, plantedOn: null, trackID: 1 },
-      { plantid: 3, plantedOn: "2018-09-21T17:48:54.523381Z", trackID: 3 }
+      { plantid: 1, plantedOn: "2018-07-11T17:48:54.523381Z", trackID: 1 },
+      { plantid: 3, plantedOn: "2018-06-21T12:48:54.523381Z", trackID: 3 }
     ]
   }
 ];

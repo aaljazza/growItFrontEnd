@@ -13,11 +13,7 @@ import PlantCards from "./PlantCards";
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default class AboutUsScreen extends Component {
-  SCREENS = [
-    <PlantCards plant={PlantStore.plants[0]} />,
-    <PlantCards plant={PlantStore.plants[1]} />,
-    <PlantCards plant={PlantStore.plants[2]} />
-  ];
+  SCREENS = [<PlantCards plant={PlantStore.plants[0]} />];
 
   constructor(props) {
     super(props);
@@ -30,18 +26,8 @@ export default class AboutUsScreen extends Component {
     return (
       <Container>
         <HeaderBar pageNameProp="About Us" />
-        <Content padder>
-          <Carousel
-            ref={ref => (this.carouselRef = ref)}
-            data={this.SCREENS}
-            renderItem={({ item }) => item}
-            onSnapToItem={i => this.setState({ activeTab: i })}
-            sliderWidth={SCREEN_WIDTH}
-            itemWidth={SCREEN_WIDTH}
-            slideStyle={{ width: SCREEN_WIDTH }}
-            inactiveSlideOpacity={1}
-            inactiveSlideScale={1}
-          />
+        <Content>
+          <PlantCards plant={PlantStore.plants[0]} />
         </Content>
         <FooterBar pageNameProp="About Us" />
       </Container>

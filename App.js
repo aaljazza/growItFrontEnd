@@ -44,6 +44,7 @@ import AboutUsScreen from "./Components/Informative/AboutUsScreen";
 import ContactUsScreen from "./Components/Informative/ContactUsScreen";
 import TermsAndConditionsScreen from "./Components/Informative/TermsAndConditionsScreen";
 import CartScreen from "./Components/Cart/CartScreen";
+import PlantDetail from "./Components/Detail/PlantDetail";
 
 class App extends React.Component {
   constructor() {
@@ -158,7 +159,9 @@ class App extends React.Component {
 }
 
 const CustomDrawerComponent = props => (
-  <SafeAreaView style={{ flex: 1 }}>
+  <SafeAreaView
+    style={{ flex: 1, flexDirection: "column", justifyContent: "space-around" }}
+  >
     <Header style={{ height: 150 }}>
       <Image
         style={{ alignSelf: "center", width: 150, height: 150 }}
@@ -189,14 +192,30 @@ const CustomDrawerComponent = props => (
     </Footer>
   </SafeAreaView>
 );
-
+class Hidden extends React.Component {
+  render() {
+    return null;
+  }
+}
 const AppDrawerNavigator = createDrawerNavigator(
   {
-    Plants: { screen: PlantScreen },
     "Terms and Conditions": TermsAndConditionsScreen,
+    Shop: { screen: PlantScreen },
     "About Us": AboutUsScreen,
-    Home: HomeScreen,
-    Statistics: StatisticsScreen,
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: { drawerLabel: <Hidden /> }
+    },
+    PlantDetail: {
+      screen: PlantDetail,
+      navigationOptions: { drawerLabel: <Hidden /> }
+    },
+    Statistics: {
+      screen: StatisticsScreen,
+      navigationOptions: {
+        drawerLabel: <Hidden />
+      }
+    },
     Profile: LoginScreen,
     Orders: OrderHistoryScreeen,
     "Contact Us": ContactUsScreen,

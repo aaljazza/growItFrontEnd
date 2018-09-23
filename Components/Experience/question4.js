@@ -2,17 +2,16 @@
 import React, { Component } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { Container, Content, Text, Card, Button } from "native-base";
+import { observer } from "mobx-react";
 
 //Picture
 import back4 from "./Pictures/back4.png";
+import PlantStore from "../Stores/PlantStore";
 
 // create a component
 class Question4 extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: null
-    };
+  changeFilter(inputVal) {
+    PlantStore.changeFilterPet(inputVal);
   }
   render() {
     return (
@@ -27,7 +26,7 @@ class Question4 extends Component {
           style={{
             alignSelf: "center",
             width: 350,
-            height: 250,
+            height: 200,
             borderWidth: 0,
             borderRadius: 30,
             overflow: "hidden"
@@ -59,38 +58,20 @@ class Question4 extends Component {
           >
             <Button
               dark
-              danger={this.state.filter === 1}
-              bordered={this.state.filter !== 1}
-              onPress={() => this.setState({ filter: 1 })}
+              success={PlantStore.petFilter === "Yes"}
+              bordered={PlantStore.petFilter !== "Yes"}
+              onPress={() => this.changeFilter("Yes")}
             >
               <Text style={{ fontWeight: "bold" }}>Yes</Text>
             </Button>
             <Button
               dark
-              success={this.state.filter === 0}
-              bordered={this.state.filter !== 0}
-              onPress={() => this.setState({ filter: 0 })}
+              success={PlantStore.petFilter === "No"}
+              bordered={PlantStore.petFilter !== "No"}
+              onPress={() => this.changeFilter("No")}
             >
               <Text style={{ fontWeight: "bold" }}>No</Text>
             </Button>
-          </View>
-          <Text> </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              alignContent: "center",
-              justifyContent: "space-around"
-            }}
-          >
-            {this.state.filter !== null && (
-              <Button
-                danger
-                bordered
-                onPress={() => this.setState({ filter: null })}
-              >
-                <Text>Reset</Text>
-              </Button>
-            )}
           </View>
         </ImageBackground>
       </View>
@@ -99,4 +80,4 @@ class Question4 extends Component {
 }
 
 //make this component available to the app
-export default Question4;
+export default observer(Question4);

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Dimensions, ImageBackground } from "react-native";
-import { Container, Content, Text, Card, CardItem } from "native-base";
-import Carousel, { Pagination } from "react-native-snap-carousel"; // 3.6.0
+import { Container, Content, Text, Card, CardItem, Button } from "native-base";
+import Carousel from "react-native-snap-carousel"; // 3.6.0
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
 import StepIndicator from "react-native-step-indicator";
+import { observer } from "mobx-react";
 
 //imports
 import PlantStore from "../Stores/PlantStore";
@@ -17,13 +18,14 @@ import Question2 from "../Experience/question2";
 import Question3 from "../Experience/question3";
 import Question4 from "../Experience/question4";
 import Question5 from "../Experience/question5";
+import SelectedPlant from "../Experience/SelectedPlants/SelectedPlants";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 //Step Indicator Constants
 const customStyles = {
-  stepIndicatorSize: 20,
-  currentStepIndicatorSize: 30,
+  stepIndicatorSize: 10,
+  currentStepIndicatorSize: 10,
   separatorStrokeWidth: 2,
   currentStepStrokeWidth: 3,
   stepStrokeCurrentColor: "#41ba00",
@@ -47,7 +49,7 @@ const customStyles = {
 
 const labels = ["", "", "", "", ""];
 
-export default class TermsAndConditionsScreen extends Component {
+class TermsAndConditionsScreen extends Component {
   SCREENS = [
     <Question1 />,
     <Question2 />,
@@ -59,7 +61,8 @@ export default class TermsAndConditionsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: 0
+      activeTab: 0,
+      plantTab: 0
     };
   }
 
@@ -68,36 +71,64 @@ export default class TermsAndConditionsScreen extends Component {
     plantItems = PlantStore.plants.map((plantItem, index) => (
       <PlantRow key={index} plant={plantItem} />
     ));
+    let filter = null;
+    if (
+      PlantStore.careFilter !== "" ||
+      PlantStore.lightingFilter !== "" ||
+      PlantStore.petFilter !== "" ||
+      PlantStore.sizeFilter !== "" ||
+      PlantStore.themeFilter !== ""
+    ) {
+      filter = 1;
+    }
     return (
       <Container>
         <HeaderBar pageNameProp="Contact Us" />
+        {filter === 1 && (
+          <Button
+            danger
+            outline
+            small
+            full
+            onPress={() => PlantStore.resetAllFilter()}
+          >
+            <Text style={{ fontWeight: "bold" }}>Clear Filters</Text>
+          </Button>
+        )}
+        <Card style={{ shadowOpacity: 0.6 }}>
+          <Carousel
+            layout={"stack"}
+            ref={ref => (this.carouselRef = ref)}
+            data={this.SCREENS}
+            renderItem={({ item }) => item}
+            onSnapToItem={i => this.setState({ activeTab: i })}
+            sliderWidth={SCREEN_WIDTH}
+            itemWidth={SCREEN_WIDTH}
+            slideStyle={{ width: SCREEN_WIDTH }}
+            inactiveSlideOpacity={0.3}
+            inactiveSlideScale={0.3}
+          />
+          <StepIndicator
+            customStyles={customStyles}
+            currentPosition={this.state.activeTab}
+            stepCount={5}
+            labels={labels}
+          />
+        </Card>
         <Content>
-          <Card style={{ shadowOpacity: 0.6 }}>
-            <StepIndicator
-              customStyles={customStyles}
-              currentPosition={this.state.activeTab}
-              stepCount={5}
-              labels={labels}
-            />
-            <Carousel
-              ref={ref => (this.carouselRef = ref)}
-              data={this.SCREENS}
-              renderItem={({ item }) => item}
-              onSnapToItem={i => this.setState({ activeTab: i })}
-              sliderWidth={SCREEN_WIDTH}
-              itemWidth={SCREEN_WIDTH}
-              slideStyle={{ width: SCREEN_WIDTH }}
-              inactiveSlideOpacity={0.3}
-              inactiveSlideScale={0.3}
-            />
+          <Card>
+            {plantItems}
+            {plantItems}
+            {plantItems}
           </Card>
-          <Card>{plantItems}</Card>
         </Content>
         <FooterBar pageNameProp="Contact" />
       </Container>
     );
   }
 }
+
+export default observer(TermsAndConditionsScreen);
 
 const styles = StyleSheet.create({
   ww: {

@@ -2,17 +2,16 @@
 import React, { Component } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { Container, Content, Text, Card, Button } from "native-base";
+import { observer } from "mobx-react";
 
 //Picture
 import back2 from "./Pictures/back2.png";
+import PlantStore from "../Stores/PlantStore";
 
 // create a component
 class Question2 extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: null
-    };
+  changeFilter(inputVal) {
+    PlantStore.changeFilterlighting(inputVal);
   }
   render() {
     return (
@@ -27,7 +26,7 @@ class Question2 extends Component {
           style={{
             alignSelf: "center",
             width: 350,
-            height: 250,
+            height: 200,
             borderWidth: 0,
             borderRadius: 30,
             overflow: "hidden"
@@ -58,46 +57,28 @@ class Question2 extends Component {
           >
             <Button
               dark
-              warning={this.state.filter === 1}
-              bordered={this.state.filter !== 1}
-              onPress={() => this.setState({ filter: 1 })}
+              success={PlantStore.lightingFilter === "Bright"}
+              bordered={PlantStore.lightingFilter !== "Bright"}
+              onPress={() => this.changeFilter("Bright")}
             >
               <Text style={{ fontWeight: "bold" }}>Bright</Text>
             </Button>
             <Button
               dark
-              warning={this.state.filter === 0}
-              bordered={this.state.filter !== 0}
-              onPress={() => this.setState({ filter: 0 })}
+              success={PlantStore.lightingFilter === "Medium"}
+              bordered={PlantStore.lightingFilter !== "Medium"}
+              onPress={() => this.changeFilter("Medium")}
             >
               <Text style={{ fontWeight: "bold" }}>Medium</Text>
             </Button>
             <Button
               dark
-              warning={this.state.filter === 2}
-              bordered={this.state.filter !== 2}
-              onPress={() => this.setState({ filter: 2 })}
+              success={PlantStore.lightingFilter === "Dark"}
+              bordered={PlantStore.lightingFilter !== "Dark"}
+              onPress={() => this.changeFilter("Dark")}
             >
               <Text style={{ fontWeight: "bold" }}>Dark</Text>
             </Button>
-          </View>
-          <Text> </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              alignContent: "center",
-              justifyContent: "space-around"
-            }}
-          >
-            {this.state.filter !== null && (
-              <Button
-                danger
-                bordered
-                onPress={() => this.setState({ filter: null })}
-              >
-                <Text>Reset</Text>
-              </Button>
-            )}
           </View>
         </ImageBackground>
       </View>
@@ -106,4 +87,4 @@ class Question2 extends Component {
 }
 
 //make this component available to the app
-export default Question2;
+export default observer(Question2);

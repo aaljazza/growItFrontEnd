@@ -18,6 +18,9 @@ import {
   Body,
   Right
 } from "native-base";
+import { observer } from "mobx-react";
+import PlantStore from "../Stores/PlantStore";
+import { withNavigation } from "react-navigation";
 
 class PlantRow extends React.Component {
   constructor(props) {
@@ -32,7 +35,13 @@ class PlantRow extends React.Component {
     return (
       <Card>
         <CardItem>
-          <Button transparent>
+          <Button
+            transparent
+            onPress={() => {
+              PlantStore.updateSelectedPlant(plant.id);
+              this.props.navigation.navigate("PlantDetail");
+            }}
+          >
             <Thumbnail source={{ uri: plant.img }} />
           </Button>
           <Body>
@@ -42,83 +51,50 @@ class PlantRow extends React.Component {
               {plant.price} K.D.
             </Text>
           </Body>
-
-          <Right style={{ flexDirection: "row" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
             <Button
               transparent
-              onPress={() => this.setState({ open: !this.state.open })}
+              danger
+              disabled={this.state.quant === 1}
+              onPress={() => this.setState({ quant: this.state.quant - 1 })}
             >
-              {this.state.open ? <Text>Less</Text> : <Text>More</Text>}
-            </Button>
-          </Right>
-        </CardItem>
-        {this.state.open && (
-          <View>
-            <CardItem bordered>
-              <Image
-                source={{ uri: plant.img }}
-                style={{ width: "100%", height: 200 }}
+              <Icon
+                name="ios-remove-circle-outline"
+                type="Ionicons"
+                activeTint="green"
               />
-            </CardItem>
-            <CardItem bordered style={{ flexDirection: "column" }}>
-              <Text style={{ fontWeight: "bold" }}>About this Plant:</Text>
-              <Text note>
-                Plant information will go here to show which plant is the right
-                one for you.
+            </Button>
+            <Text style={{ fontWeight: "bold" }}> {this.state.quant} </Text>
+            <Button
+              transparent
+              success
+              disabled={
+                this.state.quant >= plant.quantity || this.state.quant >= 4
+              }
+              onPress={() => this.setState({ quant: this.state.quant + 1 })}
+            >
+              <Icon
+                name="ios-add-circle-outline"
+                type="Ionicons"
+                activeTint="green"
+              />
+            </Button>
+            <Button success bordered small>
+              <Text note success>
+                Add
               </Text>
-            </CardItem>
-            <CardItem bordered style={{ flexDirection: "column" }}>
-              <Text style={{ fontWeight: "bold" }}>Inside the Box:</Text>
-              <Text note>
-                The box will include Seeds, Germination box, Plant Pot, Trowel,
-                and Soil.
-              </Text>
-            </CardItem>
-            <CardItem bordered style={{ flexDirection: "row" }}>
-              <Button
-                transparent
-                danger
-                disabled={this.state.quant === 1}
-                onPress={() => this.setState({ quant: this.state.quant - 1 })}
-              >
-                <Icon
-                  name="ios-remove-circle-outline"
-                  type="Ionicons"
-                  activeTint="green"
-                />
-              </Button>
-              <Text style={{ fontWeight: "bold" }}> {this.state.quant} </Text>
-              <Button
-                transparent
-                success
-                disabled={this.state.quant >= plant.quantity}
-                onPress={() => this.setState({ quant: this.state.quant + 1 })}
-              >
-                <Icon
-                  name="ios-add-circle-outline"
-                  type="Ionicons"
-                  activeTint="green"
-                />
-              </Button>
-              <Button success bordered>
-                <Text>Add {this.state.quant} to Cart</Text>
-              </Button>
-            </CardItem>
-            <CardItem style={{ flexDirection: "column" }}>
-              <Text note style={{ fontWeight: "bold" }}>
-                Note:
-              </Text>
-              <Text note>
-                Upon purchase, you will receive instructions to maintain your
-                plant from the seed until it is ready to eat. You will also have
-                access to the statistics page and reminders inside this app.
-              </Text>
-            </CardItem>
+            </Button>
           </View>
-        )}
+        </CardItem>
       </Card>
     );
   }
 }
 
-export default PlantRow;
+export default withNavigation(observer(PlantRow));
