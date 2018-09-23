@@ -1,6 +1,6 @@
 import React from "react";
 
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import {
   Text,
   Container,
@@ -9,10 +9,12 @@ import {
   Icon,
   Input,
   Button,
+  Badge,
   Form,
   Picker,
   Segment
 } from "native-base";
+import { observer } from "mobx-react";
 
 // Plant Database
 import PlantRow from "./PlantRows";
@@ -33,14 +35,15 @@ class PlantScreen extends React.Component {
   }
   render() {
     let plantItems;
-    plantItems = PlantStore.plants.map((plantItem, index) => (
+    plantItems = PlantStore.filteredMultiplePlants.map((plantItem, index) => (
       <PlantRow key={index} plant={plantItem} />
     ));
     let AccessoryItems;
-    AccessoryItems = PlantStore.accessories.map((accessory, index) => (
-      <AccessoriesRows key={index} accessory={accessory} />
-    ));
-
+    AccessoryItems = PlantStore.filteredMultipleAccessory.map(
+      (accessory, index) => (
+        <AccessoriesRows key={index} accessory={accessory} />
+      )
+    );
     return (
       <Container>
         <HeaderBar pageNameProp="Plants List" />
@@ -91,25 +94,98 @@ class PlantScreen extends React.Component {
             </Text>
           </Button>
         </Segment>
-        {this.state.segment === 0 && (
-          <Item rounded>
-            <Text> </Text>
-            <Icon name="ios-search" />
-            <Input placeholder="Search" />
+        <Item rounded>
+          <Text> </Text>
+          <Icon name="ios-search" />
+          <Input
+            placeholder="Search"
+            onChangeText={inputVal => PlantStore.plantSearchInput(inputVal)}
+          />
+          <Button
+            transparent
+            success
+            rounded
+            onPress={() => this.setState({ filter: !this.state.filter })}
+          >
+            <Icon name="filter" type="FontAwesome" active={false} />
+          </Button>
+          <Text> </Text>
+        </Item>
+        <View
+          style={{
+            flexWrap: "wrap",
+            justifyContent: "space-around",
+            flexDirection: "row"
+          }}
+        >
+          {PlantStore.careFilter === "" ? (
+            <View />
+          ) : (
+            <Button transparent onPress={() => PlantStore.changeFilterCare("")}>
+              <Badge
+                style={{ backgroundColor: "maroon", flexDirection: "row" }}
+              >
+                <Text>Care: {PlantStore.careFilter}</Text>
+                <Icon style={{ fontSize: 20 }} name="x" type="Octicons" />
+              </Badge>
+            </Button>
+          )}
+          {PlantStore.lightingFilter === "" ? (
+            <View />
+          ) : (
             <Button
               transparent
-              success
-              rounded
-              onPress={() => this.setState({ filter: !this.state.filter })}
+              onPress={() => PlantStore.changeFilterlighting("")}
             >
-              <Icon name="filter" type="FontAwesome" active={false} />
+              <Badge
+                style={{ backgroundColor: "maroon", flexDirection: "row" }}
+              >
+                <Text>Light: {PlantStore.lightingFilter}</Text>
+                <Icon style={{ fontSize: 20 }} name="x" type="Octicons" />
+              </Badge>
             </Button>
-            <Text> </Text>
-          </Item>
-        )}
-
-        {this.state.filter && <Filters />}
-
+          )}
+          {PlantStore.sizeFilter === "" ? (
+            <View />
+          ) : (
+            <Button transparent onPress={() => PlantStore.changeFilterSize("")}>
+              <Badge
+                style={{ backgroundColor: "maroon", flexDirection: "row" }}
+              >
+                <Text>Size: {PlantStore.sizeFilter}</Text>
+                <Icon style={{ fontSize: 20 }} name="x" type="Octicons" />
+              </Badge>
+            </Button>
+          )}
+          {PlantStore.petFilter === "" ? (
+            <View />
+          ) : (
+            <Button transparent onPress={() => PlantStore.changeFilterPet("")}>
+              <Badge
+                style={{ backgroundColor: "maroon", flexDirection: "row" }}
+              >
+                <Text>Pet/Kids: {PlantStore.petFilter}</Text>
+                <Icon style={{ fontSize: 20 }} name="x" type="Octicons" />
+              </Badge>
+            </Button>
+          )}
+          {PlantStore.themeFilter === "" ? (
+            <View />
+          ) : (
+            <Button
+              transparent
+              onPress={() => PlantStore.changeFilterTheme("")}
+            >
+              <Badge
+                style={{ backgroundColor: "maroon", flexDirection: "row" }}
+              >
+                <Text>Theme: {PlantStore.themeFilter}</Text>
+                <Icon style={{ fontSize: 20 }} name="x" type="Octicons" />
+              </Badge>
+            </Button>
+          )}
+        </View>
+        {!this.state.filter ? <View /> : <Filters />}
         <Content padder>
           {this.state.segment === 0 ? plantItems : AccessoryItems}
         </Content>
@@ -119,4 +195,4 @@ class PlantScreen extends React.Component {
   }
 }
 
-export default PlantScreen;
+export default observer(PlantScreen);

@@ -40,7 +40,7 @@ class FooterBar extends Component {
           />
           <Button
             vertical
-            onPress={() => this.props.navigation.navigate("Plants")}
+            onPress={() => this.props.navigation.navigate("Shop")}
           >
             <Icon
               style={

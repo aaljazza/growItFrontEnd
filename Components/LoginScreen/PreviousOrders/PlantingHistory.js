@@ -28,8 +28,7 @@ class PlantingHistory extends Component {
     let indexVal = PlantStore.plants.findIndex(
       store => store.id === plant.plantid
     );
-    let daysOld = moment(plant.plantedOn).toNow(false);
-    console.log(daysOld);
+    let daysOld = moment().diff(plant.plantedOn, "days");
     return (
       <CardItem bordered>
         <Thumbnail
@@ -39,7 +38,7 @@ class PlantingHistory extends Component {
           }}
         />
         <Body>
-          <Text note>{daysOld} old</Text>
+          <Text note>{daysOld} days old</Text>
           <Text style={{ fontSize: 20 }}>
             {PlantStore.plants[indexVal].local_name}
           </Text>

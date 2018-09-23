@@ -2,17 +2,16 @@
 import React, { Component } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import { Container, Content, Text, Card, Button } from "native-base";
+import { observer } from "mobx-react";
 
 //Picture
 import back1 from "./Pictures/back1.png";
+import PlantStore from "../Stores/PlantStore";
 
 // create a component
 class Question1 extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: null
-    };
+  changeFilter(inputVal) {
+    PlantStore.changeFilterCare(inputVal);
   }
   render() {
     return (
@@ -27,7 +26,7 @@ class Question1 extends Component {
           style={{
             alignSelf: "center",
             width: 350,
-            height: 250,
+            height: 200,
             borderWidth: 0,
             borderRadius: 30,
             overflow: "hidden"
@@ -59,37 +58,20 @@ class Question1 extends Component {
           >
             <Button
               dark
-              success={this.state.filter === 1}
-              bordered={this.state.filter !== 1}
-              onPress={() => this.setState({ filter: 1 })}
+              success={PlantStore.careFilter === "Easy"}
+              bordered={PlantStore.careFilter !== "Easy"}
+              onPress={() => this.changeFilter("Easy")}
             >
               <Text style={{ fontWeight: "bold" }}>Easy</Text>
             </Button>
             <Button
               dark
-              danger={this.state.filter === 0}
-              bordered={this.state.filter !== 0}
-              onPress={() => this.setState({ filter: 0 })}
+              success={PlantStore.careFilter === "Hard"}
+              bordered={PlantStore.careFilter !== "Hard"}
+              onPress={() => this.changeFilter("Hard")}
             >
               <Text style={{ fontWeight: "bold" }}>Hard</Text>
             </Button>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignContent: "center",
-              justifyContent: "space-around"
-            }}
-          >
-            {this.state.filter !== null && (
-              <Button
-                danger
-                bordered
-                onPress={() => this.setState({ filter: null })}
-              >
-                <Text>Reset</Text>
-              </Button>
-            )}
           </View>
         </ImageBackground>
         <Text> </Text>
@@ -99,4 +81,4 @@ class Question1 extends Component {
 }
 
 //make this component available to the app
-export default Question1;
+export default observer(Question1);

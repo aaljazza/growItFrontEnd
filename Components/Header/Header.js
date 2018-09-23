@@ -35,13 +35,15 @@ class HeaderBar extends Component {
             height: "200%"
           }}
         />
-
-        <Left>
+        <Left style={{ flexDirection: "row" }}>
           <Button
             transparent
             onPress={() => this.props.navigation.openDrawer()}
           >
             <Icon style={{ color: "#007c2f" }} name="menu" />
+          </Button>
+          <Button transparent onPress={() => this.props.navigation.goBack}>
+            <Icon style={{ color: "#007c2f" }} name="ios-arrow-back" />
           </Button>
         </Left>
         <Body>
