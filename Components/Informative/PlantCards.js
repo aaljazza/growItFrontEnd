@@ -112,10 +112,6 @@ class PlantCards extends React.Component {
         </CardItem>
         <CardItem bordered>
           <Body>
-            <Text>Theme:</Text>
-            <Text note>Modern</Text>
-          </Body>
-          <Body>
             <Text>Location:</Text>
             <Text note>{plant.location}</Text>
           </Body>

@@ -26,7 +26,7 @@ class Question1 extends Component {
           style={{
             alignSelf: "center",
             width: 350,
-            height: 200,
+            height: 1200,
             borderWidth: 0,
             borderRadius: 30,
             overflow: "hidden"

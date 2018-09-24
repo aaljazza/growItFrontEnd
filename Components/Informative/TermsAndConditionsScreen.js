@@ -50,13 +50,7 @@ const customStyles = {
 const labels = ["", "", "", "", ""];
 
 class TermsAndConditionsScreen extends Component {
-  SCREENS = [
-    <Question1 />,
-    <Question2 />,
-    <Question3 />,
-    <Question4 />,
-    <Question5 />
-  ];
+  SCREENS = [<Question1 />, <Question2 />, <Question3 />, <Question4 />];
 
   constructor(props) {
     super(props);
@@ -76,8 +70,7 @@ class TermsAndConditionsScreen extends Component {
       PlantStore.careFilter !== "" ||
       PlantStore.lightingFilter !== "" ||
       PlantStore.petFilter !== "" ||
-      PlantStore.sizeFilter !== "" ||
-      PlantStore.themeFilter !== ""
+      PlantStore.sizeFilter !== ""
     ) {
       filter = 1;
     }
@@ -97,7 +90,7 @@ class TermsAndConditionsScreen extends Component {
         )}
         <Card style={{ shadowOpacity: 0.6 }}>
           <Carousel
-            layout={"stack"}
+            layout={"default"}
             ref={ref => (this.carouselRef = ref)}
             data={this.SCREENS}
             renderItem={({ item }) => item}

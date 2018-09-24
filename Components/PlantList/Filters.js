@@ -32,154 +32,153 @@ class FilterChoices extends Component {
   changePetState(inputVal) {
     PlantStore.changeFilterPet(inputVal);
   }
-  changeThemeState(inputVal) {
-    PlantStore.changeFilterTheme(inputVal);
-  }
 
   render() {
     return (
       <Form>
         <Card>
-          <CardItem>
-            <Left>
-              <Text style={{ fontWeight: "bold" }}> Care Level </Text>
-            </Left>
-            <Body style={{ justifyContent: "center" }}>
-              {PlantStore.careFilter !== "" && (
-                <Button
-                  transparent
-                  onPress={() => {
-                    PlantStore.changeFilterCare("");
+          <CardItem bordered>
+            {PlantStore.careFilter !== "" && (
+              <Button
+                transparent
+                onPress={() => {
+                  PlantStore.changeFilterCare("");
+                }}
+              >
+                <Icon
+                  name="ios-close-circle"
+                  type="Ionicons"
+                  style={{
+                    fontSize: 25,
+                    fontWeight: "bold",
+                    color: "red"
                   }}
-                >
-                  <Icon
-                    name="ios-close-circle"
-                    type="Ionicons"
-                    style={{
-                      fontSize: 25,
-                      fontWeight: "bold",
-                      color: "red"
-                    }}
-                  />
-                </Button>
-              )}
-            </Body>
-            <Picker
-              mode="dropdown"
-              note
-              placeholder="Select"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              headerBackButtonText="Back"
-              selectedValue={PlantStore.careFilter}
-              onValueChange={inputVal => this.changeCareState(inputVal)}
-            >
-              <Picker.Item label="Decoration (Low)" value="Low" />
-              <Picker.Item label="Hobby (High)" value="High" />
-            </Picker>
+                />
+              </Button>
+            )}
+            <Text style={{ fontWeight: "bold", fontSize: 15 }}>Care Level</Text>
+            <Right style={{ justifyContent: "flex-start" }}>
+              <Picker
+                mode="dropdown"
+                note
+                placeholder="Select"
+                iosIcon={<Icon name="ios-arrow-down-outline" />}
+                headerBackButtonText="Back"
+                selectedValue={PlantStore.careFilter}
+                onValueChange={inputVal => this.changeCareState(inputVal)}
+                textStyle={{ fontSize: 15, width: 100 }}
+              >
+                <Picker.Item label="Decoration (Easy)" value="Low" />
+                <Picker.Item label="Hobby (Difficult)" value="High" />
+              </Picker>
+            </Right>
           </CardItem>
-          <CardItem>
-            <Left>
-              <Text style={{ fontWeight: "bold" }}> Lighting </Text>
-            </Left>
-            <Body>
-              {PlantStore.lightingFilter !== "" && (
-                <Button
-                  transparent
-                  onPress={() => {
-                    PlantStore.changeFilterlighting("");
+          <CardItem bordered>
+            {PlantStore.lightingFilter !== "" && (
+              <Button
+                transparent
+                onPress={() => {
+                  PlantStore.changeFilterlighting("");
+                }}
+              >
+                <Icon
+                  name="ios-close-circle"
+                  type="Ionicons"
+                  style={{
+                    fontSize: 25,
+                    fontWeight: "bold",
+                    color: "red"
                   }}
-                >
-                  <Icon
-                    name="ios-close-circle"
-                    type="Ionicons"
-                    style={{
-                      fontSize: 25,
-                      fontWeight: "bold",
-                      color: "red"
-                    }}
-                  />
-                </Button>
-              )}
-            </Body>
-            <Picker
-              mode="dropdown"
-              note
-              placeholder="Select"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              headerBackButtonText="Back"
-              selectedValue={PlantStore.lightingFilter}
-              onValueChange={inputVal => this.changeLightState(inputVal)}
-            >
-              <Picker.Item
-                label="Bright (6 hours of Sunlight)"
-                value="Bright"
-              />
-              <Picker.Item label="Medium (3 hours of Sunlight" value="Medium" />
-              <Picker.Item label="Dark (Shade)" value="Dark" />
-            </Picker>
+                />
+              </Button>
+            )}
+            <Text style={{ fontWeight: "bold", fontSize: 15 }}> Lighting </Text>
+            <Right>
+              <Picker
+                mode="dropdown"
+                note
+                placeholder="Select"
+                iosIcon={<Icon name="ios-arrow-down-outline" />}
+                headerBackButtonText="Back"
+                selectedValue={PlantStore.lightingFilter}
+                onValueChange={inputVal => this.changeLightState(inputVal)}
+                textStyle={{ fontSize: 15, width: 100 }}
+              >
+                <Picker.Item
+                  label="Bright (5+ Hours of Sunlight)"
+                  value="Bright"
+                />
+                <Picker.Item
+                  label="Medium (2-5 Hours of Sunlight)"
+                  value="Medium"
+                />
+                <Picker.Item label="Dark (Shade)" value="Dark" />
+              </Picker>
+            </Right>
           </CardItem>
-          <CardItem>
-            <Left>
-              <Text style={{ fontWeight: "bold" }}> Plant Size </Text>
-            </Left>
-            <Body>
-              {PlantStore.sizeFilter !== "" && (
-                <Button
-                  transparent
-                  onPress={() => {
-                    PlantStore.changeFilterSize("");
+          <CardItem bordered>
+            {PlantStore.sizeFilter !== "" && (
+              <Button
+                transparent
+                onPress={() => {
+                  PlantStore.changeFilterSize("");
+                }}
+              >
+                <Icon
+                  name="ios-close-circle"
+                  type="Ionicons"
+                  style={{
+                    fontSize: 25,
+                    fontWeight: "bold",
+                    color: "red"
                   }}
-                >
-                  <Icon
-                    name="ios-close-circle"
-                    type="Ionicons"
-                    style={{
-                      fontSize: 25,
-                      fontWeight: "bold",
-                      color: "red"
-                    }}
-                  />
-                </Button>
-              )}
-            </Body>
-            <Picker
-              mode="dropdown"
-              note
-              placeholder="Select"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              headerBackButtonText="Back"
-              selectedValue={PlantStore.sizeFilter}
-              onValueChange={inputVal => this.changeSizeState(inputVal)}
-            >
-              <Picker.Item label="Desktop" value="Desktop" />
-              <Picker.Item label="Ground" value="Ground" />
-              <Picker.Item label="Tall" value="Tall" />
-            </Picker>
+                />
+              </Button>
+            )}
+            <Text style={{ fontWeight: "bold", fontSize: 15 }}>
+              {" "}
+              Plant Size{" "}
+            </Text>
+            <Right>
+              <Picker
+                mode="dropdown"
+                note
+                placeholder="Select"
+                iosIcon={<Icon name="ios-arrow-down-outline" />}
+                headerBackButtonText="Back"
+                selectedValue={PlantStore.sizeFilter}
+                onValueChange={inputVal => this.changeSizeState(inputVal)}
+                textStyle={{ fontSize: 15, width: 100 }}
+              >
+                <Picker.Item label="Desktop (Small)" value="Desktop" />
+                <Picker.Item label="Ground (Medium)" value="Ground" />
+                <Picker.Item label="Tall (Large)" value="Tall" />
+              </Picker>
+            </Right>
           </CardItem>
-          <CardItem>
-            <Left>
-              <Text style={{ fontWeight: "bold" }}> Pet/Kids Friendly </Text>
-            </Left>
-            <Body>
-              {PlantStore.petFilter !== "" && (
-                <Button
-                  transparent
-                  onPress={() => {
-                    PlantStore.changeFilterPet("");
+          <CardItem bordered>
+            {PlantStore.petFilter !== "" && (
+              <Button
+                transparent
+                onPress={() => {
+                  PlantStore.changeFilterPet("");
+                }}
+              >
+                <Icon
+                  name="ios-close-circle"
+                  type="Ionicons"
+                  style={{
+                    fontSize: 25,
+                    fontWeight: "bold",
+                    color: "red"
                   }}
-                >
-                  <Icon
-                    name="ios-close-circle"
-                    type="Ionicons"
-                    style={{
-                      fontSize: 25,
-                      fontWeight: "bold",
-                      color: "red"
-                    }}
-                  />
-                </Button>
-              )}
-            </Body>
+                />
+              </Button>
+            )}
+            <Text style={{ fontWeight: "bold", fontSize: 15 }}>
+              {" "}
+              Pet/Kids Friendly{" "}
+            </Text>
             <Picker
               mode="dropdown"
               note
@@ -188,48 +187,10 @@ class FilterChoices extends Component {
               headerBackButtonText="Back"
               selectedValue={PlantStore.petFilter}
               onValueChange={inputVal => this.changePetState(inputVal)}
+              textStyle={{ fontSize: 15, width: 100 }}
             >
               <Picker.Item label="Yes" value="Yes" />
               <Picker.Item label="No" value="No" />
-            </Picker>
-          </CardItem>
-          <CardItem>
-            <Left>
-              <Text style={{ fontWeight: "bold" }}> Theme </Text>
-            </Left>
-            <Body>
-              {PlantStore.themeFilter !== "" && (
-                <Button
-                  transparent
-                  onPress={() => {
-                    PlantStore.changeFilterTheme("");
-                  }}
-                >
-                  <Icon
-                    name="ios-close-circle"
-                    type="Ionicons"
-                    style={{
-                      fontSize: 25,
-                      fontWeight: "bold",
-                      color: "red"
-                    }}
-                  />
-                </Button>
-              )}
-            </Body>
-            <Picker
-              mode="dropdown"
-              note
-              placeholder="Select"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              headerBackButtonText="Back"
-              selectedValue={PlantStore.themeFilter}
-              onValueChange={inputVal => this.changeThemeState(inputVal)}
-            >
-              <Picker.Item label="Classic" value="Classic" />
-              <Picker.Item label="Modern" value="Modern" />
-              <Picker.Item label="Casual" value="Casual" />
-              <Picker.Item label="Colorful" value="Colorful" />
             </Picker>
           </CardItem>
         </Card>

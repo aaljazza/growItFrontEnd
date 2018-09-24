@@ -15,6 +15,8 @@ import {
   Icon,
   Right
 } from "native-base";
+import { LinearGradient } from "expo";
+
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
 // import Store
@@ -131,7 +133,7 @@ export default class StatisticsScreen extends React.Component {
           { x: "2018-02-06", y: 35 },
           { x: "2018-02-07", y: 35 }
         ],
-        color: "#00723e"
+        color: "#ffffff"
       },
       {
         seriesName: "series2",
@@ -140,11 +142,9 @@ export default class StatisticsScreen extends React.Component {
           { x: "2018-02-02", y: 20 },
           { x: "2018-02-03", y: 30 },
           { x: "2018-02-04", y: 35 },
-          { x: "2018-02-04", y: 40 },
-          { x: "2018-02-04", y: 40 },
-          { x: "2018-02-06", y: 40 }
+          { x: "2018-02-04", y: 40 }
         ],
-        color: "#00a838"
+        color: "#ffffff"
       }
     ];
     let stage1 = 0;
@@ -278,7 +278,10 @@ export default class StatisticsScreen extends React.Component {
               labels: [0, 20, 40, 60, 80, 100, 120, 140],
               datasets: [
                 {
-                  data: [0, 0, 10, 15, 20, 25, 25]
+                  data: [0, 0, 10, 15, 20, 25, 50]
+                },
+                {
+                  data: [0, 3, 13, 20, 25, 20, 25]
                 }
               ]
             }}
@@ -298,6 +301,7 @@ export default class StatisticsScreen extends React.Component {
               borderRadius: 16
             }}
           />
+          <PureChart data={sampleData} type="line" backgroundColor="green" />
         </Content>
         <FooterBar pageNameProp="Statistics" />
       </Container>

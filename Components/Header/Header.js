@@ -1,6 +1,12 @@
 //import liraries
 import React, { Component } from "react";
-import { View, StyleSheet, StatusBar, Platform } from "react-native";
+import {
+  View,
+  StyleSheet,
+  StatusBar,
+  Platform,
+  SafeAreaView
+} from "react-native";
 import {
   Button,
   Text,
@@ -23,7 +29,13 @@ class HeaderBar extends Component {
   render() {
     let pageName = this.props.pageNameProp;
     return (
-      <Header style={{ borderBottomColor: "green", borderBottomWidth: 5 }}>
+      <Header
+        style={{
+          borderBottomColor: "green",
+          borderBottomWidth: 5,
+          alignItems: "center"
+        }}
+      >
         {Platform.OS !== "ios" && <StatusBar hidden={true} />}
         <LinearGradient
           colors={["#ffffff", "#ffffff"]}
@@ -42,13 +54,14 @@ class HeaderBar extends Component {
           >
             <Icon style={{ color: "#007c2f" }} name="menu" />
           </Button>
-          <Button transparent onPress={() => this.props.navigation.goBack}>
+          <Text> </Text>
+          <Button transparent onPress={() => this.props.navigation.goBack()}>
             <Icon style={{ color: "#007c2f" }} name="ios-arrow-back" />
           </Button>
         </Left>
-        <Body>
-          <Title style={{ color: "#007c2f" }}>{pageName}</Title>
-        </Body>
+        <Title style={{ color: "#007c2f", alignSelf: "center" }}>
+          {pageName}
+        </Title>
         <Right>
           <Button
             transparent

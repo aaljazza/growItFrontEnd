@@ -17,6 +17,7 @@ import {
 } from "native-base";
 import moment from "moment";
 import { withNavigation } from "react-navigation";
+import PercentageCircle from "react-native-percentage-circle";
 
 //import Stores
 import PlantStore from "../../Stores/PlantStore";
@@ -29,34 +30,71 @@ class PlantingHistory extends Component {
       store => store.id === plant.plantid
     );
     let daysOld = moment().diff(plant.plantedOn, "days");
+    let stage2 = PlantStore.plants[indexVal].stage1day;
+    let stage3 =
+      PlantStore.plants[indexVal].stage1day +
+      PlantStore.plants[indexVal].stage2day;
+    let stage4 =
+      PlantStore.plants[indexVal].stage1day +
+      PlantStore.plants[indexVal].stage2day +
+      PlantStore.plants[indexVal].stage3day;
+    let currentStage;
+    if (daysOld > stage4) {
+      currentStage = "Eat";
+    } else if (daysOld > stage3) {
+      currentStage = PlantStore.plants[indexVal].stage3des;
+    } else if (daysOld > stage2) {
+      currentStage = PlantStore.plants[indexVal].stage2des;
+    } else {
+      currentStage = PlantStore.plants[indexVal];
+    }
+
     return (
-      <CardItem bordered>
+      <CardItem bordered style={{ height: 100 }}>
         <Thumbnail
-          small
           source={{
             uri: PlantStore.plants[indexVal].img
           }}
+          style={{ height: 90 }}
         />
+        <Text> </Text>
         <Body>
-          <Text note>{daysOld} days old</Text>
           <Text style={{ fontSize: 20 }}>
             {PlantStore.plants[indexVal].local_name}
           </Text>
+          <Text note>{daysOld} days old</Text>
+          <Text style={{ fontSize: 14, fontWeight: "bold" }}>
+            Current Stage:
+          </Text>
+          <Text note>{currentStage}</Text>
         </Body>
-
-        <Right style={{}}>
+        <Right style={{ flexDirection: "row", justifyContent: "flex-end" }}>
           <Button
             rounded
             transparent
+            style={{ height: 150 }}
             onPress={() => {
               PlantStore.updateStats(plant.trackID);
-              this.props.navigation.navigate("Statistics");
+              this.props.navigation.navigate("StatisticsPlot");
             }}
           >
+            <PercentageCircle
+              radius={35}
+              borderWidth={7}
+              percent={daysOld > stage4 ? 100 : (100 * daysOld) / stage4}
+              color={"#318e00"}
+            >
+              <Text
+                style={{ color: "green", fontWeight: "bold", fontSize: 18 }}
+              >
+                {daysOld > stage4 ? "Eat" : stage4 - daysOld}
+              </Text>
+            </PercentageCircle>
             <Icon
               active
-              style={{ color: "green", fontSize: 45, fontWeight: "bold" }}
-              name="ios-stats"
+              style={{ color: "green", fontSize: 40, fontWeight: "bold" }}
+              name="chevron-right"
+              type="FontAwesome"
             />
           </Button>
         </Right>

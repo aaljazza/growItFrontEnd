@@ -61,30 +61,28 @@ class FooterBar extends Component {
               Shop
             </Text>
           </Button>
-          {PlantStore.trackID && (
-            <Button
-              vertical
-              onPress={() => this.props.navigation.navigate("Statistics")}
+          <Button
+            vertical
+            onPress={() => this.props.navigation.navigate("Statistics")}
+          >
+            <Icon
+              style={
+                pageName === "Statistics"
+                  ? { color: "green", fontSize: 30 }
+                  : { color: "#003a12", fontSize: 20 }
+              }
+              name="ios-stats"
+            />
+            <Text
+              style={
+                pageName === "Statistics"
+                  ? { color: "green", fontSize: 15 }
+                  : { color: "#003a12", fontSize: 10 }
+              }
             >
-              <Icon
-                style={
-                  pageName === "Statistics"
-                    ? { color: "green", fontSize: 30 }
-                    : { color: "#003a12", fontSize: 20 }
-                }
-                name="ios-stats"
-              />
-              <Text
-                style={
-                  pageName === "Statistics"
-                    ? { color: "green", fontSize: 15 }
-                    : { color: "#003a12", fontSize: 10 }
-                }
-              >
-                Stats
-              </Text>
-            </Button>
-          )}
+              Stats
+            </Text>
+          </Button>
           <Button
             vertical
             onPress={() => this.props.navigation.navigate("Profile")}

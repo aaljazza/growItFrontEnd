@@ -4,6 +4,7 @@ var accessoriesdatabase = [
     name: "Soil Mix",
     price: 5,
     quantity: 20,
+    type: "Soil",
     description:
       "This product ensures your plant is in the highest quality soil avialable. It has nutrients to ensure your plant is healthy even if you under or overwater it.",
     img:
@@ -12,6 +13,7 @@ var accessoriesdatabase = [
   {
     id: 2,
     name: "Plant Food",
+    type: "Soil",
     price: 5,
     quantity: 20,
     img:
@@ -20,6 +22,7 @@ var accessoriesdatabase = [
   {
     id: 3,
     name: "Markers",
+    type: "Tools",
     price: 3,
     quantity: 20,
     img:
@@ -28,6 +31,7 @@ var accessoriesdatabase = [
   {
     id: 4,
     name: "Shiner",
+    type: "Sprays",
     price: 3,
     quantity: 20,
     img:
@@ -36,6 +40,7 @@ var accessoriesdatabase = [
   {
     id: 5,
     name: "Pots",
+    type: "Pots",
     price: 10,
     quantity: 20,
     img:
@@ -45,6 +50,7 @@ var accessoriesdatabase = [
     id: 6,
     name: "Insect Repellent",
     price: 3,
+    type: "Sprays",
     quantity: 20,
     img:
       "https://images-na.ssl-images-amazon.com/images/I/61-1er%2BIcwL._SY355_.jpg"
@@ -52,6 +58,7 @@ var accessoriesdatabase = [
   {
     id: 7,
     name: "Watering Spray",
+    type: "Sprays",
     price: 5,
     quantity: 20,
     img:
@@ -60,6 +67,7 @@ var accessoriesdatabase = [
   {
     id: 8,
     name: "Snippers",
+    type: "Tools",
     price: 5,
     quantity: 0,
     img:
@@ -68,6 +76,7 @@ var accessoriesdatabase = [
   {
     id: 9,
     name: "Trowel",
+    type: "Tools",
     price: 5,
     quantity: 20,
     img:
@@ -75,6 +84,7 @@ var accessoriesdatabase = [
   },
   {
     id: 10,
+    type: "Sprays",
     name: "Plant Feeders",
     price: 5,
     quantity: 20,

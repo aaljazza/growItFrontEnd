@@ -13,6 +13,7 @@ import {
   Left,
   Right
 } from "native-base";
+import { observer } from "mobx-react";
 
 //Bars
 import HeaderBar from "../Header/Header";
@@ -25,12 +26,13 @@ import ProfileView from "./ProfileView";
 //Others
 import ToggleSwitch from "toggle-switch-react-native";
 import PlantBackground from "./PlantBackground.png";
+import UserStore from "../Stores/UserStore";
 
 class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: false
+      loggedIn: UserStore.signedIn
     };
   }
 
@@ -44,21 +46,17 @@ class LoginScreen extends React.Component {
           <HeaderBar pageNameProp="Login Screen" />
           <Content padder>
             <ToggleSwitch
-              isOn={this.state.loggedIn}
+              isOn={UserStore.signedIn}
               onColor="green"
               offColor="red"
               label={
-                this.state.loggedIn ? "Click to Sign Out" : "Click to Sign In"
+                UserStore.signedIn ? "Click to Sign Out" : "Click to Sign In"
               }
               labelStyle={{ color: "black", fontWeight: "900" }}
               size="medium"
-              onToggle={() =>
-                this.setState({
-                  loggedIn: !this.state.loggedIn
-                })
-              }
+              onToggle={() => UserStore.userSignedIn()}
             />
-            {this.state.loggedIn ? <ProfileView /> : <LoginView />}
+            {UserStore.signedIn ? <ProfileView /> : <LoginView />}
           </Content>
 
           <FooterBar pageNameProp="Login" />
@@ -68,4 +66,4 @@ class LoginScreen extends React.Component {
   }
 }
 
-export default LoginScreen;
+export default observer(LoginScreen);

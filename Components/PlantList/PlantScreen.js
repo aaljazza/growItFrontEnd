@@ -23,6 +23,7 @@ import FooterBar from "../Footer/Footer";
 import PlantStore from "../Stores/PlantStore";
 import Filters from "./Filters";
 import AccessoriesRows from "./AccessoriesRows";
+import AccessoryCategories from "./AccessoryCategories";
 
 class PlantScreen extends React.Component {
   constructor(props) {
@@ -30,7 +31,7 @@ class PlantScreen extends React.Component {
     this.state = {
       open: false,
       filter: false,
-      segment: 0
+      segment: PlantStore.shopSegment
     };
   }
   render() {
@@ -39,11 +40,24 @@ class PlantScreen extends React.Component {
       <PlantRow key={index} plant={plantItem} />
     ));
     let AccessoryItems;
-    AccessoryItems = PlantStore.filteredMultipleAccessory.map(
-      (accessory, index) => (
-        <AccessoriesRows key={index} accessory={accessory} />
-      )
-    );
+    let list = ["Soil", "Pots", "Sprays", "Tools", "Lights", "Seeds"];
+    AccessoryItems = list.map((accessory, index) => (
+      <AccessoryCategories key={index} accessory={accessory} />
+    ));
+    filtAccessory = PlantStore.filteredAccessory.map((accessory, index) => (
+      <AccessoriesRows key={index} accessory={accessory} />
+    ));
+    let filter = null;
+    if (
+      PlantStore.careFilter !== "" ||
+      PlantStore.lightingFilter !== "" ||
+      PlantStore.petFilter !== "" ||
+      PlantStore.sizeFilter !== ""
+    ) {
+      if (PlantStore.shopSegment === 0) {
+        filter = 1;
+      }
+    }
     return (
       <Container>
         <HeaderBar pageNameProp="Plants List" />
@@ -54,140 +68,119 @@ class PlantScreen extends React.Component {
           }}
         >
           <Button
-            active={this.state.segment === 0}
+            active={PlantStore.shopSegment === 0}
             first
             style={{
-              width: 150,
+              width: 100,
               justifyContent: "center",
-              backgroundColor: this.state.segment === 0 ? "green" : "white",
+              backgroundColor: PlantStore.shopSegment === 0 ? "green" : "white",
               borderColor: "green"
             }}
-            onPress={() => this.setState({ segment: 0 })}
+            onPress={() => PlantStore.changeShopSegment(0)}
           >
             <Text
               style={{
                 fontWeight: "bold",
-                color: this.state.segment === 0 ? "white" : "green"
+                fontSize: 10,
+                color: PlantStore.shopSegment === 0 ? "white" : "green"
               }}
             >
-              Plants
+              Packages
             </Text>
           </Button>
           <Button
-            last
-            active={this.state.segment === 1}
+            active={PlantStore.shopSegment === 1}
+            last={this.state.subSection === ""}
             style={{
-              width: 150,
+              width: 100,
               justifyContent: "center",
-              backgroundColor: this.state.segment === 1 ? "green" : "white",
+              backgroundColor: PlantStore.shopSegment === 1 ? "green" : "white",
               borderColor: "green"
             }}
-            onPress={() => this.setState({ segment: 1 })}
+            onPress={() => PlantStore.changeShopSegment(1)}
           >
             <Text
               style={{
                 fontWeight: "bold",
-                color: this.state.segment === 1 ? "white" : "green"
+                fontSize: 10,
+                color: PlantStore.shopSegment === 1 ? "white" : "green"
               }}
             >
-              Accessories
+              Full Shop
             </Text>
           </Button>
+          {PlantStore.subSection !== "" && (
+            <Button
+              last
+              active={PlantStore.shopSegment === 2}
+              style={{
+                width: 100,
+                justifyContent: "center",
+                backgroundColor:
+                  PlantStore.shopSegment === 2 ? "green" : "white",
+                borderColor: "green"
+              }}
+              onPress={() => PlantStore.changeShopSegment(2)}
+            >
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 10,
+                  color: PlantStore.shopSegment === 2 ? "white" : "green"
+                }}
+              >
+                {PlantStore.subSection}
+              </Text>
+            </Button>
+          )}
         </Segment>
-        <Item rounded>
-          <Text> </Text>
-          <Icon name="ios-search" />
-          <Input
-            placeholder="Search"
-            onChangeText={inputVal => PlantStore.plantSearchInput(inputVal)}
-          />
+        {filter === 1 && (
           <Button
-            transparent
-            success
-            rounded
-            onPress={() => this.setState({ filter: !this.state.filter })}
+            danger
+            outline
+            small
+            full
+            onPress={() => PlantStore.resetAllFilter()}
           >
-            <Icon name="filter" type="FontAwesome" active={false} />
+            <Text style={{ fontWeight: "bold" }}>Clear Filters</Text>
           </Button>
-          <Text> </Text>
-        </Item>
-        <View
-          style={{
-            flexWrap: "wrap",
-            justifyContent: "space-around",
-            flexDirection: "row"
-          }}
-        >
-          {PlantStore.careFilter === "" ? (
-            <View />
-          ) : (
-            <Button transparent onPress={() => PlantStore.changeFilterCare("")}>
-              <Badge
-                style={{ backgroundColor: "maroon", flexDirection: "row" }}
+        )}
+        {PlantStore.shopSegment === 0 && (
+          <View>
+            <Item rounded>
+              <Text> </Text>
+              <Icon name="ios-search" />
+              <Input
+                placeholder="Search"
+                value={PlantStore.plantSearch}
+                onChangeText={inputVal => PlantStore.plantSearchInput(inputVal)}
+              />
+              <Button
+                transparent
+                success
+                rounded
+                onPress={() => this.setState({ filter: !this.state.filter })}
               >
-                <Text>Care: {PlantStore.careFilter}</Text>
-                <Icon style={{ fontSize: 20 }} name="x" type="Octicons" />
-              </Badge>
-            </Button>
-          )}
-          {PlantStore.lightingFilter === "" ? (
-            <View />
-          ) : (
-            <Button
-              transparent
-              onPress={() => PlantStore.changeFilterlighting("")}
-            >
-              <Badge
-                style={{ backgroundColor: "maroon", flexDirection: "row" }}
-              >
-                <Text>Light: {PlantStore.lightingFilter}</Text>
-                <Icon style={{ fontSize: 20 }} name="x" type="Octicons" />
-              </Badge>
-            </Button>
-          )}
-          {PlantStore.sizeFilter === "" ? (
-            <View />
-          ) : (
-            <Button transparent onPress={() => PlantStore.changeFilterSize("")}>
-              <Badge
-                style={{ backgroundColor: "maroon", flexDirection: "row" }}
-              >
-                <Text>Size: {PlantStore.sizeFilter}</Text>
-                <Icon style={{ fontSize: 20 }} name="x" type="Octicons" />
-              </Badge>
-            </Button>
-          )}
-          {PlantStore.petFilter === "" ? (
-            <View />
-          ) : (
-            <Button transparent onPress={() => PlantStore.changeFilterPet("")}>
-              <Badge
-                style={{ backgroundColor: "maroon", flexDirection: "row" }}
-              >
-                <Text>Pet/Kids: {PlantStore.petFilter}</Text>
-                <Icon style={{ fontSize: 20 }} name="x" type="Octicons" />
-              </Badge>
-            </Button>
-          )}
-          {PlantStore.themeFilter === "" ? (
-            <View />
-          ) : (
-            <Button
-              transparent
-              onPress={() => PlantStore.changeFilterTheme("")}
-            >
-              <Badge
-                style={{ backgroundColor: "maroon", flexDirection: "row" }}
-              >
-                <Text>Theme: {PlantStore.themeFilter}</Text>
-                <Icon style={{ fontSize: 20 }} name="x" type="Octicons" />
-              </Badge>
-            </Button>
-          )}
-        </View>
+                <Icon name="filter" type="FontAwesome" active={false} />
+              </Button>
+              <Text> </Text>
+            </Item>
+          </View>
+        )}
         {!this.state.filter ? <View /> : <Filters />}
         <Content padder>
-          {this.state.segment === 0 ? plantItems : AccessoryItems}
+          <View
+            style={{
+              alignItems: "center",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              justifyContent: "space-evenly"
+            }}
+          >
+            {PlantStore.shopSegment === 0 && plantItems}
+            {PlantStore.shopSegment === 1 && AccessoryItems}
+          </View>
+          {PlantStore.shopSegment === 2 && filtAccessory}
         </Content>
         <FooterBar pageNameProp="Plants" />
       </Container>
