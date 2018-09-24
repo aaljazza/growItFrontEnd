@@ -3,6 +3,8 @@ var userdatabase = [
     id: 1,
     name: "Abdulla Al-Jazzaf",
     created_date: "2018-09-11T17:48:54.523381Z",
+    email: "aaljazza@gmail.com",
+    phone: 97666886,
     orderHistory: [
       {
         orderId: 1,

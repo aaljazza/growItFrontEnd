@@ -35,7 +35,7 @@ class PlantDetail extends React.Component {
     let plant = PlantStore.selectedPlant[0];
     return (
       <Container>
-        <HeaderBar pageNameProp="About Us" />
+        <HeaderBar pageNameProp={plant.local_name} />
         <Content>
           <Card
             style={{
@@ -119,10 +119,6 @@ class PlantDetail extends React.Component {
               </Body>
             </CardItem>
             <CardItem bordered>
-              <Body>
-                <Text>Theme:</Text>
-                <Text note>Modern</Text>
-              </Body>
               <Body>
                 <Text>Location:</Text>
                 <Text note>{plant.location}</Text>

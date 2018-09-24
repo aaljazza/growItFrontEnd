@@ -33,62 +33,83 @@ class PlantRow extends React.Component {
   render() {
     let plant = this.props.plant;
     return (
-      <Card>
-        <CardItem>
-          <Button
-            transparent
-            onPress={() => {
-              PlantStore.updateSelectedPlant(plant.id);
-              this.props.navigation.navigate("PlantDetail");
-            }}
-          >
-            <Thumbnail source={{ uri: plant.img }} />
-          </Button>
-          <Body>
-            <Text>{plant.local_name}</Text>
-            <Text note>{plant.scientific_name}</Text>
-            <Text note style={{ fontWeight: "bold" }}>
-              {plant.price} K.D.
-            </Text>
-          </Body>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <Button
-              transparent
-              danger
-              disabled={this.state.quant === 1}
-              onPress={() => this.setState({ quant: this.state.quant - 1 })}
+      <Card
+        style={{
+          width: 150,
+          borderRadius: 20,
+          shadowOpacity: 50,
+          shadowRadius: 3
+        }}
+      >
+        <CardItem style={{ borderRadius: 20 }}>
+          <View style={{ flexDirection: "column" }}>
+            <View style={{ flexDirection: "row" }}>
+              <Left>
+                <Thumbnail source={{ uri: plant.img }} style={{ height: 90 }} />
+              </Left>
+              <Right>
+                <Text style={{ fontWeight: "bold" }}>{plant.local_name}</Text>
+                <Text note style={{ fontSize: 10 }}>
+                  {plant.scientific_name}
+                </Text>
+                <Text note style={{ fontWeight: "bold" }}>
+                  {plant.price} K.D.
+                </Text>
+              </Right>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
             >
-              <Icon
-                name="ios-remove-circle-outline"
-                type="Ionicons"
-                activeTint="green"
-              />
-            </Button>
-            <Text style={{ fontWeight: "bold" }}> {this.state.quant} </Text>
-            <Button
-              transparent
-              success
-              disabled={
-                this.state.quant >= plant.quantity || this.state.quant >= 4
-              }
-              onPress={() => this.setState({ quant: this.state.quant + 1 })}
-            >
-              <Icon
-                name="ios-add-circle-outline"
-                type="Ionicons"
-                activeTint="green"
-              />
-            </Button>
-            <Button success bordered small>
-              <Text note success>
+              <Button
+                transparent
+                danger
+                disabled={this.state.quant === 1}
+                onPress={() => this.setState({ quant: this.state.quant - 1 })}
+              >
+                <Icon
+                  name="ios-remove-circle-outline"
+                  type="Ionicons"
+                  activeTint="green"
+                />
+              </Button>
+              <Text style={{ fontWeight: "bold" }}> {this.state.quant} </Text>
+              <Button
+                transparent
+                success
+                disabled={
+                  this.state.quant >= plant.quantity || this.state.quant >= 4
+                }
+                onPress={() => this.setState({ quant: this.state.quant + 1 })}
+              >
+                <Icon
+                  name="ios-add-circle-outline"
+                  type="Ionicons"
+                  activeTint="green"
+                />
+              </Button>
+            </View>
+            <Button full success bordered small rounded>
+              <Text note style={{ color: "green" }}>
                 Add
               </Text>
+            </Button>
+            <Text style={{ fontSize: 5 }}> </Text>
+            <Button
+              full
+              dark
+              bordered
+              small
+              rounded
+              onPress={() => {
+                PlantStore.updateSelectedPlant(plant.id);
+                this.props.navigation.navigate("PlantDetail");
+              }}
+            >
+              <Text>More Info</Text>
             </Button>
           </View>
         </CardItem>

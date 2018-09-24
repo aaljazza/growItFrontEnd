@@ -34,6 +34,7 @@ import { withNavigation } from "react-navigation";
 import logo from "./Components/Logo/logo.png";
 import PlantBackground from "./Components/LoginScreen/PlantBackground.png";
 import PlantBackgroundDark from "./Components/LoginScreen/PlantBackgroundDark.png";
+import longPlantHalf from "./Components/Logo/longPlantHalf.png";
 
 import HomeScreen from "./Components/HomeScreen/HomeScreen";
 import LoginScreen from "./Components/LoginScreen/LoginScreen";
@@ -45,6 +46,8 @@ import ContactUsScreen from "./Components/Informative/ContactUsScreen";
 import TermsAndConditionsScreen from "./Components/Informative/TermsAndConditionsScreen";
 import CartScreen from "./Components/Cart/CartScreen";
 import PlantDetail from "./Components/Detail/PlantDetail";
+import StatisticsMain from "./Components/Statistics/StatisticsMain";
+import DummySinglePlant from "./Components/Statistics/DummySinglePlant";
 
 class App extends React.Component {
   constructor() {
@@ -110,7 +113,7 @@ class App extends React.Component {
                   color: "green"
                 }}
               >
-                Plant It!
+                Grow It!
               </Text>
               <Text
                 note
@@ -120,7 +123,7 @@ class App extends React.Component {
                   fontStyle: "italic"
                 }}
               >
-                Planting made Easy
+                Grow to Eat... It's That Easy!
               </Text>
               <Animated.Image
                 style={[{ height: 400 }, { width: 400 }]}
@@ -160,36 +163,40 @@ class App extends React.Component {
 
 const CustomDrawerComponent = props => (
   <SafeAreaView
-    style={{ flex: 1, flexDirection: "column", justifyContent: "space-around" }}
+    style={{ flex: 1, flexDirection: "column", justifyContent: "flex-end" }}
   >
-    <Header style={{ height: 150 }}>
-      <Image
-        style={{ alignSelf: "center", width: 150, height: 150 }}
-        source={{
-          uri: "https://www-images.christianitytoday.com/images/71940.jpg?w=620"
-        }}
-      />
-    </Header>
-
-    <View
-      style={{
-        backgroundColor: "white",
-        alignItems: "center",
-        justifyContent: "center"
-      }}
+    <ImageBackground
+      source={longPlantHalf}
+      style={{ width: "100%", height: "100%" }}
+      res
     >
-      <DrawerItems {...props} />
-    </View>
-
-    <Footer>
-      <Image
-        style={{ alignSelf: "center", width: 150, height: 150 }}
-        source={{
-          uri:
-            "https://images.pexels.com/photos/1072824/pexels-photo-1072824.jpeg?auto=compress&cs=tinysrgb&h=350"
+      <View>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+      </View>
+      <View
+        style={{
+          alignItems: "stretch",
+          justifyContent: "flex-end",
+          flexDirection: "column",
+          opacity: 0.7
         }}
-      />
-    </Footer>
+      >
+        <DrawerItems {...props} />
+      </View>
+    </ImageBackground>
   </SafeAreaView>
 );
 class Hidden extends React.Component {
@@ -199,33 +206,51 @@ class Hidden extends React.Component {
 }
 const AppDrawerNavigator = createDrawerNavigator(
   {
-    "Terms and Conditions": TermsAndConditionsScreen,
-    Shop: { screen: PlantScreen },
-    "About Us": AboutUsScreen,
     Home: {
       screen: HomeScreen,
       navigationOptions: { drawerLabel: <Hidden /> }
     },
+    Shop: { screen: PlantScreen },
     PlantDetail: {
       screen: PlantDetail,
       navigationOptions: { drawerLabel: <Hidden /> }
     },
-    Statistics: {
+    Statistics: { screen: StatisticsMain },
+    Dummy: {
+      screen: DummySinglePlant,
+      navigationOptions: { drawerLabel: <Hidden /> }
+    },
+    StatisticsPlot: {
       screen: StatisticsScreen,
       navigationOptions: {
         drawerLabel: <Hidden />
       }
     },
     Profile: LoginScreen,
-    Orders: OrderHistoryScreeen,
-    "Contact Us": ContactUsScreen,
+    "About Us": {
+      screen: AboutUsScreen,
+      navigationOptions: { drawerLabel: <Hidden /> }
+    },
+    "Contact Us": {
+      screen: ContactUsScreen,
+      navigationOptions: { drawerLabel: <Hidden /> }
+    },
+    "Terms and Conditions": {
+      screen: TermsAndConditionsScreen,
+      navigationOptions: { drawerLabel: <Hidden /> }
+    },
     Cart: CartScreen
   },
   {
     contentComponent: CustomDrawerComponent,
     drawerWidth: 150,
+    drawerPosition: "left",
+    drawerBackgroundColor: "transparent",
     contentOptions: {
-      activeTintColor: "green"
+      activeTintColor: "white",
+      activeBackgroundColor: "black",
+      inactiveBackgroundColor: "green",
+      inactiveTintColor: "white"
     }
   }
 );

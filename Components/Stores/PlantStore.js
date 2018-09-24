@@ -27,16 +27,21 @@ class PlantsStore {
     this.lightingFilter = "";
     this.sizeFilter = "";
     this.petFilter = "";
-    this.themeFilter = "";
     this.plantSearch = "";
     this.accessorySearch = "";
+    this.shopSegment = 1;
+    this.subSection = "";
+    this.accessoryFilter = "Soil";
   }
   resetAllFilter() {
     this.careFilter = "";
     this.lightingFilter = "";
     this.sizeFilter = "";
     this.petFilter = "";
-    this.themeFilter = "";
+  }
+
+  changeShopSegment(inputVal) {
+    this.shopSegment = +inputVal;
   }
 
   updateStats(trackID) {
@@ -57,17 +62,27 @@ class PlantsStore {
   changeFilterPet(inputVal) {
     this.petFilter = inputVal;
   }
-  changeFilterTheme(inputVal) {
-    this.themeFilter = inputVal;
-  }
   plantSearchInput(inputVal) {
     this.plantSearch = inputVal.toLowerCase();
     this.accessorySearch = inputVal.toLowerCase();
+  }
+  changeFilterAccessory(inputVal) {
+    this.accessoryFilter = inputVal;
+  }
+  changeSubSection(inputVal) {
+    this.subSection = inputVal;
   }
 
   get selectedPlant() {
     return this.plants.filter(plant => +plant.id === this.singlePlantProduct);
   }
+
+  get filteredAccessory() {
+    return this.accessories.filter(
+      accessory => accessory.type === this.accessoryFilter
+    );
+  }
+
   get filteredMultiplePlants() {
     if (this.plantSearch === "") {
       return this.plants;
@@ -114,12 +129,14 @@ decorate(PlantsStore, {
   lightingFilter: observable,
   sizeFilter: observable,
   petFilter: observable,
-  themeFilter: observable,
   plantSearch: observable,
   selectedPlant: computed,
   filteredMultiplePlants: computed,
   accessorySearch: observable,
-  filteredMultipleAccessory: computed
+  filteredMultipleAccessory: computed,
+  shopSegment: observable,
+  accessoryFilter: observable,
+  filteredAccessory: computed
 });
 const PlantStore = new PlantsStore();
 PlantStore.fetchPlants();
