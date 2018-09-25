@@ -29,7 +29,7 @@ class PlantsStore {
     this.petFilter = "";
     this.plantSearch = "";
     this.accessorySearch = "";
-    this.shopSegment = 1;
+    this.shopSegment = 0;
     this.subSection = "";
     this.accessoryFilter = "Soil";
   }

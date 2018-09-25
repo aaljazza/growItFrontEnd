@@ -35,12 +35,13 @@ export default class HomeScreen extends React.Component {
             alignSelf: "center",
             fontWeight: "bold",
             fontSize: 20,
-            color: "green"
+            color: "#119a50"
           }}
         >
           Choose an option Below:
         </Text>
-        <Content padder>
+        <Text> </Text>
+        <Content>
           <View
             style={{
               shadowOpacity: 0.5,
@@ -54,11 +55,11 @@ export default class HomeScreen extends React.Component {
                 width: 350,
                 height: 200,
                 borderWidth: 0,
-                borderRadius: 30,
                 overflow: "hidden"
               }}
               resizeMode="cover"
             >
+              <Text> </Text>
               <Text> </Text>
               <Text
                 style={{
@@ -72,8 +73,9 @@ export default class HomeScreen extends React.Component {
                   width: 300
                 }}
               >
-                Grow It Experience Packages
+                From Seed to Food
               </Text>
+              <Text> </Text>
               <Text> </Text>
               <Button
                 light
@@ -85,11 +87,12 @@ export default class HomeScreen extends React.Component {
                 style={{ justifyContent: "center", alignSelf: "center" }}
               >
                 <Text style={{ fontSize: 30, fontWeight: "bold" }}>
-                  See Experiences
+                  See Packages
                 </Text>
               </Button>
             </ImageBackground>
           </View>
+          <Text> </Text>
           <Text> </Text>
           <View
             style={{
@@ -104,7 +107,6 @@ export default class HomeScreen extends React.Component {
                 width: 350,
                 height: 200,
                 borderWidth: 0,
-                borderRadius: 30,
                 overflow: "hidden"
               }}
               resizeMode="cover"

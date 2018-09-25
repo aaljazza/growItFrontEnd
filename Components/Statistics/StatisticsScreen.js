@@ -1,5 +1,11 @@
 import React from "react";
-import { StatusBar, Dimensions, ScrollView, Image } from "react-native";
+import {
+  StatusBar,
+  Dimensions,
+  ScrollView,
+  Image,
+  ImageBackground
+} from "react-native";
 import {
   Button,
   Text,
@@ -21,6 +27,7 @@ import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
 // import Store
 import PlantStore from "../Stores/PlantStore";
+import PlantBackground from "../LoginScreen/PlantBackgroundBlur.png";
 
 import moment from "moment";
 import PureChart from "react-native-pure-chart";
@@ -43,11 +50,11 @@ const customStyles = {
   currentStepStrokeWidth: 3,
   stepStrokeCurrentColor: "#41ba00",
   stepStrokeWidth: 3,
-  stepStrokeFinishedColor: "#318e00",
+  stepStrokeFinishedColor: "#119a50",
   stepStrokeUnFinishedColor: "#aaaaaa",
-  separatorFinishedColor: "#318e00",
+  separatorFinishedColor: "#119a50",
   separatorUnFinishedColor: "#aaaaaa",
-  stepIndicatorFinishedColor: "#318e00",
+  stepIndicatorFinishedColor: "#119a50",
   stepIndicatorUnFinishedColor: "#ffffff",
   stepIndicatorCurrentColor: "#41ba00",
   stepIndicatorLabelFontSize: 13,
@@ -161,149 +168,139 @@ export default class StatisticsScreen extends React.Component {
 
     return (
       <Container>
-        <HeaderBar pageNameProp="Statistics" />
-        <Content padder>
-          <View />
-          <ToggleSwitch
-            isOn={trackedPlant.notify}
-            onColor="green"
-            offColor="red"
-            label="Get Notifications"
-            labelStyle={{ color: "black", fontWeight: "900" }}
-            size="medium"
-            onToggle={() =>
-              this.setState({
-                notificationToggle: !this.state.notificationToggle
-              })
-            }
-          />
-          <Card>
-            <CardItem bordered>
-              <Image
-                source={{
-                  uri: storePlant.img
-                }}
-                style={{ height: 200, width: null, flex: 1 }}
-              />
-            </CardItem>
-            <CardItem>
-              <Text style={{ fontWeight: "bold" }}>
-                {storePlant.local_name}
-              </Text>
-            </CardItem>
-            <CardItem bordered>
-              <Text note style={{ fontWeight: "bold" }}>
-                {" "}
-                {storePlant.scientific_name}{" "}
-              </Text>
-            </CardItem>
-            <CardItem bordered>
-              <Text>Age of Plant:</Text>
-              <Text style={{ fontWeight: "bold" }}>
-                {" "}
-                {moment(trackedPlant.plantedOn).toNow(true)} old
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Text>Plant Life Stage:</Text>
-              <Text style={{ fontWeight: "bold" }}> {finalStage}</Text>
-            </CardItem>
-            <StepIndicator
-              customStyles={customStyles}
-              currentPosition={daysPrint}
-              stepCount={4}
-              labels={labels}
-            />
-            <CardItem bordered>
-              <Text note>{description}</Text>
-            </CardItem>
-            <CardItem bordered>
-              <Left>
-                <Text>Next Watering </Text>
-                <Text note>Every {storePlant.wateringFrequency} days</Text>
-              </Left>
-              <PercentageCircle
-                borderWidth={10}
-                radius={40}
-                percent={
-                  (100 * (daysPassed % storePlant.wateringFrequency)) /
-                  storePlant.wateringFrequency
-                }
-                color={"#318e00"}
-              >
-                <Text>
-                  {storePlant.wateringFrequency -
-                    (daysPassed % storePlant.wateringFrequency)}
+        <ImageBackground
+          source={PlantBackground}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <HeaderBar pageNameProp="Statistics" />
+          <Content padder>
+            <View />
+            <Card>
+              <CardItem bordered>
+                <Image
+                  source={{
+                    uri: storePlant.img
+                  }}
+                  style={{ height: 200, width: null, flex: 1 }}
+                />
+              </CardItem>
+              <CardItem>
+                <Text style={{ fontWeight: "bold" }}>
+                  {storePlant.local_name}
                 </Text>
-              </PercentageCircle>
-            </CardItem>
-            <CardItem bordered>
-              <Left>
-                <Text>Next Stage </Text>
-                <Text note> About {daysForThisStage} days</Text>
-              </Left>
-              <PercentageCircle
-                borderWidth={10}
-                radius={40}
-                percent={
-                  daysPrint === 3
-                    ? 100
-                    : (100 * (daysForThisStage - daysRemainingStage)) /
-                      daysForThisStage
+              </CardItem>
+              <CardItem bordered>
+                <Text note style={{ fontWeight: "bold" }}>
+                  {" "}
+                  {storePlant.scientific_name}{" "}
+                </Text>
+              </CardItem>
+              <CardItem bordered>
+                <Text>Age of Plant:</Text>
+                <Text style={{ fontWeight: "bold" }}>
+                  {" "}
+                  {moment(trackedPlant.plantedOn).toNow(true)} old
+                </Text>
+              </CardItem>
+              <CardItem>
+                <Text>Plant Life Stage:</Text>
+                <Text style={{ fontWeight: "bold" }}> {finalStage}</Text>
+              </CardItem>
+              <StepIndicator
+                customStyles={customStyles}
+                currentPosition={daysPrint}
+                stepCount={4}
+                labels={labels}
+              />
+              <CardItem bordered>
+                <Text note>{description}</Text>
+              </CardItem>
+              <CardItem bordered>
+                <Left>
+                  <Text>Next Watering </Text>
+                  <Text note>Every {storePlant.wateringFrequency} days</Text>
+                </Left>
+                <PercentageCircle
+                  borderWidth={10}
+                  radius={40}
+                  percent={
+                    (100 * (daysPassed % storePlant.wateringFrequency)) /
+                    storePlant.wateringFrequency
+                  }
+                  color={"#119a50"}
+                >
+                  <Text>
+                    {storePlant.wateringFrequency -
+                      (daysPassed % storePlant.wateringFrequency)}
+                  </Text>
+                </PercentageCircle>
+              </CardItem>
+              <CardItem bordered>
+                <Left>
+                  <Text>Next Stage </Text>
+                  <Text note> About {daysForThisStage} days</Text>
+                </Left>
+                <PercentageCircle
+                  borderWidth={10}
+                  radius={40}
+                  percent={
+                    daysPrint === 3
+                      ? 100
+                      : (100 * (daysForThisStage - daysRemainingStage)) /
+                        daysForThisStage
+                  }
+                  color={"#119a50"}
+                >
+                  <Text>{daysRemainingStage}</Text>
+                </PercentageCircle>
+              </CardItem>
+              <CardItem bordered>
+                <Left>
+                  <Text>Ready to Eat! </Text>
+                  <Text note> About {stage4} days</Text>
+                </Left>
+                <PercentageCircle
+                  radius={40}
+                  borderWidth={10}
+                  percent={
+                    daysPassed > stage4 ? 100 : (100 * daysPassed) / stage4
+                  }
+                  color={"#119a50"}
+                >
+                  <Text>
+                    {daysPassed > stage4 ? "Eat" : stage4 - daysPassed}
+                  </Text>
+                </PercentageCircle>
+              </CardItem>
+            </Card>
+            <LineChart
+              data={{
+                labels: [0, 20, 40, 60, 80, 100, 120, 140],
+                datasets: [
+                  {
+                    data: [0, 0, 10, 15, 20, 25, 25]
+                  }
+                ]
+              }}
+              width={Dimensions.get("window").width - 25} // from react-native
+              height={220}
+              chartConfig={{
+                backgroundColor: "#d1ffba",
+                backgroundGradientFrom: "#329900",
+                backgroundGradientTo: "#1d5b00",
+                color: (opacity = 0) => `rgba(255, 255, 255, ${opacity})`,
+                style: {
+                  borderRadius: 2
                 }
-                color={"#318e00"}
-              >
-                <Text>{daysRemainingStage}</Text>
-              </PercentageCircle>
-            </CardItem>
-            <CardItem bordered>
-              <Left>
-                <Text>Ready to Eat! </Text>
-                <Text note> About {stage4} days</Text>
-              </Left>
-              <PercentageCircle
-                radius={40}
-                borderWidth={10}
-                percent={
-                  daysPassed > stage4 ? 100 : (100 * daysPassed) / stage4
-                }
-                color={"#318e00"}
-              >
-                <Text>{daysPassed > stage4 ? "Eat" : stage4 - daysPassed}</Text>
-              </PercentageCircle>
-            </CardItem>
-          </Card>
-          <LineChart
-            data={{
-              labels: [0, 20, 40, 60, 80, 100, 120, 140],
-              datasets: [
-                {
-                  data: [0, 0, 10, 15, 20, 25, 50]
-                },
-                {
-                  data: [0, 3, 13, 20, 25, 20, 25]
-                }
-              ]
-            }}
-            width={Dimensions.get("window").width - 25} // from react-native
-            height={220}
-            chartConfig={{
-              backgroundColor: "#d1ffba",
-              backgroundGradientFrom: "#329900",
-              backgroundGradientTo: "#1d5b00",
-              color: (opacity = 0) => `rgba(255, 255, 255, ${opacity})`,
-              style: {
-                borderRadius: 2
-              }
-            }}
-            style={{
-              marginVertical: 8,
-              borderRadius: 16
-            }}
-          />
-          <PureChart data={sampleData} type="line" backgroundColor="green" />
-        </Content>
-        <FooterBar pageNameProp="Statistics" />
+              }}
+              style={{
+                marginVertical: 8,
+                borderRadius: 16
+              }}
+            />
+          </Content>
+          <FooterBar pageNameProp="Statistics" />
+        </ImageBackground>
       </Container>
     );
   }

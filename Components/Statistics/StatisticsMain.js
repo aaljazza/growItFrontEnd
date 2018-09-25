@@ -25,7 +25,7 @@ import PlantingHistory from "../LoginScreen/PreviousOrders/PlantingHistory";
 import userdatabase from "../Stores/databases/userdatabase";
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
-import PlantBackground from "../LoginScreen/PlantBackground.png";
+import PlantBackground from "../LoginScreen/PlantBackgroundBlur.png";
 import UserStore from "../Stores/UserStore";
 import StatisticsScreenDummy from "./StatisticsScreenDummy";
 
@@ -97,7 +97,9 @@ class StatiscticsMain extends Component {
                 </Item>
                 <Text> </Text>
                 <Button full success rounded style={{ shadowOpacity: 80 }}>
-                  <Text>Submit</Text>
+                  <Text style={{ fontWeight: "bold", color: "white" }}>
+                    Submit
+                  </Text>
                 </Button>
                 <Text> </Text>
                 <Button
@@ -107,7 +109,9 @@ class StatiscticsMain extends Component {
                   style={{ shadowOpacity: 80 }}
                   onPress={() => this.setState({ openTrack: false })}
                 >
-                  <Text>Cancel</Text>
+                  <Text style={{ fontWeight: "bold", color: "white" }}>
+                    Cancel
+                  </Text>
                 </Button>
               </View>
             )}

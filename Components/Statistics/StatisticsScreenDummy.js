@@ -26,7 +26,7 @@ import PlantingHistory from "../LoginScreen/PreviousOrders/PlantingHistory";
 import userdatabase from "../Stores/databases/userdatabase";
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
-import PlantBackground from "../LoginScreen/PlantBackground.png";
+import PlantBackground from "../LoginScreen/PlantBackgroundBlur.png";
 import UserStore from "../Stores/UserStore";
 import Basil from "./DummyPlantPics/Basil.png";
 
@@ -39,6 +39,13 @@ class StatisticsScreenDummy extends Component {
       newTrackingCode: ""
     };
   }
+
+  componentDidMount() {
+    alert(
+      "This is a test screen, please sign in to Track your plants or Track new plants."
+    );
+  }
+
   render() {
     return (
       <Container>
@@ -46,7 +53,7 @@ class StatisticsScreenDummy extends Component {
           source={PlantBackground}
           style={{ width: "100%", height: "100%" }}
         >
-          <HeaderBar pageNameProp="Dummy" />
+          <HeaderBar pageNameProp="Test Stats" />
           <Text> </Text>
           <Button
             full
@@ -106,7 +113,7 @@ class StatisticsScreenDummy extends Component {
                     >
                       <Text
                         style={{
-                          color: "green",
+                          color: "#119a50",
                           fontWeight: "bold",
                           fontSize: 18
                         }}
@@ -117,7 +124,7 @@ class StatisticsScreenDummy extends Component {
                     <Icon
                       active
                       style={{
-                        color: "green",
+                        color: "#119a50",
                         fontSize: 40,
                         fontWeight: "bold"
                       }}

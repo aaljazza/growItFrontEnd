@@ -75,24 +75,28 @@ class AccessoriesRow extends React.Component {
                 <Icon
                   name="ios-remove-circle-outline"
                   type="Ionicons"
-                  activeTint="green"
+                  activeTint="#119a50"
                 />
               </Button>
               <Text style={{ fontWeight: "bold" }}> {this.state.quant} </Text>
               <Button
                 transparent
                 success
+                color={"#119a50"}
                 disabled={this.state.quant >= accessory.quantity}
                 onPress={() => this.setState({ quant: this.state.quant + 1 })}
               >
                 <Icon
                   name="ios-add-circle-outline"
                   type="Ionicons"
-                  activeTint="green"
+                  activeTint="#119a50"
                 />
               </Button>
-              <Button success bordered>
-                <Text>Add {this.state.quant} items to Cart</Text>
+              <Button success bordered color={"#119a50"}>
+                <Text>
+                  Add {this.state.quant}{" "}
+                  {this.state.quant > 1 ? "items" : "item"} to Cart
+                </Text>
               </Button>
             </CardItem>
           </View>

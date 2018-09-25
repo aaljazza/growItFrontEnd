@@ -43,72 +43,119 @@ class LoginView extends React.Component {
   render() {
     return (
       <View>
-        <Item>
-          <Text> </Text>
-        </Item>
+        <Text> </Text>
         <Item
           fixedLabel
+          rounded
           style={{
-            backgroundColor: "#e9ffe8",
-            opacity: 0.7
+            backgroundColor: "transparent",
+            borderWidth: 5
           }}
         >
-          <Label> Username:</Label>
-          <Input autoCapitalize="none" placeholder="username" />
+          <Label style={{ fontWeight: "bold", color: "black" }}>
+            {" "}
+            Username:
+          </Label>
+          <Input
+            autoCapitalize="none"
+            placeholder="..."
+            style={{ fontWeight: "bold" }}
+          />
         </Item>
         <Item
+          rounded
           fixedLabel
           style={{
-            backgroundColor: "#e9ffe8",
-            opacity: 0.7
+            backgroundColor: "transparent",
+            borderWidth: 5,
+            shadowRadius: 20,
+            shadowOpacity: 50,
+            shadowColor: "white"
           }}
         >
-          <Label> Password:</Label>
-          <Input secureTextEntry={true} placeholder="password" />
+          <Label style={{ fontWeight: "bold", color: "black" }}>
+            {" "}
+            Password:
+          </Label>
+          <Input
+            secureTextEntry={true}
+            placeholder="..."
+            style={{ fontWeight: "bold" }}
+          />
         </Item>
-        <Item>
+        <Item style={{ borderColor: "transparent" }}>
           <Text> </Text>
         </Item>
         {this.state.signUp === 0 && (
           <View>
             <Item
               fixedLabel
+              rounded
               style={{
-                backgroundColor: "#e9ffe8",
-                opacity: 0.7
+                backgroundColor: "transparent",
+                borderWidth: 5
               }}
             >
-              <Text> </Text>
-              <Label> Name:</Label>
-              <Input autoCapitalize="none" placeholder="name" />
+              <Label
+                style={{
+                  fontWeight: "bold",
+                  color: "black"
+                }}
+              >
+                {" "}
+                Name:
+              </Label>
+              <Input placeholder="..." style={{ fontWeight: "bold" }} />
             </Item>
             <Item
               fixedLabel
+              rounded
               style={{
-                backgroundColor: "#e9ffe8",
-                opacity: 0.7
+                backgroundColor: "transparent",
+                borderWidth: 5
               }}
             >
-              <Text> </Text>
-              <Label> Email:</Label>
-              <Input autoCapitalize="none" placeholder="email" />
-            </Item>
-            <Item
-              fixedLabel
-              style={{
-                backgroundColor: "#e9ffe8",
-                opacity: 0.7
-              }}
-            >
-              <Text> </Text>
-              <Label> Phone:</Label>
+              <Label
+                style={{
+                  fontWeight: "bold",
+                  color: "black"
+                }}
+              >
+                {" "}
+                E-Mail:
+              </Label>
               <Input
+                placeholder="..."
+                style={{ fontWeight: "bold" }}
                 autoCapitalize="none"
-                placeholder="number"
+                keyboardType="email-address"
+              />
+            </Item>
+            <Item
+              fixedLabel
+              rounded
+              style={{
+                backgroundColor: "transparent",
+                borderWidth: 5
+              }}
+            >
+              <Label
+                style={{
+                  fontWeight: "bold",
+                  color: "black"
+                }}
+              >
+                {" "}
+                Mob: +965
+              </Label>
+              <Input
+                placeholder="..."
+                style={{ fontWeight: "bold" }}
+                autoCapitalize="none"
                 keyboardType="numeric"
               />
             </Item>
-            <Item>
+            <Item style={{ borderColor: "transparent" }}>
               <Text> </Text>
             </Item>
           </View>
@@ -119,8 +166,10 @@ class LoginView extends React.Component {
             full
             rounded
             style={{
-              backgroundColor: "#047200",
-              opacity: 0.7
+              backgroundColor: "#119a50",
+              shadowRadius: 20,
+              shadowOpacity: 50,
+              shadowColor: "white"
             }}
           >
             <Text
@@ -135,16 +184,17 @@ class LoginView extends React.Component {
             </Text>
           </Button>
         )}
-        <Item>
+        <Item style={{ borderColor: "transparent" }}>
           <Text> </Text>
         </Item>
         <Button
-          success
+          danger
           full
           rounded
           style={{
-            backgroundColor: "#1bd114",
-            opacity: 0.7
+            shadowRadius: 20,
+            shadowOpacity: 50,
+            shadowColor: "white"
           }}
           onPress={() => this.setState({ signUp: 0 })}
         >
@@ -153,7 +203,7 @@ class LoginView extends React.Component {
               alignSelf: "center",
               fontSize: 20,
               fontWeight: "bold",
-              color: "black"
+              color: "white"
             }}
           >
             Sign Up

@@ -31,7 +31,7 @@ import {
 } from "react-navigation";
 import { withNavigation } from "react-navigation";
 
-import logo from "./Components/Logo/logo.png";
+import logo from "./Components/Logo/logoWithText.png";
 import PlantBackground from "./Components/LoginScreen/PlantBackground.png";
 import PlantBackgroundDark from "./Components/LoginScreen/PlantBackgroundDark.png";
 import longPlantHalf from "./Components/Logo/longPlantHalf.png";
@@ -93,28 +93,18 @@ class App extends React.Component {
               shadowOffset: { width: 20, height: 20 }
             }}
           >
+            <Text> </Text>
+            <Text> </Text>
+            <Text> </Text>
             <Animated.View
               style={{
                 opacity: this.fadeAnimation
               }}
             >
-              <Text
-                style={{
-                  fontSize: 35
-                }}
-              >
-                {" "}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 35,
-                  fontWeight: "bold",
-                  alignSelf: "center",
-                  color: "green"
-                }}
-              >
-                Grow It!
-              </Text>
+              <Animated.Image
+                style={[{ height: 400 }, { width: 400 }]}
+                source={logo}
+              />
               <Text
                 note
                 style={{
@@ -125,31 +115,21 @@ class App extends React.Component {
               >
                 Grow to Eat... It's That Easy!
               </Text>
-              <Animated.Image
-                style={[{ height: 400 }, { width: 400 }]}
-                source={logo}
-              />
-              <Button
-                bordered
-                success
-                full
-                style={{ alignSelf: "center", width: 250 }}
-                onPress={() => this.setState({ moveOn: true })}
-              >
-                <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                  Start Planting!
-                </Text>
-              </Button>
               <Text> </Text>
               <Button
                 bordered
-                success
                 full
-                style={{ alignSelf: "center", width: 250 }}
+                style={{
+                  alignSelf: "center",
+                  width: 250,
+                  borderColor: "#119a50"
+                }}
                 onPress={() => this.setState({ moveOn: true })}
               >
-                <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                  ابدأ بالزراعة
+                <Text
+                  style={{ fontWeight: "bold", fontSize: 20, color: "#119a50" }}
+                >
+                  Start Growing!
                 </Text>
               </Button>
             </Animated.View>
@@ -247,9 +227,9 @@ const AppDrawerNavigator = createDrawerNavigator(
     drawerPosition: "left",
     drawerBackgroundColor: "transparent",
     contentOptions: {
-      activeTintColor: "white",
-      activeBackgroundColor: "black",
-      inactiveBackgroundColor: "green",
+      activeTintColor: "#119a50",
+      activeBackgroundColor: "white",
+      inactiveBackgroundColor: "#119a50",
       inactiveTintColor: "white"
     }
   }
