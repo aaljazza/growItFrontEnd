@@ -31,35 +31,27 @@ class HeaderBar extends Component {
     return (
       <Header
         style={{
-          borderBottomColor: "green",
+          borderBottomColor: "#119a50",
           borderBottomWidth: 5,
-          alignItems: "center"
+          alignItems: "center",
+          backgroundColor: "white"
         }}
       >
         {Platform.OS !== "ios" && <StatusBar hidden={true} />}
-        <LinearGradient
-          colors={["#ffffff", "#ffffff"]}
-          style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            top: 0,
-            height: "200%"
-          }}
-        />
+
         <Left style={{ flexDirection: "row" }}>
           <Button
             transparent
             onPress={() => this.props.navigation.openDrawer()}
           >
-            <Icon style={{ color: "#007c2f" }} name="menu" />
+            <Icon style={{ color: "#119a50" }} name="menu" />
           </Button>
           <Text> </Text>
           <Button transparent onPress={() => this.props.navigation.goBack()}>
-            <Icon style={{ color: "#007c2f" }} name="ios-arrow-back" />
+            <Icon style={{ color: "#119a50" }} name="ios-arrow-back" />
           </Button>
         </Left>
-        <Title style={{ color: "#007c2f", alignSelf: "center" }}>
+        <Title style={{ color: "#119a50", alignSelf: "center" }}>
           {pageName}
         </Title>
         <Right>
@@ -69,7 +61,7 @@ class HeaderBar extends Component {
           >
             <Icon
               active={pageName === "Cart"}
-              style={{ color: "green" }}
+              style={{ color: "#119a50" }}
               name="cart"
             />
           </Button>

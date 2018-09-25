@@ -25,7 +25,7 @@ import ProfileView from "./ProfileView";
 
 //Others
 import ToggleSwitch from "toggle-switch-react-native";
-import PlantBackground from "./PlantBackground.png";
+import PlantBackground from "./PlantBackgroundBlur.png";
 import UserStore from "../Stores/UserStore";
 
 class LoginScreen extends React.Component {

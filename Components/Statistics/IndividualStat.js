@@ -164,19 +164,6 @@ export default class StatisticsScreen extends React.Component {
         <HeaderBar pageNameProp="Statistics" />
         <Content padder>
           <View />
-          <ToggleSwitch
-            isOn={trackedPlant.notify}
-            onColor="green"
-            offColor="red"
-            label="Get Notifications"
-            labelStyle={{ color: "black", fontWeight: "900" }}
-            size="medium"
-            onToggle={() =>
-              this.setState({
-                notificationToggle: !this.state.notificationToggle
-              })
-            }
-          />
           <Card>
             <CardItem bordered>
               <Image

@@ -33,7 +33,9 @@ class ProfileView extends React.Component {
       editMode: false,
       name: PlantStore.currentUser[0].name,
       email: PlantStore.currentUser[0].email,
-      phone: PlantStore.currentUser[0].number
+      phone: PlantStore.currentUser[0].number,
+      orderOpen: false,
+      trackOpen: false
     };
   }
 
@@ -58,22 +60,35 @@ class ProfileView extends React.Component {
       <View>
         <Card transparent>
           <CardItem header>
-            <Text style={{ fontSize: 24, fontWeight: "bold" }}>
-              {currentUser.name}
-            </Text>
-            <Button
-              transparent
-              disabled={this.setState.editMode}
-              style={{ justifyContent: "flex-end" }}
-              onPress={() => this.setState({ editMode: !this.state.editMode })}
-            >
-              <Icon name="edit" type="MaterialIcons" />
-            </Button>
-          </CardItem>
-          <CardItem bordered>
-            <Text note>
-              User Since: {moment(currentUser.created_date).format("DD-MMM-YY")}
-            </Text>
+            <View style={{ flexDirection: "column" }}>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={{ fontSize: 24, fontWeight: "bold" }}>
+                  {currentUser.name}
+                </Text>
+                <Button
+                  transparent
+                  disabled={this.setState.editMode}
+                  style={{ justifyContent: "flex-end" }}
+                  onPress={() =>
+                    this.setState({ editMode: !this.state.editMode })
+                  }
+                >
+                  {!this.state.editMode && (
+                    <Icon
+                      name="edit"
+                      type="MaterialIcons"
+                      style={{ color: "#119a50" }}
+                    />
+                  )}
+                </Button>
+              </View>
+              <Text note>{currentUser.email}</Text>
+              <Text note>{currentUser.phone}</Text>
+              <Text note>
+                User Since:{" "}
+                {moment(currentUser.created_date).format("DD-MMM-YY")}
+              </Text>
+            </View>
           </CardItem>
         </Card>
         {this.state.editMode ? (
@@ -127,7 +142,12 @@ class ProfileView extends React.Component {
                 onChangeText={inputVal => this.setState({ number: inputVal })}
               />
             </Item>
-            <Item>
+            <Item
+              style={{
+                backgroundColor: "transparent",
+                borderColor: "transparent"
+              }}
+            >
               <Text> </Text>
             </Item>
             <Button
@@ -135,8 +155,8 @@ class ProfileView extends React.Component {
               full
               rounded
               style={{
-                backgroundColor: "#047200",
-                opacity: 0.7
+                backgroundColor: "#119a50",
+                borderColor: "transparent"
               }}
               onPress={() => this.submitUserChanges()}
             >
@@ -153,13 +173,9 @@ class ProfileView extends React.Component {
             </Button>
             <Text> </Text>
             <Button
-              success
+              danger
               full
               rounded
-              style={{
-                backgroundColor: "red",
-                opacity: 0.7
-              }}
               onPress={() => this.cancelUserChanges()}
             >
               <Text
@@ -178,13 +194,65 @@ class ProfileView extends React.Component {
           <View>
             <Card>
               <CardItem bordered>
-                <Text style={{ fontSize: 14, fontWeight: "bold" }}>
+                <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                  Tracked Plants:
+                </Text>
+                <Right>
+                  <Button
+                    transparent
+                    color="green"
+                    onPress={() =>
+                      this.setState({ trackOpen: !this.state.trackOpen })
+                    }
+                  >
+                    {this.state.trackOpen ? (
+                      <Icon
+                        type="Entypo"
+                        name="chevron-up"
+                        style={{ fontSize: 25, color: "#119a50" }}
+                      />
+                    ) : (
+                      <Icon
+                        type="Entypo"
+                        name="chevron-down"
+                        style={{ fontSize: 25, color: "#119a50" }}
+                      />
+                    )}
+                  </Button>
+                </Right>
+              </CardItem>
+              {this.state.trackOpen && tracking}
+            </Card>
+            <Card>
+              <CardItem bordered>
+                <Text style={{ fontSize: 18, fontWeight: "bold" }}>
                   Previous Orders:
                 </Text>
+                <Right>
+                  <Button
+                    transparent
+                    onPress={() =>
+                      this.setState({ orderOpen: !this.state.orderOpen })
+                    }
+                  >
+                    {this.state.orderOpen ? (
+                      <Icon
+                        type="Entypo"
+                        name="chevron-up"
+                        style={{ fontSize: 25, color: "#119a50" }}
+                      />
+                    ) : (
+                      <Icon
+                        type="Entypo"
+                        name="chevron-down"
+                        style={{ fontSize: 25, color: "#119a50" }}
+                      />
+                    )}
+                  </Button>
+                </Right>
               </CardItem>
-              {orders}
+              {this.state.orderOpen && orders}
             </Card>
-            <Card>{tracking}</Card>
           </View>
         )}
       </View>
