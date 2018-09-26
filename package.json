@@ -32,6 +32,7 @@
     "react-native-chart-kit": "^1.1.6",
     "react-native-circular-progress": "^1.0.1",
     "react-native-elements": "^0.19.1",
+    "react-native-gesture-handler": "^1.0.7",
     "react-native-percentage-circle": "^1.0.7",
     "react-native-pure-chart": "^0.0.24",
     "react-native-sideswipe": "^1.4.2",

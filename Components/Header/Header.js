@@ -10,6 +10,7 @@ import {
 import {
   Button,
   Text,
+  Badge,
   Thumbnail,
   Header,
   Container,
@@ -23,6 +24,8 @@ import {
 } from "native-base";
 import { withNavigation } from "react-navigation";
 import { LinearGradient } from "expo";
+import CartStore from "../Stores/CartStore";
+import { observer } from "mobx-react";
 
 // create a component
 class HeaderBar extends Component {
@@ -44,12 +47,16 @@ class HeaderBar extends Component {
             transparent
             onPress={() => this.props.navigation.openDrawer()}
           >
-            <Icon style={{ color: "#119a50" }} name="menu" />
+            <Icon
+              style={{ color: "#119a50" }}
+              name="ios-leaf"
+              type="Ionicons"
+            />
           </Button>
           <Text> </Text>
-          <Button transparent onPress={() => this.props.navigation.goBack()}>
+          {/* <Button transparent onPress={() => this.props.navigation.goBack()}>
             <Icon style={{ color: "#119a50" }} name="ios-arrow-back" />
-          </Button>
+          </Button> */}
         </Left>
         <Title style={{ color: "#119a50", alignSelf: "center" }}>
           {pageName}
@@ -59,6 +66,13 @@ class HeaderBar extends Component {
             transparent
             onPress={() => this.props.navigation.navigate("Cart")}
           >
+            {CartStore.orders.length > 0 && (
+              <Badge bordered style={{ backgroundColor: "#119a50" }}>
+                <Text note style={{ fontWeight: "bold", color: "white" }}>
+                  {CartStore.quantityCart}
+                </Text>
+              </Badge>
+            )}
             <Icon
               active={pageName === "Cart"}
               style={{ color: "#119a50" }}
@@ -82,4 +96,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default withNavigation(HeaderBar);
+export default withNavigation(observer(HeaderBar));
