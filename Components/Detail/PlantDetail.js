@@ -20,6 +20,7 @@ import {
 } from "native-base";
 import { observer } from "mobx-react";
 import PlantStore from "../Stores/PlantStore";
+import CartStore from "../Stores/CartStore";
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
 
@@ -30,6 +31,12 @@ class PlantDetail extends React.Component {
       open: true,
       quant: 1
     };
+  }
+  componentDidUpdate() {
+    let plant = PlantStore.selectedPlant[0];
+    if (plant.quantity < this.state.quant) {
+      this.setState({ quant: plant.quantity });
+    }
   }
   render() {
     let plant = PlantStore.selectedPlant[0];
@@ -76,7 +83,7 @@ class PlantDetail extends React.Component {
               <Button
                 transparent
                 danger
-                disabled={this.state.quant === 1}
+                disabled={this.state.quant <= 1}
                 onPress={() => this.setState({ quant: this.state.quant - 1 })}
               >
                 <Icon
@@ -100,8 +107,22 @@ class PlantDetail extends React.Component {
                   activeTint="green"
                 />
               </Button>
-              <Button success bordered>
-                <Text>Add {this.state.quant} to Cart</Text>
+              <Button
+                success
+                bordered
+                disabled={
+                  plant.quantity <= 0 || plant.quantity < this.state.quant
+                }
+                onPress={() => {
+                  PlantStore.addProductToCart(plant.id, this.state.quant);
+                  CartStore.addToCart(plant.id, this.state.quant);
+                }}
+              >
+                {plant.quantity <= 0 ? (
+                  <Text>Limited Quantity</Text>
+                ) : (
+                  <Text>Add {this.state.quant} to Cart</Text>
+                )}
               </Button>
             </CardItem>
             <CardItem bordered>

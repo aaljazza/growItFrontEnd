@@ -5,6 +5,7 @@ import {
   ScrollView,
   Image,
   Dimensions,
+  I18nManager,
   Animated,
   ImageBackground,
   SafeAreaView
@@ -20,6 +21,7 @@ import {
   Body,
   Right,
   Icon,
+  Root,
   Title,
   Footer,
   FooterTab
@@ -48,6 +50,11 @@ import CartScreen from "./Components/Cart/CartScreen";
 import PlantDetail from "./Components/Detail/PlantDetail";
 import StatisticsMain from "./Components/Statistics/StatisticsMain";
 import DummySinglePlant from "./Components/Statistics/DummySinglePlant";
+import AddressConfirmation from "./Components/Cart/AddressConfirmation";
+import FinalOrderConfirmation from "./Components/Cart/FinalOrderConfirmation";
+import OrderComplete from "./Components/Cart/OrderComplete";
+
+I18nManager.forceRTL(false);
 
 class App extends React.Component {
   constructor() {
@@ -59,7 +66,12 @@ class App extends React.Component {
     };
   }
 
+  changeScreenOrientation() {
+    Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
+  }
+
   componentDidMount() {
+    this.changeScreenOrientation();
     Animated.timing(this.fadeAnimation, {
       toValue: 1,
       duration: 2000,
@@ -90,7 +102,7 @@ class App extends React.Component {
               alignSelf: "center",
               shadowOpacity: 0.3,
               shadowRadius: 20,
-              shadowOffset: { width: 20, height: 20 }
+              shadowColor: "#119a50"
             }}
           >
             <Text> </Text>
@@ -137,7 +149,11 @@ class App extends React.Component {
         </ImageBackground>
       );
     }
-    return <AppDrawerNavigator />;
+    return (
+      <Root>
+        <AppDrawerNavigator />
+      </Root>
+    );
   }
 }
 
@@ -219,7 +235,19 @@ const AppDrawerNavigator = createDrawerNavigator(
       screen: TermsAndConditionsScreen,
       navigationOptions: { drawerLabel: <Hidden /> }
     },
-    Cart: CartScreen
+    Cart: CartScreen,
+    AddressConfirmation: {
+      screen: AddressConfirmation,
+      navigationOptions: { drawerLabel: <Hidden /> }
+    },
+    OrderComplete: {
+      screen: OrderComplete,
+      navigationOptions: { drawerLabel: <Hidden /> }
+    },
+    FinalOrderConfirmation: {
+      screen: FinalOrderConfirmation,
+      navigationOptions: { drawerLabel: <Hidden /> }
+    }
   },
   {
     contentComponent: CustomDrawerComponent,

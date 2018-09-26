@@ -25,6 +25,7 @@ import OrderHistory from "./PreviousOrders/OrderHistory";
 import PlantStore from "../Stores/PlantStore";
 import PlantingHistory from "./PreviousOrders/PlantingHistory";
 import userdatabase from "../Stores/databases/userdatabase";
+import UserStore from "../Stores/UserStore";
 
 class ProfileView extends React.Component {
   constructor(props) {
@@ -253,6 +254,24 @@ class ProfileView extends React.Component {
               </CardItem>
               {this.state.orderOpen && orders}
             </Card>
+
+            <Button
+              danger
+              full
+              rounded
+              onPress={() => UserStore.userSignedIn()}
+              style={{
+                shadowOpacity: 90,
+                shadowRadius: 20,
+                shadowColor: "green"
+              }}
+            >
+              <Text
+                style={{ fontSize: 24, fontWeight: "bold", color: "white" }}
+              >
+                Sign Out
+              </Text>
+            </Button>
           </View>
         )}
       </View>

@@ -1,6 +1,7 @@
 import { decorate, observable, computed, action } from "mobx";
 import axios from "axios";
 import { StyleSheet, Text, View } from "react-native";
+import { Toast } from "native-base";
 
 //Import Stores
 import plantdabase from "./databases/plantdatabase";
@@ -43,7 +44,6 @@ class PlantsStore {
   changeShopSegment(inputVal) {
     this.shopSegment = +inputVal;
   }
-
   updateStats(trackID) {
     this.trackID = trackID;
   }
@@ -71,6 +71,28 @@ class PlantsStore {
   }
   changeSubSection(inputVal) {
     this.subSection = inputVal;
+  }
+  addProductToCart(productID, quantity) {
+    let indexVal = this.plants.findIndex(plant => plant.id === productID);
+    this.plants[indexVal].quantity -= quantity;
+    Toast.show({
+      text: `Added ${quantity} ${this.plants[indexVal].local_name} to Cart`,
+      buttonText: "x",
+      duration: 1500,
+      type: "success"
+    });
+  }
+  removeProductToCart(productID, quantity) {
+    let indexVal = this.plants.findIndex(plant => plant.id === productID);
+    this.plants[indexVal].quantity += quantity;
+  }
+
+  updatePlantQuantity() {
+    for (let i = 0; i < this.plants.length; i++) {
+      if (this.plants[i].quantity > 4) {
+        this.plants[i].quantity = 4;
+      }
+    }
   }
 
   get selectedPlant() {
@@ -139,5 +161,6 @@ decorate(PlantsStore, {
   filteredAccessory: computed
 });
 const PlantStore = new PlantsStore();
-PlantStore.fetchPlants();
 export default PlantStore;
+PlantStore.fetchPlants();
+PlantStore.updatePlantQuantity();

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, ListView, SafeAreaView, Image } from "react-native";
+import { View, ListView, SafeAreaView, Image, Alert } from "react-native";
 import {
   Container,
   Header,
@@ -14,7 +14,6 @@ import {
   SwipeRow,
   Card,
   CardItem,
-  Toast,
   Left,
   Body,
   Right
@@ -24,25 +23,32 @@ import PlantStore from "../Stores/PlantStore";
 import { withNavigation } from "react-navigation";
 import CartStore from "../Stores/CartStore";
 
-class PlantRow extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-      quant: 1,
-      showToast: false
-    };
+class CartRow extends React.Component {
+  removeItemAlert(plantName, productID, quantity) {
+    Alert.alert(`Remove ${plantName} from Cart`, "", [
+      {
+        text: "Yes, Remove",
+        onPress: () => {
+          CartStore.removeFromCart(productID, quantity);
+          PlantStore.removeProductToCart(productID, quantity);
+        }
+      },
+      {
+        text: "No, Leave it",
+        onPress: () => console.log("canceled")
+      }
+    ]);
   }
-
-  componentDidUpdate() {
-    let plant = this.props.plant;
-    if (plant.quantity < this.state.quant) {
-      this.setState({ quant: plant.quantity });
-    }
-  }
-
   render() {
-    let plant = this.props.plant;
+    let productID = this.props.productID;
+    let indexVal = PlantStore.plants.findIndex(
+      product => product.id === productID
+    );
+    let cartIndex = CartStore.orders.findIndex(
+      order => order.product === productID
+    );
+    let order = CartStore.orders[cartIndex];
+    let plant = PlantStore.plants[indexVal];
     return (
       <Card
         style={{
@@ -56,15 +62,12 @@ class PlantRow extends React.Component {
           <View style={{ flexDirection: "column" }}>
             <View style={{ flexDirection: "row" }}>
               <Left>
-                <Thumbnail source={{ uri: plant.img }} style={{ height: 90 }} />
+                <Thumbnail source={{ uri: plant.img }} style={{ height: 70 }} />
               </Left>
               <Right>
                 <Text style={{ fontWeight: "bold" }}>{plant.local_name}</Text>
-                <Text note style={{ fontSize: 10 }}>
-                  {plant.scientific_name}
-                </Text>
-                <Text note style={{ fontWeight: "bold" }}>
-                  {plant.price} K.D.
+                <Text note style={{ fontWeight: "bold", color: "black" }}>
+                  {plant.price * order.quantity} K.D.
                 </Text>
               </Right>
             </View>
@@ -78,8 +81,11 @@ class PlantRow extends React.Component {
               <Button
                 transparent
                 danger
-                disabled={this.state.quant <= 1}
-                onPress={() => this.setState({ quant: this.state.quant - 1 })}
+                disabled={order.quantity <= 1}
+                onPress={() => {
+                  PlantStore.removeProductToCart(productID, 1);
+                  CartStore.removeFromCart(productID, 1);
+                }}
               >
                 <Icon
                   name="ios-remove-circle-outline"
@@ -87,47 +93,30 @@ class PlantRow extends React.Component {
                   activeTint="green"
                 />
               </Button>
-              <Text style={{ fontWeight: "bold" }}> {this.state.quant} </Text>
+              <Text style={{ fontWeight: "bold" }}> {order.quantity} </Text>
               <Button
                 transparent
                 success
-                disabled={
-                  this.state.quant >= plant.quantity || this.state.quant >= 4
-                }
-                onPress={() => this.setState({ quant: this.state.quant + 1 })}
+                disabled={plant.quantity <= 0 || order.quantity >= 4}
+                onPress={() => {
+                  PlantStore.addProductToCart(productID, 1);
+                  CartStore.addToCart(productID, 1);
+                }}
               >
-                <Icon
-                  name="ios-add-circle-outline"
-                  type="Ionicons"
-                  activeTint="green"
-                />
+                <Icon name="ios-add-circle-outline" type="Ionicons" />
               </Button>
             </View>
             <Button
               full
-              success
+              danger
               bordered
               small
               rounded
-              disabled={
-                plant.quantity <= 0 || plant.quantity < this.state.quant
+              onPress={() =>
+                this.removeItemAlert(plant.local_name, plant.id, order.quantity)
               }
-              onPress={() => {
-                PlantStore.addProductToCart(plant.id, this.state.quant);
-                CartStore.addToCart(plant.id, this.state.quant);
-              }}
-              color={plant.quantity === 0 && "maroon"}
             >
-              <Text
-                note
-                style={
-                  plant.quantity === 0
-                    ? { color: "maroon" }
-                    : { color: "green" }
-                }
-              >
-                {plant.quantity === 0 ? "Limited Quantity" : "Add"}
-              </Text>
+              <Text>Remove</Text>
             </Button>
             <Text style={{ fontSize: 5 }}> </Text>
             <Button
@@ -137,7 +126,7 @@ class PlantRow extends React.Component {
               small
               rounded
               onPress={() => {
-                PlantStore.updateSelectedPlant(plant.id);
+                PlantStore.updateSelectedPlant(productID);
                 this.props.navigation.navigate("PlantDetail");
               }}
             >
@@ -150,4 +139,4 @@ class PlantRow extends React.Component {
   }
 }
 
-export default withNavigation(observer(PlantRow));
+export default withNavigation(observer(CartRow));

@@ -169,7 +169,7 @@ class LoginView extends React.Component {
               backgroundColor: "#119a50",
               shadowRadius: 20,
               shadowOpacity: 50,
-              shadowColor: "white"
+              shadowColor: "black"
             }}
           >
             <Text
@@ -188,13 +188,13 @@ class LoginView extends React.Component {
           <Text> </Text>
         </Item>
         <Button
-          danger
+          success
           full
           rounded
           style={{
             shadowRadius: 20,
             shadowOpacity: 50,
-            shadowColor: "white"
+            shadowColor: "black"
           }}
           onPress={() => this.setState({ signUp: 0 })}
         >

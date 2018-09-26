@@ -45,17 +45,19 @@ class LoginScreen extends React.Component {
         >
           <HeaderBar pageNameProp="Login Screen" />
           <Content padder>
-            <ToggleSwitch
-              isOn={UserStore.signedIn}
-              onColor="green"
-              offColor="red"
-              label={
-                UserStore.signedIn ? "Click to Sign Out" : "Click to Sign In"
-              }
-              labelStyle={{ color: "black", fontWeight: "900" }}
-              size="medium"
-              onToggle={() => UserStore.userSignedIn()}
-            />
+            {!UserStore.signedIn && (
+              <ToggleSwitch
+                isOn={UserStore.signedIn}
+                onColor="green"
+                offColor="red"
+                label={
+                  UserStore.signedIn ? "Click to Sign Out" : "Click to Sign In"
+                }
+                labelStyle={{ color: "black", fontWeight: "900" }}
+                size="medium"
+                onToggle={() => UserStore.userSignedIn()}
+              />
+            )}
             {UserStore.signedIn ? <ProfileView /> : <LoginView />}
           </Content>
 

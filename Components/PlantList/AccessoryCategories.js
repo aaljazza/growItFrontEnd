@@ -63,7 +63,6 @@ class AccessoryCategories extends React.Component {
                 PlantStore.changeShopSegment(2);
                 PlantStore.changeSubSection(accessory);
                 PlantStore.changeFilterAccessory(accessory);
-                console.log(PlantStore.shopSegment);
               }}
               style={{ flexDirection: "row", justifyContent: "flex-start" }}
             >
