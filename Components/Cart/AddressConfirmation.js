@@ -177,14 +177,14 @@ class AddressConfirmation extends React.Component {
                 <Icon name="information-circle" />
               </Button>
             </Item>
-            <Item floatingLabel>
+            <Item stackedLabel>
               <Label>City</Label>
               <Input
                 value={this.state.city}
                 onChangeText={inputVal => this.updateparameter(inputVal, 3)}
               />
             </Item>
-            <Item floatingLabel>
+            <Item stackedLabel>
               <Label>Block</Label>
               <Input
                 value={this.state.block}
@@ -192,21 +192,21 @@ class AddressConfirmation extends React.Component {
                 keyboardType="number-pad"
               />
             </Item>
-            <Item floatingLabel>
+            <Item stackedLabel>
               <Label>Street</Label>
               <Input
                 value={this.state.street}
                 onChangeText={inputVal => this.updateparameter(inputVal, 5)}
               />
             </Item>
-            <Item floatingLabel>
+            <Item stackedLabel>
               <Label>Avenue/Jaddah (Optional)</Label>
               <Input
                 value={this.state.avenue}
                 onChangeText={inputVal => this.updateparameter(inputVal, 6)}
               />
             </Item>
-            <Item floatingLabel>
+            <Item stackedLabel>
               <Label>House Number</Label>
               <Input
                 value={this.state.house}
@@ -214,7 +214,7 @@ class AddressConfirmation extends React.Component {
                 keyboardType="number-pad"
               />
             </Item>
-            <Item floatingLabel>
+            <Item stackedLabel>
               <Label>Apartment Number (Optional)</Label>
               <Input
                 value={this.state.apartmentNumber}
