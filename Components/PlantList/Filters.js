@@ -57,21 +57,25 @@ class FilterChoices extends Component {
               </Button>
             )}
             <Text style={{ fontWeight: "bold", fontSize: 15 }}>Care Level</Text>
-            <Right style={{ justifyContent: "flex-start" }}>
-              <Picker
-                mode="dropdown"
-                note
-                placeholder="Select"
-                iosIcon={<Icon name="ios-arrow-down-outline" />}
-                headerBackButtonText="Back"
-                selectedValue={PlantStore.careFilter}
-                onValueChange={inputVal => this.changeCareState(inputVal)}
-                textStyle={{ fontSize: 15, width: 100 }}
-              >
-                <Picker.Item label="Decoration (Easy)" value="Low" />
-                <Picker.Item label="Hobby (Difficult)" value="High" />
-              </Picker>
-            </Right>
+            <Picker
+              mode="dropdown"
+              note
+              placeholder="Select"
+              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              headerBackButtonText="Back"
+              selectedValue={PlantStore.careFilter}
+              onValueChange={inputVal => {
+                if (inputVal === "none") {
+                  inputVal = "";
+                }
+                this.changeCareState(inputVal);
+              }}
+              textStyle={{ fontSize: 15, width: 100 }}
+            >
+              <Picker.Item label="none" value="none" />
+              <Picker.Item label="Decoration (Easy)" value="Low" />
+              <Picker.Item label="Hobby (Difficult)" value="High" />
+            </Picker>
           </CardItem>
           <CardItem bordered>
             {PlantStore.lightingFilter !== "" && (
@@ -93,28 +97,32 @@ class FilterChoices extends Component {
               </Button>
             )}
             <Text style={{ fontWeight: "bold", fontSize: 15 }}> Lighting </Text>
-            <Right>
-              <Picker
-                mode="dropdown"
-                note
-                placeholder="Select"
-                iosIcon={<Icon name="ios-arrow-down-outline" />}
-                headerBackButtonText="Back"
-                selectedValue={PlantStore.lightingFilter}
-                onValueChange={inputVal => this.changeLightState(inputVal)}
-                textStyle={{ fontSize: 15, width: 100 }}
-              >
-                <Picker.Item
-                  label="Bright (5+ Hours of Sunlight)"
-                  value="Bright"
-                />
-                <Picker.Item
-                  label="Medium (2-5 Hours of Sunlight)"
-                  value="Medium"
-                />
-                <Picker.Item label="Dark (Shade)" value="Dark" />
-              </Picker>
-            </Right>
+            <Picker
+              mode="dropdown"
+              note
+              placeholder="Select"
+              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              headerBackButtonText="Back"
+              selectedValue={PlantStore.lightingFilter}
+              onValueChange={inputVal => {
+                if (inputVal === "none") {
+                  inputVal = "";
+                }
+                this.changeLightState(inputVal);
+              }}
+              textStyle={{ fontSize: 15, width: 100 }}
+            >
+              <Picker.Item label="none" value="none" />
+              <Picker.Item
+                label="Bright (5+ Hours of Sunlight)"
+                value="Bright"
+              />
+              <Picker.Item
+                label="Medium (2-5 Hours of Sunlight)"
+                value="Medium"
+              />
+              <Picker.Item label="Dark (Shade)" value="Dark" />
+            </Picker>
           </CardItem>
           <CardItem bordered>
             {PlantStore.sizeFilter !== "" && (
@@ -139,22 +147,26 @@ class FilterChoices extends Component {
               {" "}
               Plant Size{" "}
             </Text>
-            <Right>
-              <Picker
-                mode="dropdown"
-                note
-                placeholder="Select"
-                iosIcon={<Icon name="ios-arrow-down-outline" />}
-                headerBackButtonText="Back"
-                selectedValue={PlantStore.sizeFilter}
-                onValueChange={inputVal => this.changeSizeState(inputVal)}
-                textStyle={{ fontSize: 15, width: 100 }}
-              >
-                <Picker.Item label="Desktop (Small)" value="Desktop" />
-                <Picker.Item label="Ground (Medium)" value="Ground" />
-                <Picker.Item label="Tall (Large)" value="Tall" />
-              </Picker>
-            </Right>
+            <Picker
+              mode="dropdown"
+              note
+              placeholder="Select"
+              iosIcon={<Icon name="ios-arrow-down-outline" />}
+              headerBackButtonText="Back"
+              selectedValue={PlantStore.sizeFilter}
+              onValueChange={inputVal => {
+                if (inputVal === "none") {
+                  inputVal = "";
+                }
+                this.changeSizeState(inputVal);
+              }}
+              textStyle={{ fontSize: 15, width: 100 }}
+            >
+              <Picker.Item label="none" value="none" />
+              <Picker.Item label="Desktop (Small)" value="Desktop" />
+              <Picker.Item label="Ground (Medium)" value="Ground" />
+              <Picker.Item label="Tall (Large)" value="Tall" />
+            </Picker>
           </CardItem>
           <CardItem bordered>
             {PlantStore.petFilter !== "" && (
@@ -186,9 +198,15 @@ class FilterChoices extends Component {
               iosIcon={<Icon name="ios-arrow-down-outline" />}
               headerBackButtonText="Back"
               selectedValue={PlantStore.petFilter}
-              onValueChange={inputVal => this.changePetState(inputVal)}
+              onValueChange={inputVal => {
+                if (inputVal === "none") {
+                  inputVal = "";
+                }
+                this.changePetState(inputVal);
+              }}
               textStyle={{ fontSize: 15, width: 100 }}
             >
+              <Picker.Item label="none" value="none" />
               <Picker.Item label="Yes" value="Yes" />
               <Picker.Item label="No" value="No" />
             </Picker>
