@@ -21,6 +21,7 @@ import {
 } from "native-base";
 import PlantStore from "../Stores/PlantStore";
 import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 
 class AccessoryCategories extends React.Component {
   constructor(props) {
@@ -78,4 +79,4 @@ class AccessoryCategories extends React.Component {
   }
 }
 
-export default observer(AccessoryCategories);
+export default withNavigation(observer(AccessoryCategories));

@@ -10,6 +10,9 @@ import {
   Alert
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
+import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
+
 import {
   Container,
   Content,
@@ -26,6 +29,7 @@ import {
   Left,
   Right
 } from "native-base";
+import UserStore from "../Stores/UserStore";
 
 class LoginView extends React.Component {
   constructor(props) {
@@ -46,24 +50,15 @@ class LoginView extends React.Component {
         <Text> </Text>
         <Item
           fixedLabel
-          rounded
           style={{
             backgroundColor: "transparent",
             borderWidth: 5
           }}
         >
-          <Label style={{ fontWeight: "bold", color: "black" }}>
-            {" "}
-            Username:
-          </Label>
-          <Input
-            autoCapitalize="none"
-            placeholder="..."
-            style={{ fontWeight: "bold" }}
-          />
+          <Label style={{ color: "black" }}> Username:</Label>
+          <Input autoCapitalize="none" placeholder="..." />
         </Item>
         <Item
-          rounded
           fixedLabel
           style={{
             backgroundColor: "transparent",
@@ -73,15 +68,8 @@ class LoginView extends React.Component {
             shadowColor: "white"
           }}
         >
-          <Label style={{ fontWeight: "bold", color: "black" }}>
-            {" "}
-            Password:
-          </Label>
-          <Input
-            secureTextEntry={true}
-            placeholder="..."
-            style={{ fontWeight: "bold" }}
-          />
+          <Label style={{ color: "black" }}> Password:</Label>
+          <Input secureTextEntry={true} placeholder="..." />
         </Item>
         <Item style={{ borderColor: "transparent" }}>
           <Text> </Text>
@@ -90,7 +78,6 @@ class LoginView extends React.Component {
           <View>
             <Item
               fixedLabel
-              rounded
               style={{
                 backgroundColor: "transparent",
                 borderWidth: 5
@@ -98,18 +85,16 @@ class LoginView extends React.Component {
             >
               <Label
                 style={{
-                  fontWeight: "bold",
                   color: "black"
                 }}
               >
                 {" "}
                 Name:
               </Label>
-              <Input placeholder="..." style={{ fontWeight: "bold" }} />
+              <Input placeholder="..." />
             </Item>
             <Item
               fixedLabel
-              rounded
               style={{
                 backgroundColor: "transparent",
                 borderWidth: 5
@@ -117,7 +102,6 @@ class LoginView extends React.Component {
             >
               <Label
                 style={{
-                  fontWeight: "bold",
                   color: "black"
                 }}
               >
@@ -126,14 +110,12 @@ class LoginView extends React.Component {
               </Label>
               <Input
                 placeholder="..."
-                style={{ fontWeight: "bold" }}
                 autoCapitalize="none"
                 keyboardType="email-address"
               />
             </Item>
             <Item
               fixedLabel
-              rounded
               style={{
                 backgroundColor: "transparent",
                 borderWidth: 5
@@ -141,7 +123,6 @@ class LoginView extends React.Component {
             >
               <Label
                 style={{
-                  fontWeight: "bold",
                   color: "black"
                 }}
               >
@@ -150,7 +131,6 @@ class LoginView extends React.Component {
               </Label>
               <Input
                 placeholder="..."
-                style={{ fontWeight: "bold" }}
                 autoCapitalize="none"
                 keyboardType="numeric"
               />
@@ -167,9 +147,8 @@ class LoginView extends React.Component {
             rounded
             style={{
               backgroundColor: "#119a50",
-              shadowRadius: 20,
-              shadowOpacity: 50,
-              shadowColor: "black"
+              shadowOpacity: 0.5,
+              shadowOffset: { width: 0, height: 5 }
             }}
           >
             <Text
@@ -192,11 +171,18 @@ class LoginView extends React.Component {
           full
           rounded
           style={{
-            shadowRadius: 20,
-            shadowOpacity: 50,
-            shadowColor: "black"
+            shadowOpacity: 0.5,
+            shadowOffset: { width: 0, height: 5 },
+            backgroundColor: "#136c3c"
           }}
-          onPress={() => this.setState({ signUp: 0 })}
+          onPress={() => {
+            if (this.state.signUp === 1) {
+              this.setState({ signUp: 0 });
+            } else {
+              console.log("activate sign in");
+              UserStore.userSignedIn();
+            }
+          }}
         >
           <Text
             style={{
@@ -206,7 +192,7 @@ class LoginView extends React.Component {
               color: "white"
             }}
           >
-            Sign Up
+            {this.state.signUp === 1 ? "SIGN UP" : "REGISTER"}
           </Text>
         </Button>
       </View>
@@ -214,7 +200,7 @@ class LoginView extends React.Component {
   }
 }
 
-export default LoginView;
+export default withNavigation(observer(LoginView));
 
 const styles = StyleSheet.create({
   backgroundImage: {

@@ -5,7 +5,8 @@ import {
   StyleSheet,
   StatusBar,
   Platform,
-  SafeAreaView
+  SafeAreaView,
+  Image
 } from "react-native";
 import {
   Button,
@@ -31,10 +32,11 @@ import { observer } from "mobx-react";
 class HeaderBar extends Component {
   render() {
     let pageName = this.props.pageNameProp;
+    let pageNameCaps = pageName.toUpperCase();
     return (
       <Header
         style={{
-          borderBottomColor: "#119a50",
+          borderBottomColor: "#136c3c",
           borderBottomWidth: 5,
           alignItems: "center",
           backgroundColor: "white"
@@ -48,18 +50,24 @@ class HeaderBar extends Component {
             onPress={() => this.props.navigation.openDrawer()}
           >
             <Icon
-              style={{ color: "#119a50" }}
+              style={{ color: "#136c3c" }}
               name="ios-leaf"
               type="Ionicons"
             />
           </Button>
           <Text> </Text>
-          {/* <Button transparent onPress={() => this.props.navigation.goBack()}>
-            <Icon style={{ color: "#119a50" }} name="ios-arrow-back" />
-          </Button> */}
+          <Button transparent onPress={() => this.props.navigation.goBack()}>
+            <Icon style={{ color: "#136c3c" }} name="ios-arrow-back" />
+          </Button>
         </Left>
-        <Title style={{ color: "#119a50", alignSelf: "center" }}>
-          {pageName}
+        <Title
+          style={{
+            color: "#136c3c",
+            alignSelf: "center",
+            fontWeight: "bold"
+          }}
+        >
+          {pageNameCaps}
         </Title>
         <Right>
           <Button
@@ -67,7 +75,7 @@ class HeaderBar extends Component {
             onPress={() => this.props.navigation.navigate("Cart")}
           >
             {CartStore.orders.length > 0 && (
-              <Badge bordered style={{ backgroundColor: "#119a50" }}>
+              <Badge bordered style={{ backgroundColor: "#136c3c" }}>
                 <Text note style={{ fontWeight: "bold", color: "white" }}>
                   {CartStore.quantityCart}
                 </Text>
@@ -75,7 +83,7 @@ class HeaderBar extends Component {
             )}
             <Icon
               active={pageName === "Cart"}
-              style={{ color: "#119a50" }}
+              style={{ color: "#136c3c" }}
               name="cart"
             />
           </Button>

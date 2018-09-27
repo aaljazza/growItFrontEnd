@@ -17,6 +17,8 @@ import {
   Right
 } from "native-base";
 import moment from "moment";
+import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 
 //import Sheets
 import OrderHistory from "./PreviousOrders/OrderHistory";
@@ -59,8 +61,8 @@ class ProfileView extends React.Component {
 
     return (
       <View>
-        <Card transparent>
-          <CardItem header>
+        <Card>
+          <CardItem header bordered>
             <View style={{ flexDirection: "column" }}>
               <View style={{ flexDirection: "row" }}>
                 <Text style={{ fontSize: 24, fontWeight: "bold" }}>
@@ -94,13 +96,7 @@ class ProfileView extends React.Component {
         </Card>
         {this.state.editMode ? (
           <View>
-            <Item
-              fixedLabel
-              style={{
-                backgroundColor: "#e9ffe8",
-                opacity: 0.7
-              }}
-            >
+            <Item fixedLabel>
               <Text> </Text>
               <Label> Name:</Label>
               <Input
@@ -110,13 +106,7 @@ class ProfileView extends React.Component {
                 onChangeText={inputVal => this.setState({ name: inputVal })}
               />
             </Item>
-            <Item
-              fixedLabel
-              style={{
-                backgroundColor: "#e9ffe8",
-                opacity: 0.7
-              }}
-            >
+            <Item fixedLabel>
               <Text> </Text>
               <Label> Email:</Label>
               <Input
@@ -126,13 +116,7 @@ class ProfileView extends React.Component {
                 onChangeText={inputVal => this.setState({ email: inputVal })}
               />
             </Item>
-            <Item
-              fixedLabel
-              style={{
-                backgroundColor: "#e9ffe8",
-                opacity: 0.7
-              }}
-            >
+            <Item fixedLabel>
               <Text> </Text>
               <Label> Phone:</Label>
               <Input
@@ -201,6 +185,7 @@ class ProfileView extends React.Component {
                 <Right>
                   <Button
                     transparent
+                    disabled
                     color="green"
                     onPress={() =>
                       this.setState({ trackOpen: !this.state.trackOpen })
@@ -254,23 +239,19 @@ class ProfileView extends React.Component {
               </CardItem>
               {this.state.orderOpen && orders}
             </Card>
-
             <Button
               danger
               full
+              bordered
               rounded
-              onPress={() => UserStore.userSignedIn()}
               style={{
-                shadowOpacity: 90,
-                shadowRadius: 20,
-                shadowColor: "green"
+                backgroundColor: "white",
+                shadowOffset: 0.5,
+                shadowOffset: { width: 10, height: 10 }
               }}
+              onPress={() => UserStore.userSignedIn()}
             >
-              <Text
-                style={{ fontSize: 24, fontWeight: "bold", color: "white" }}
-              >
-                Sign Out
-              </Text>
+              <Text style={{ color: "red", fontWeight: "bold" }}>SIGN OUT</Text>
             </Button>
           </View>
         )}
@@ -279,4 +260,4 @@ class ProfileView extends React.Component {
   }
 }
 
-export default ProfileView;
+export default withNavigation(observer(ProfileView));

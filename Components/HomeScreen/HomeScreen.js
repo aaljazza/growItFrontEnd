@@ -15,6 +15,8 @@ import {
   Icon,
   Right
 } from "native-base";
+import { withNavigation } from "react-navigation";
+
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
 import PlantStore from "../Stores/PlantStore";
@@ -22,7 +24,7 @@ import PlantBackgroundDark from "../LoginScreen/PlantBackgroundDark.png";
 import accessBackPng from "./accessBackPng.png";
 import plantingBackPNG from "./plantingBackPNG.png";
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   render() {
     let plants;
     plants = PlantStore.plants;
@@ -35,7 +37,7 @@ export default class HomeScreen extends React.Component {
             alignSelf: "center",
             fontWeight: "bold",
             fontSize: 20,
-            color: "#119a50"
+            color: "#136c3c"
           }}
         >
           Choose an option Below:
@@ -148,3 +150,5 @@ export default class HomeScreen extends React.Component {
     );
   }
 }
+
+export default withNavigation(HomeScreen);

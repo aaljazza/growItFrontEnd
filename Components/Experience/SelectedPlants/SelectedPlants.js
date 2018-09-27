@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet, ImageBackground, Image } from "react-native";
 import { Container, Content, Text, Card, Button } from "native-base";
+import { withNavigation } from "react-navigation";
 
 //Picture
 import logo from "../../Logo/logo.png";
@@ -38,4 +39,4 @@ class SelectedPlant extends Component {
 }
 
 //make this component available to the app
-export default SelectedPlant;
+export default withNavigation(SelectedPlant);

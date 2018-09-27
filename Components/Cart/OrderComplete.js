@@ -21,6 +21,7 @@ import {
   FooterTab
 } from "native-base";
 import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
 import CartStore from "../Stores/CartStore";
@@ -119,4 +120,4 @@ class OrderComplete extends React.Component {
   }
 }
 
-export default OrderComplete;
+export default withNavigation(observer(OrderComplete));

@@ -20,8 +20,9 @@ import {
   Right
 } from "native-base";
 import { observer } from "mobx-react";
-import PlantStore from "../Stores/PlantStore";
 import { withNavigation } from "react-navigation";
+
+import PlantStore from "../Stores/PlantStore";
 import CartStore from "../Stores/CartStore";
 
 class PlantRow extends React.Component {
@@ -56,11 +57,31 @@ class PlantRow extends React.Component {
           <View style={{ flexDirection: "column" }}>
             <View style={{ flexDirection: "row" }}>
               <Left>
-                <Thumbnail source={{ uri: plant.img }} style={{ height: 90 }} />
+                <Button
+                  transparent
+                  style={{ height: 90 }}
+                  onPress={() => {
+                    PlantStore.updateSelectedPlant(plant.id);
+                    this.props.navigation.navigate("PlantDetail");
+                  }}
+                >
+                  <Thumbnail
+                    source={{ uri: plant.img }}
+                    style={{ height: 90 }}
+                  />
+                </Button>
               </Left>
               <Right>
-                <Text style={{ fontWeight: "bold" }}>{plant.local_name}</Text>
-                <Text note style={{ fontSize: 10 }}>
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: 12,
+                    alignSelf: "center"
+                  }}
+                >
+                  {plant.name}
+                </Text>
+                <Text note style={{ fontSize: 10, alignSelf: "center" }}>
                   {plant.scientific_name}
                 </Text>
                 <Text note style={{ fontWeight: "bold" }}>
@@ -100,6 +121,7 @@ class PlantRow extends React.Component {
                   name="ios-add-circle-outline"
                   type="Ionicons"
                   activeTint="green"
+                  style={{ color: "#119a50" }}
                 />
               </Button>
             </View>

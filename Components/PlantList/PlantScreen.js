@@ -11,10 +11,14 @@ import {
   Button,
   Badge,
   Form,
+  Left,
+  Body,
+  Right,
   Picker,
   Segment
 } from "native-base";
 import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 
 // Plant Database
 import PlantRow from "./PlantRows";
@@ -24,6 +28,7 @@ import PlantStore from "../Stores/PlantStore";
 import Filters from "./Filters";
 import AccessoriesRows from "./AccessoriesRows";
 import AccessoryCategories from "./AccessoryCategories";
+import CartStore from "../Stores/CartStore";
 
 class PlantScreen extends React.Component {
   constructor(props) {
@@ -60,7 +65,7 @@ class PlantScreen extends React.Component {
     }
     return (
       <Container>
-        <HeaderBar pageNameProp="Plants List" />
+        <HeaderBar pageNameProp="Shop" />
         <Segment
           style={{
             justifyContent: "center",
@@ -73,8 +78,9 @@ class PlantScreen extends React.Component {
             style={{
               width: 100,
               justifyContent: "center",
-              backgroundColor: PlantStore.shopSegment === 0 ? "green" : "white",
-              borderColor: "green"
+              backgroundColor:
+                PlantStore.shopSegment === 0 ? "#119a50" : "white",
+              borderColor: "#119a50"
             }}
             onPress={() => PlantStore.changeShopSegment(0)}
           >
@@ -82,7 +88,7 @@ class PlantScreen extends React.Component {
               style={{
                 fontWeight: "bold",
                 fontSize: 10,
-                color: PlantStore.shopSegment === 0 ? "white" : "green"
+                color: PlantStore.shopSegment === 0 ? "white" : "#119a50"
               }}
             >
               Packages
@@ -94,8 +100,9 @@ class PlantScreen extends React.Component {
             style={{
               width: 100,
               justifyContent: "center",
-              backgroundColor: PlantStore.shopSegment === 1 ? "green" : "white",
-              borderColor: "green"
+              backgroundColor:
+                PlantStore.shopSegment === 1 ? "#119a50" : "white",
+              borderColor: "#119a50"
             }}
             onPress={() => PlantStore.changeShopSegment(1)}
           >
@@ -103,7 +110,7 @@ class PlantScreen extends React.Component {
               style={{
                 fontWeight: "bold",
                 fontSize: 10,
-                color: PlantStore.shopSegment === 1 ? "white" : "green"
+                color: PlantStore.shopSegment === 1 ? "white" : "#119a50"
               }}
             >
               Full Shop
@@ -117,8 +124,8 @@ class PlantScreen extends React.Component {
                 width: 100,
                 justifyContent: "center",
                 backgroundColor:
-                  PlantStore.shopSegment === 2 ? "green" : "white",
-                borderColor: "green"
+                  PlantStore.shopSegment === 2 ? "#119a50" : "white",
+                borderColor: "#119a50"
               }}
               onPress={() => PlantStore.changeShopSegment(2)}
             >
@@ -126,7 +133,7 @@ class PlantScreen extends React.Component {
                 style={{
                   fontWeight: "bold",
                   fontSize: 10,
-                  color: PlantStore.shopSegment === 2 ? "white" : "green"
+                  color: PlantStore.shopSegment === 2 ? "white" : "#119a50"
                 }}
               >
                 {PlantStore.subSection}
@@ -138,9 +145,11 @@ class PlantScreen extends React.Component {
           <Button
             danger
             outline
+            rounded
             small
             full
             onPress={() => PlantStore.resetAllFilter()}
+            style={{ borderColor: "#136c3c" }}
           >
             <Text style={{ fontWeight: "bold" }}>Clear Filters</Text>
           </Button>
@@ -155,15 +164,19 @@ class PlantScreen extends React.Component {
                 value={PlantStore.plantSearch}
                 onChangeText={inputVal => PlantStore.plantSearchInput(inputVal)}
               />
+              <Text> </Text>
               <Button
                 transparent
-                success
                 rounded
                 onPress={() => this.setState({ filter: !this.state.filter })}
               >
-                <Icon name="filter" type="FontAwesome" active={false} />
+                <Icon
+                  name="filter"
+                  type="FontAwesome"
+                  active={false}
+                  style={{ color: "#136c3c" }}
+                />
               </Button>
-              <Text> </Text>
             </Item>
           </View>
         )}
@@ -179,8 +192,24 @@ class PlantScreen extends React.Component {
           >
             {PlantStore.shopSegment === 0 && plantItems}
             {PlantStore.shopSegment === 1 && AccessoryItems}
+            {PlantStore.shopSegment === 2 && filtAccessory}
           </View>
-          {PlantStore.shopSegment === 2 && filtAccessory}
+          <Text> </Text>
+          {CartStore.orders.length > 0 && (
+            <Button
+              success
+              full
+              rounded
+              style={{
+                backgroundColor: "#119a50",
+                shadowOpacity: 0.5,
+                shadowOffset: { width: 0, height: 5 }
+              }}
+              onPress={() => this.props.navigation.navigate("Cart")}
+            >
+              <Text style={{ fontWeight: "bold" }}>VIEW CART</Text>
+            </Button>
+          )}
         </Content>
         <FooterBar pageNameProp="Plants" />
       </Container>
@@ -188,4 +217,4 @@ class PlantScreen extends React.Component {
   }
 }
 
-export default observer(PlantScreen);
+export default withNavigation(observer(PlantScreen));

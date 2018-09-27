@@ -16,6 +16,7 @@ import {
   Right
 } from "native-base";
 import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
@@ -41,7 +42,7 @@ class CartScreen extends React.Component {
   };
 
   _checkOutAlert = () => {
-    Alert.alert(`Check Out`, "Would you like to Sign In/Up?", [
+    Alert.alert(`Checkout`, "Would you like to Sign In/Up?", [
       {
         text: "Sign In",
         onPress: () => {
@@ -67,14 +68,23 @@ class CartScreen extends React.Component {
       let indexVal = PlantStore.plants.findIndex(
         plant => plant.id === CartStore.orders[i].product
       );
-      totalPrice +=
-        CartStore.orders[i].quantity * PlantStore.plants[indexVal].price;
+      if (indexVal >= 0) {
+        totalPrice +=
+          CartStore.orders[i].quantity * PlantStore.plants[indexVal].price;
+      } else {
+        let indexVal = PlantStore.accessories.findIndex(
+          item => item.id === CartStore.orders[i].product
+        );
+        totalPrice +=
+          CartStore.orders[i].quantity * PlantStore.accessories[indexVal].price;
+      }
     }
     return (
       <Container>
         <HeaderBar pageNameProp="Cart" />
         {totalPrice > 0 && (
           <Button
+            disabled
             full
             style={{
               backgroundColor: "#119a50",
@@ -82,7 +92,7 @@ class CartScreen extends React.Component {
               shadowOffset: { width: 0, height: 10 }
             }}
           >
-            <Text style={{ fontWeight: "bold", fontSize: 24 }}>
+            <Text style={{ fontWeight: "bold" }}>
               Total = {totalPrice} K.D.
             </Text>
           </Button>
@@ -98,72 +108,69 @@ class CartScreen extends React.Component {
                 </CardItem>
               </Card>
             )}
-            <View
-              style={{
-                alignItems: "center",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                justifyContent: "space-evenly"
-              }}
-            >
-              {ordersView}
-            </View>
+            <View style={{}}>{ordersView}</View>
           </View>
           <Text> </Text>
-          {CartStore.orders.length > 0 && (
-            <Button
-              full
-              style={{
-                marginTop: 10,
-                shadowOpacity: 0.5,
-                backgroundColor: "#119a50",
-                shadowOffset: { width: 0, height: 5 }
-              }}
-              onPress={() => {
-                if (UserStore.signedIn) {
-                  this.props.navigation.navigate("AddressConfirmation");
-                } else {
-                  this._checkOutAlert();
-                }
-              }}
-            >
-              <Text style={{ fontWeight: "bold", fontSize: 30 }}>
-                Check Out
-              </Text>
-            </Button>
-          )}
-          <Text> </Text>
-          {CartStore.orders.length > 0 && (
-            <Button
-              danger
-              bordered
-              full
-              onPress={() => {
-                this._emptyCartAlert();
-              }}
-            >
-              <Text style={{ fontWeight: "bold" }}>
-                Drop Cart and Start Over
-              </Text>
-            </Button>
-          )}
-          <Button
-            full
-            style={{
-              marginTop: 10,
-              backgroundColor: "#119a50"
-            }}
-            onPress={() => {
-              PlantStore.changeShopSegment(0);
-              this.props.navigation.navigate("Shop");
-            }}
-          >
-            {CartStore.orders.length === 0 ? (
-              <Text style={{ fontWeight: "bold" }}>Shop for Plants</Text>
-            ) : (
-              <Text style={{ fontWeight: "bold" }}>Continue Shopping</Text>
+          <View padder>
+            {CartStore.orders.length > 0 && (
+              <Button
+                full
+                rounded
+                style={{
+                  marginTop: 10,
+                  shadowOpacity: 0.5,
+                  backgroundColor: "#119a50",
+                  shadowOffset: { width: 0, height: 5 }
+                }}
+                onPress={() => {
+                  if (UserStore.signedIn) {
+                    this.props.navigation.navigate("AddressConfirmation");
+                  } else {
+                    this._checkOutAlert();
+                  }
+                }}
+              >
+                <Text style={{ fontWeight: "bold" }}>PROCEED TO CHECKOUT</Text>
+              </Button>
             )}
-          </Button>
+            <Text> </Text>
+            {CartStore.orders.length > 0 && (
+              <Button
+                danger
+                full
+                bordered
+                rounded
+                style={{
+                  backgroundColor: "white",
+                  shadowOffset: 0.5,
+                  shadowOffset: { width: 10, height: 10 }
+                }}
+                onPress={() => {
+                  this._emptyCartAlert();
+                }}
+              >
+                <Text style={{ fontWeight: "bold" }}>DROP CART</Text>
+              </Button>
+            )}
+            {CartStore.orders.length === 0 && (
+              <Button
+                full
+                rounded
+                style={{
+                  marginTop: 10,
+                  shadowOpacity: 0.5,
+                  backgroundColor: "#119a50",
+                  shadowOffset: { width: 0, height: 5 }
+                }}
+                onPress={() => {
+                  PlantStore.changeShopSegment(0);
+                  this.props.navigation.navigate("Shop");
+                }}
+              >
+                <Text style={{ fontWeight: "bold" }}>SHOP FOR PLANTS</Text>
+              </Button>
+            )}
+          </View>
         </Content>
         <FooterBar pageNameProp="Cart" />
       </Container>
@@ -171,4 +178,4 @@ class CartScreen extends React.Component {
   }
 }
 
-export default observer(CartScreen);
+export default withNavigation(observer(CartScreen));

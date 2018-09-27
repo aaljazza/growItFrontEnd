@@ -21,6 +21,7 @@ import {
   FooterTab
 } from "native-base";
 import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
 import CartStore from "../Stores/CartStore";
@@ -32,15 +33,23 @@ import UserStore from "../Stores/UserStore";
 class OrderRows extends React.Component {
   render() {
     let order = this.props.order;
-    let plant =
-      PlantStore.plants[
-        PlantStore.plants.findIndex(plant => plant.id === order.product)
-      ];
+    let plant;
+    let indexVal = PlantStore.plants.findIndex(
+      plant => plant.id === order.product
+    );
+    if (indexVal >= 0) {
+      plant = PlantStore.plants[indexVal];
+    } else {
+      indexVal = PlantStore.accessories.findIndex(
+        plant => plant.id === order.product
+      );
+      plant = PlantStore.accessories[indexVal];
+    }
     return (
       <View style={{ flexDirection: "column" }}>
         <Text style={{ alignSelf: "flex-start" }}>
           {" "}
-          {order.quantity} X {plant.local_name}
+          {order.quantity} X {plant.name}
         </Text>
         <Text style={{ alignSelf: "flex-end" }}>
           {" "}
@@ -51,4 +60,4 @@ class OrderRows extends React.Component {
   }
 }
 
-export default OrderRows;
+export default withNavigation(observer(OrderRows));

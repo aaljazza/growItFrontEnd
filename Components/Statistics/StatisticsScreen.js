@@ -22,6 +22,8 @@ import {
   Right
 } from "native-base";
 import { LinearGradient } from "expo";
+import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
@@ -67,7 +69,7 @@ const customStyles = {
   currentStepLabelColor: "#41ba00"
 };
 
-export default class StatisticsScreen extends React.Component {
+class StatisticsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -185,9 +187,7 @@ export default class StatisticsScreen extends React.Component {
                 />
               </CardItem>
               <CardItem>
-                <Text style={{ fontWeight: "bold" }}>
-                  {storePlant.local_name}
-                </Text>
+                <Text style={{ fontWeight: "bold" }}>{storePlant.name}</Text>
               </CardItem>
               <CardItem bordered>
                 <Text note style={{ fontWeight: "bold" }}>
@@ -307,3 +307,5 @@ export default class StatisticsScreen extends React.Component {
 }
 
 const data = [0.4, 0.6, 0.8];
+
+export default withNavigation(observer(StatisticsScreen));

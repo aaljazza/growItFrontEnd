@@ -1,6 +1,8 @@
 import { decorate, observable, computed, action } from "mobx";
 import axios from "axios";
 import { StyleSheet, Text, View } from "react-native";
+import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 
 //Import Stores
 import plantdabase from "./databases/plantdatabase";
@@ -35,5 +37,5 @@ decorate(UsersStore, {
   user: observable
 });
 const UserStore = new UsersStore();
-export default UserStore;
+export default withNavigation(observer(UserStore));
 UserStore.fetchSignedInUser();

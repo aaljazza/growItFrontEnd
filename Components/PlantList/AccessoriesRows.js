@@ -19,91 +19,138 @@ import {
   Badge,
   Right
 } from "native-base";
+import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
+
+import PlantStore from "../Stores/PlantStore";
+import CartStore from "../Stores/CartStore";
 
 class AccessoriesRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      quant: 1
+      quant: 1,
+      showToast: false
     };
   }
+
+  componentDidUpdate() {
+    let accessory = this.props.accessory;
+    if (accessory.quantity < this.state.quant) {
+      this.setState({ quant: accessory.quantity });
+    }
+  }
+
   render() {
     let accessory = this.props.accessory;
     return (
-      <Card>
-        <CardItem bordered>
-          <Left>
-            <Thumbnail source={{ uri: accessory.img }} />
-          </Left>
-          <Body>
-            <Text>{accessory.name}</Text>
-            <Text note style={{ fontWeight: "bold" }}>
-              {accessory.price} K.D.
-            </Text>
-          </Body>
-          <Right style={{ flexDirection: "row" }}>
-            <Button
-              transparent
-              onPress={() => this.setState({ open: !this.state.open })}
+      <Card
+        style={{
+          width: 150,
+          borderRadius: 20,
+          shadowOpacity: 50,
+          shadowRadius: 3
+        }}
+      >
+        <CardItem style={{ borderRadius: 20 }}>
+          <View style={{ flexDirection: "column" }}>
+            <View style={{ flexDirection: "row" }}>
+              <Left>
+                <Thumbnail
+                  square
+                  source={{ uri: accessory.img }}
+                  style={{ height: 90 }}
+                />
+              </Left>
+              <Right>
+                <Text style={{ fontSize: 12 }}>{accessory.name}</Text>
+                <Text note style={{ fontWeight: "bold" }}>
+                  {accessory.price} K.D.
+                </Text>
+              </Right>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
             >
-              <Text>{this.state.open ? "Less" : "More"}</Text>
-            </Button>
-          </Right>
-        </CardItem>
-        {this.state.open === true && (
-          <View>
-            <CardItem bordered>
-              <Image
-                source={{ uri: accessory.img }}
-                style={{ width: "100%", height: 200 }}
-              />
-            </CardItem>
-            <CardItem>
-              <Text style={{ fontWeight: "bold" }}>Description:</Text>
-            </CardItem>
-            <CardItem bordered>
-              <Text note>{accessory.description}</Text>
-            </CardItem>
-            <CardItem bordered style={{ flexDirection: "row" }}>
               <Button
                 transparent
+                disabled={this.state.quant <= 1}
                 danger
-                disabled={this.state.quant === 1}
                 onPress={() => this.setState({ quant: this.state.quant - 1 })}
               >
                 <Icon
                   name="ios-remove-circle-outline"
                   type="Ionicons"
-                  activeTint="#119a50"
+                  activeTint="green"
                 />
               </Button>
               <Text style={{ fontWeight: "bold" }}> {this.state.quant} </Text>
               <Button
                 transparent
                 success
-                color={"#119a50"}
-                disabled={this.state.quant >= accessory.quantity}
+                disabled={
+                  this.state.quant >= 4 ||
+                  this.state.quant >= accessory.quantity
+                }
                 onPress={() => this.setState({ quant: this.state.quant + 1 })}
               >
                 <Icon
                   name="ios-add-circle-outline"
                   type="Ionicons"
-                  activeTint="#119a50"
+                  activeTint="green"
                 />
               </Button>
-              <Button success bordered color={"#119a50"}>
-                <Text>
-                  Add {this.state.quant}{" "}
-                  {this.state.quant > 1 ? "items" : "item"} to Cart
-                </Text>
-              </Button>
-            </CardItem>
+            </View>
+            <Button
+              full
+              success
+              bordered
+              small
+              rounded
+              disabled={
+                accessory.quantity <= 0 || accessory.quantity < this.state.quant
+              }
+              onPress={() => {
+                PlantStore.addProductToCart(accessory.id, this.state.quant);
+                CartStore.addToCart(accessory.id, this.state.quant);
+              }}
+              color={accessory.quantity === 0 && "maroon"}
+            >
+              <Text
+                note
+                style={
+                  accessory.quantity === 0
+                    ? { color: "maroon" }
+                    : { color: "green" }
+                }
+              >
+                {accessory.quantity === 0 ? "Limited Quantity" : "Add"}
+              </Text>
+            </Button>
+            <Text style={{ fontSize: 5 }}> </Text>
+            <Button
+              full
+              dark
+              bordered
+              small
+              rounded
+              onPress={() => {
+                PlantStore.updateSelectedItem(accessory.id);
+                this.props.navigation.navigate("ItemDetail");
+              }}
+            >
+              <Text>More Info</Text>
+            </Button>
           </View>
-        )}
+        </CardItem>
       </Card>
     );
   }
 }
 
-export default AccessoriesRow;
+export default withNavigation(observer(AccessoriesRow));

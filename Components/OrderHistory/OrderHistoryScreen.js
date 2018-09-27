@@ -14,10 +14,13 @@ import {
   Icon,
   Right
 } from "native-base";
+import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
+
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
 
-export default class OrderHistoryScreen extends React.Component {
+class OrderHistoryScreen extends React.Component {
   render() {
     return (
       <Container>
@@ -54,3 +57,5 @@ export default class OrderHistoryScreen extends React.Component {
     );
   }
 }
+
+export default withNavigation(observer(OrderHistoryScreen));
