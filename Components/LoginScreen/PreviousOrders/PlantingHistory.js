@@ -60,7 +60,7 @@ class PlantingHistory extends Component {
         <Text> </Text>
         <Body>
           <Text style={{ fontSize: 20 }}>
-            {PlantStore.plants[indexVal].local_name}
+            {PlantStore.plants[indexVal].name}
           </Text>
           <Text note>{daysOld} days old</Text>
           <Text style={{ fontSize: 14, fontWeight: "bold" }}>

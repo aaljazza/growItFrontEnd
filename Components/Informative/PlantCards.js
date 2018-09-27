@@ -19,6 +19,7 @@ import {
   Right
 } from "native-base";
 import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 
 class PlantCards extends React.Component {
   constructor(props) {
@@ -42,7 +43,7 @@ class PlantCards extends React.Component {
       >
         <CardItem>
           <Body>
-            <Text>{plant.local_name}</Text>
+            <Text>{plant.name}</Text>
             <Text note>{plant.scientific_name}</Text>
           </Body>
         </CardItem>
@@ -147,4 +148,4 @@ class PlantCards extends React.Component {
   }
 }
 
-export default observer(PlantCards);
+export default withNavigation(observer(PlantCards));

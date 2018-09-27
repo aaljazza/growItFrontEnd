@@ -22,6 +22,8 @@ import {
   Right
 } from "native-base";
 import { LinearGradient } from "expo";
+import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
@@ -66,7 +68,7 @@ const customStyles = {
   currentStepLabelColor: "#41ba00"
 };
 
-export default class DummySinglePlant extends React.Component {
+class DummySinglePlant extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -240,3 +242,5 @@ export default class DummySinglePlant extends React.Component {
     );
   }
 }
+
+export default withNavigation(observer(DummySinglePlant));

@@ -3,7 +3,7 @@ var accessoriesdatabase = [
     id: 1,
     name: "Soil Mix",
     price: 5,
-    quantity: 20,
+    quantity: 2,
     type: "Soil",
     description:
       "This product ensures your plant is in the highest quality soil avialable. It has nutrients to ensure your plant is healthy even if you under or overwater it.",

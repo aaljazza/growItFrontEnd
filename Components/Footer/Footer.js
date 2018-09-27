@@ -26,7 +26,7 @@ class FooterBar extends Component {
   render() {
     let pageName = this.props.pageNameProp;
     return (
-      <Footer style={{ borderColor: "#119a50", borderTopWidth: 5 }}>
+      <Footer style={{ borderColor: "#136c3c", borderTopWidth: 5 }}>
         <FooterTab>
           <LinearGradient
             colors={["#ffffff", "#ffffff"]}
@@ -45,8 +45,8 @@ class FooterBar extends Component {
             <Icon
               style={
                 pageName === "Plants"
-                  ? { color: "#119a50", fontSize: 30 }
-                  : { color: "#119a50", fontSize: 20 }
+                  ? { color: "#136c3c", fontSize: 30 }
+                  : { color: "#136c3c", fontSize: 20 }
               }
               type="Entypo"
               name="leaf"
@@ -54,8 +54,8 @@ class FooterBar extends Component {
             <Text
               style={
                 pageName === "Plants"
-                  ? { color: "#119a50", fontSize: 15 }
-                  : { color: "#119a50", fontSize: 10 }
+                  ? { color: "#136c3c", fontSize: 15 }
+                  : { color: "#136c3c", fontSize: 10 }
               }
             >
               Shop
@@ -68,16 +68,16 @@ class FooterBar extends Component {
             <Icon
               style={
                 pageName === "Statistics"
-                  ? { color: "#119a50", fontSize: 30 }
-                  : { color: "#119a50", fontSize: 20 }
+                  ? { color: "#136c3c", fontSize: 30 }
+                  : { color: "#136c3c", fontSize: 20 }
               }
               name="ios-stats"
             />
             <Text
               style={
                 pageName === "Statistics"
-                  ? { color: "#119a50", fontSize: 15 }
-                  : { color: "#119a50", fontSize: 10 }
+                  ? { color: "#136c3c", fontSize: 15 }
+                  : { color: "#136c3c", fontSize: 10 }
               }
             >
               Stats
@@ -90,16 +90,16 @@ class FooterBar extends Component {
             <Icon
               style={
                 pageName === "Login"
-                  ? { color: "#119a50", fontSize: 30 }
-                  : { color: "#119a50", fontSize: 20 }
+                  ? { color: "#136c3c", fontSize: 30 }
+                  : { color: "#136c3c", fontSize: 20 }
               }
               name="ios-person"
             />
             <Text
               style={
                 pageName === "Login"
-                  ? { color: "#119a50", fontSize: 15 }
-                  : { color: "#119a50", fontSize: 10 }
+                  ? { color: "#136c3c", fontSize: 15 }
+                  : { color: "#136c3c", fontSize: 10 }
               }
             >
               Profile

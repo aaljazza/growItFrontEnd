@@ -14,6 +14,7 @@ import {
   Right
 } from "native-base";
 import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 
 //Bars
 import HeaderBar from "../Header/Header";
@@ -39,33 +40,28 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <Container>
-        <ImageBackground
-          source={PlantBackground}
-          style={{ width: "100%", height: "100%" }}
-        >
-          <HeaderBar pageNameProp="Login Screen" />
-          <Content padder>
-            {!UserStore.signedIn && (
-              <ToggleSwitch
-                isOn={UserStore.signedIn}
-                onColor="green"
-                offColor="red"
-                label={
-                  UserStore.signedIn ? "Click to Sign Out" : "Click to Sign In"
-                }
-                labelStyle={{ color: "black", fontWeight: "900" }}
-                size="medium"
-                onToggle={() => UserStore.userSignedIn()}
-              />
-            )}
-            {UserStore.signedIn ? <ProfileView /> : <LoginView />}
-          </Content>
+        <HeaderBar pageNameProp="Login Screen" />
+        <Content padder>
+          {!UserStore.signedIn && (
+            <ToggleSwitch
+              isOn={UserStore.signedIn}
+              onColor="green"
+              offColor="red"
+              label={
+                UserStore.signedIn ? "Click to Sign Out" : "Click to Sign In"
+              }
+              labelStyle={{ color: "black", fontWeight: "900" }}
+              size="medium"
+              onToggle={() => UserStore.userSignedIn()}
+            />
+          )}
+          {UserStore.signedIn ? <ProfileView /> : <LoginView />}
+        </Content>
 
-          <FooterBar pageNameProp="Login" />
-        </ImageBackground>
+        <FooterBar pageNameProp="Login" />
       </Container>
     );
   }
 }
 
-export default observer(LoginScreen);
+export default withNavigation(observer(LoginScreen));

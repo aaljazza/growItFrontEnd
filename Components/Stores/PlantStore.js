@@ -2,6 +2,8 @@ import { decorate, observable, computed, action } from "mobx";
 import axios from "axios";
 import { StyleSheet, Text, View } from "react-native";
 import { Toast } from "native-base";
+import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 
 //Import Stores
 import plantdabase from "./databases/plantdatabase";
@@ -10,9 +12,9 @@ import trackinghistory from "./databases/TrackingHistory";
 import accessoriesdatabase from "./databases/accessoriesdatabase";
 
 const instance = axios.create({
-  baseURL: "http://104.248.43.116"
+  baseURL: "http://178.128.205.28/"
 });
-let serverReady = "No";
+let serverReady = "Yes";
 
 class PlantsStore {
   constructor() {
@@ -24,6 +26,7 @@ class PlantsStore {
     this.selectedTrackPlant = 0;
     this.trackID = null;
     this.singlePlantProduct = null;
+    this.singleItemProduct = null;
     this.careFilter = "";
     this.lightingFilter = "";
     this.sizeFilter = "";
@@ -50,6 +53,9 @@ class PlantsStore {
   updateSelectedPlant(plantID) {
     this.singlePlantProduct = plantID;
   }
+  updateSelectedItem(itemID) {
+    this.singleItemProduct = itemID;
+  }
   changeFilterCare(inputVal) {
     this.careFilter = inputVal;
   }
@@ -74,17 +80,62 @@ class PlantsStore {
   }
   addProductToCart(productID, quantity) {
     let indexVal = this.plants.findIndex(plant => plant.id === productID);
-    this.plants[indexVal].quantity -= quantity;
-    Toast.show({
-      text: `Added ${quantity} ${this.plants[indexVal].local_name} to Cart`,
-      buttonText: "x",
-      duration: 1500,
-      type: "success"
-    });
+    if (indexVal >= 0) {
+      this.plants[indexVal].quantity -= quantity;
+      Toast.show({
+        text: `Added ${quantity} ${this.plants[indexVal].name} to Cart`,
+        buttonText: "x",
+        duration: 1500,
+        type: "success",
+        style: {
+          backgroundColor: "#119a50"
+        }
+      });
+    } else {
+      indexVal = this.accessories.findIndex(item => item.id === productID);
+      this.accessories[indexVal].quantity -= quantity;
+      Toast.show({
+        text: `Added ${quantity} ${this.accessories[indexVal].name} to Cart`,
+        buttonText: "x",
+        duration: 1500,
+        type: "success",
+        style: {
+          backgroundColor: "#119a50"
+        }
+      });
+    }
   }
   removeProductToCart(productID, quantity) {
     let indexVal = this.plants.findIndex(plant => plant.id === productID);
-    this.plants[indexVal].quantity += quantity;
+    if (indexVal >= 0) {
+      this.plants[indexVal].quantity += quantity;
+    } else {
+      indexVal = this.accessories.findIndex(item => item.id === productID);
+      this.accessories[indexVal].quantity += quantity;
+    }
+  }
+
+  updateAccessoryQuantity() {
+    for (let j = 0; j < this.accessories.length; j++) {
+      if (this.accessories[j].quantity > 4) {
+        this.accessories[j].quantity = 4;
+      }
+      if (this.accessories[j].category === 2) {
+        this.accessories[j].category = "Soil";
+      }
+      if (this.accessories[j].category === 3) {
+        this.accessories[j].category = "Pots";
+      }
+      if (this.accessories[j].category === 5) {
+        this.accessories[j].category = "Sprays";
+      }
+      if (this.accessories[j].category === 6) {
+        this.accessories[j].category = "Tools";
+      }
+      if (this.accessories[j].category === 7) {
+        this.accessories[j].category = "Lights";
+      }
+    }
   }
 
   updatePlantQuantity() {
@@ -96,21 +147,41 @@ class PlantsStore {
   }
 
   get selectedPlant() {
-    return this.plants.filter(plant => +plant.id === this.singlePlantProduct);
+    return this.plants.filter(plant => +plant.id === +this.singlePlantProduct);
+  }
+
+  get selectedItem() {
+    return this.accessories.filter(
+      item => +item.id === +this.singleItemProduct
+    );
   }
 
   get filteredAccessory() {
     return this.accessories.filter(
-      accessory => accessory.type === this.accessoryFilter
+      accessory => accessory.category === this.accessoryFilter
     );
   }
 
   get filteredMultiplePlants() {
-    if (this.plantSearch === "") {
-      return this.plants;
+    let plants = this.plants;
+    if (this.careFilter !== "") {
+      plants = plants.filter(plant => plant.care_level === this.careFilter);
     }
-    return this.plants.filter(plant =>
-      `${plant.local_name} ${plant.scientific_name}`
+    if (this.lightingFilter !== "") {
+      plants = plants.filter(plant => plant.lighting === this.lightingFilter);
+    }
+    if (this.sizeFilter !== "") {
+      plants = plants.filter(plant => plant.size === this.sizeFilter);
+    }
+    if (this.petFilter !== "") {
+      if (this.petFilter === "yes") {
+        plants = plants.filter(plant => plant.pet_friendly === true);
+      } else if (this.petFilter === "no") {
+        plants = plants.filter(plant => plant.pet_friendly === false);
+      }
+    }
+    return plants.filter(plant =>
+      `${plant.name} ${plant.scientific_name}`
         .toLowerCase()
         .includes(this.plantSearch)
     );
@@ -123,19 +194,50 @@ class PlantsStore {
       `${accessory.name}`.toLowerCase().includes(this.accessorySearch)
     );
   }
+
+  fetchAccessory() {
+    if (serverReady === "Yes") {
+      return instance
+        .get("/accessorieslist/?format=json")
+        .then(res => res.data)
+        .then(accessory => (this.accessories = accessory))
+        .then(accessory => {
+          this.updateAccessoryQuantity();
+        })
+        .catch(err => console.error(err));
+    } else {
+      this.accessories = accessoriesdatabase;
+    }
+  }
   fetchPlants() {
     if (serverReady === "Yes") {
+      this.currentUser = userdatabase;
+      this.trackedPlants = trackinghistory;
       return instance
         .get("/plantslist/?format=json")
         .then(res => res.data)
         .then(plant => (this.plants = plant))
+        .then(plant => {
+          this.updatePlantQuantity();
+        })
         .catch(err => console.error(err));
     } else {
       this.plants = plantdabase;
-      this.currentUser = userdatabase;
-      this.trackedPlants = trackinghistory;
-      this.accessories = accessoriesdatabase;
     }
+  }
+
+  postRequest() {
+    let data = [
+      { productID: 1, quantity: 2 },
+      { productID: 1, quantity: 1 },
+      { productID: 2, quantity: 1 }
+    ];
+
+    return instance
+      .post("/createorder/?format=json", data)
+      .then(res => res.data)
+      .then(res => console.log("success"))
+      .catch(err => console.log(err.response));
   }
 }
 
@@ -144,7 +246,9 @@ decorate(PlantsStore, {
   typeFilter: observable,
   accessories: observable,
   currentUser: observable,
+  singlePlantProduct: observable,
   selectedTrackPlant: observable,
+  singleItemProduct: observable,
   trackID: observable,
   trackedPlants: observable,
   careFilter: observable,
@@ -153,6 +257,7 @@ decorate(PlantsStore, {
   petFilter: observable,
   plantSearch: observable,
   selectedPlant: computed,
+  selectedItem: computed,
   filteredMultiplePlants: computed,
   accessorySearch: observable,
   filteredMultipleAccessory: computed,
@@ -161,6 +266,7 @@ decorate(PlantsStore, {
   filteredAccessory: computed
 });
 const PlantStore = new PlantsStore();
-export default PlantStore;
+export default withNavigation(observer(PlantStore));
 PlantStore.fetchPlants();
+PlantStore.fetchAccessory();
 PlantStore.updatePlantQuantity();

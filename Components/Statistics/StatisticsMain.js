@@ -18,6 +18,8 @@ import {
   Right
 } from "native-base";
 import moment from "moment";
+import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 
 //import Stores
 import PlantStore from "../Stores/PlantStore";
@@ -44,7 +46,7 @@ class StatiscticsMain extends Component {
     let tracking = currentUser.plantingHistory.map((track, index) => (
       <PlantingHistory plant={track} key={index} />
     ));
-    if (!UserStore.signedIn) {
+    if (!UserStore.signedIn || UserStore.signedIn) {
       return <StatisticsScreenDummy />;
     }
     return (
@@ -134,4 +136,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default StatiscticsMain;
+export default withNavigation(observer(StatiscticsMain));

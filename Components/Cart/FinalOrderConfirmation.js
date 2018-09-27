@@ -21,6 +21,8 @@ import {
   FooterTab
 } from "native-base";
 import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
+
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
 import CartStore from "../Stores/CartStore";
@@ -40,28 +42,25 @@ class FinalOrderConfirmation extends React.Component {
       let indexVal = PlantStore.plants.findIndex(
         plant => plant.id === CartStore.orders[i].product
       );
-      totalPrice +=
-        CartStore.orders[i].quantity * PlantStore.plants[indexVal].price;
+      if (indexVal >= 0) {
+        totalPrice +=
+          CartStore.orders[i].quantity * PlantStore.plants[indexVal].price;
+      } else {
+        indexVal = PlantStore.accessories.findIndex(
+          plant => plant.id === CartStore.orders[i].product
+        );
+        totalPrice +=
+          CartStore.orders[i].quantity * PlantStore.accessories[indexVal].price;
+      }
     }
 
     return (
       <Container>
-        <HeaderBar pageNameProp="Confirm Order" />
-        <Button full disabled success style={{ backgroundColor: "#119a50" }}>
+        <HeaderBar pageNameProp="Checkout" />
+        <Button full disabled success style={{ backgroundColor: "#136c3c" }}>
           <Text>Confirm Your Order Below:</Text>
         </Button>
         <Content padder>
-          <Card>
-            <CardItem>
-              <View style={{ flexDirection: "column" }}>
-                <Text style={{ fontWeight: "bold" }}>NOTE:</Text>
-                <Text>
-                  Delivery will be within 24 Hours, payments are expected in
-                  Cash but KNET can be arranged upon delivery.
-                </Text>
-              </View>
-            </CardItem>
-          </Card>
           <Card>
             <CardItem>
               <View style={{ flexDirection: "row" }}>
@@ -76,40 +75,46 @@ class FinalOrderConfirmation extends React.Component {
           </Card>
           <Card>
             <CardItem>
-              <View style={{ flexDirection: "row" }}>
-                <View style={{ flexDirection: "column" }}>
-                  <Text style={{ fontWeight: "bold" }}>Delivery Address:</Text>
-                  <Text style={{ fontSize: 14 }}>City: {CartStore.city}</Text>
-                  <Text style={{ fontSize: 14 }}>Block: {CartStore.block}</Text>
-                  <Text style={{ fontSize: 14 }}>
-                    Street: {CartStore.street}
-                  </Text>
-                  <Text style={{ fontSize: 14 }}>
-                    Avenue: {CartStore.avenue}
-                  </Text>
-                  <Text style={{ fontSize: 14 }}>House: {CartStore.house}</Text>
-                  <Text style={{ fontSize: 14 }}>
-                    Apartment: {CartStore.apartmentNumber}
-                  </Text>
+              <View style={{ flexDirection: "column" }}>
+                <View style={{ flexDirection: "row" }}>
+                  <View style={{ flexDirection: "column" }}>
+                    <Text style={{ fontWeight: "bold" }}>
+                      Delivery Address:
+                    </Text>
+                    <Text style={{ fontSize: 14 }}>City: {CartStore.city}</Text>
+                    <Text style={{ fontSize: 14 }}>
+                      Block: {CartStore.block}
+                    </Text>
+                    <Text style={{ fontSize: 14 }}>
+                      Street: {CartStore.street}
+                    </Text>
+                    <Text style={{ fontSize: 14 }}>
+                      Avenue: {CartStore.avenue}
+                    </Text>
+                    <Text style={{ fontSize: 14 }}>
+                      House: {CartStore.house}
+                    </Text>
+                    <Text style={{ fontSize: 14 }}>
+                      Apartment: {CartStore.apartmentNumber}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </CardItem>
+            <CardItem>
+              <Button
+                small
+                danger
+                bordered
+                full
+                onPress={() =>
+                  this.props.navigation.navigate("AddressConfirmation")
+                }
+              >
+                <Text style={{ fontSize: 12 }}>Edit </Text>
+              </Button>
+            </CardItem>
           </Card>
-          <Button
-            full
-            small
-            success
-            style={{
-              backgroundColor: "#119a50",
-              shadowOpacity: 0.5,
-              shadowOffset: { width: 0, height: 3 }
-            }}
-            onPress={() =>
-              this.props.navigation.navigate("AddressConfirmation")
-            }
-          >
-            <Text>Edit User/Delivery Information</Text>
-          </Button>
           <Card>
             <CardItem bordered>
               <View style={{ flexDirection: "row" }}>
@@ -121,58 +126,43 @@ class FinalOrderConfirmation extends React.Component {
             <Text> </Text>
             {orderPriceRow}
             <Text> </Text>
+            <CardItem bordered>
+              <Button
+                small
+                danger
+                bordered
+                full
+                onPress={() => this.props.navigation.navigate("Cart")}
+              >
+                <Text style={{ fontSize: 12 }}>Edit </Text>
+              </Button>
+            </CardItem>
+            <Text style={{ alignSelf: "flex-start" }}> Total =</Text>
+            <Text style={{ alignSelf: "flex-end" }}>{totalPrice} K.D.</Text>
           </Card>
-          <Button
-            full
-            small
-            success
-            style={{
-              backgroundColor: "#119a50",
-              shadowOpacity: 0.5,
-              shadowOffset: { width: 0, height: 3 }
-            }}
-            onPress={() => this.props.navigation.navigate("Cart")}
-          >
-            <Text>Edit Order</Text>
-          </Button>
           <Text> </Text>
           <Button
-            disabled
+            success
             full
+            rounded
             style={{
               backgroundColor: "#119a50",
               shadowOpacity: 0.5,
               shadowOffset: { width: 0, height: 10 }
             }}
-          >
-            <Text style={{ fontWeight: "bold", fontSize: 24 }}>
-              Total = {totalPrice} K.D.
-            </Text>
-          </Button>
-          <Text> </Text>
-          <Button
-            success
-            bordered
-            full
-            rounded
-            style={{ borderColor: "#119a50" }}
             onPress={() => {
               this.props.navigation.navigate("OrderComplete");
               CartStore.emptyCart();
             }}
           >
-            <Text
-              style={{ color: "#119a50", fontWeight: "bold", fontSize: 30 }}
-            >
-              {" "}
-              Submit Order{" "}
-            </Text>
+            <Text style={{ fontWeight: "bold" }}> Submit Order </Text>
           </Button>
+          <Text> </Text>
           <Card>
             <CardItem>
               <View style={{ flexDirection: "column" }}>
-                <Text style={{ fontWeight: "bold" }}>NOTE:</Text>
-                <Text>
+                <Text style={{ fontWeight: "bold" }}>Note:</Text>
+                <Text style={{ fontSize: 14 }}>
                   Delivery will be within 24 Hours, payments are expected in
                   Cash but KNET can be arranged upon delivery.
                 </Text>
@@ -186,4 +176,4 @@ class FinalOrderConfirmation extends React.Component {
   }
 }
 
-export default observer(FinalOrderConfirmation);
+export default withNavigation(observer(FinalOrderConfirmation));

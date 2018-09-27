@@ -29,14 +29,16 @@ import {
 import {
   createDrawerNavigator,
   DrawerItems,
-  DrawerNavigator
+  DrawerNavigator,
+  createStackNavigator
 } from "react-navigation";
-import { withNavigation } from "react-navigation";
+import { observer } from "mobx-react";
 
 import logo from "./Components/Logo/logoWithText.png";
 import PlantBackground from "./Components/LoginScreen/PlantBackground.png";
 import PlantBackgroundDark from "./Components/LoginScreen/PlantBackgroundDark.png";
 import longPlantHalf from "./Components/Logo/longPlantHalf.png";
+import PlantStore from "./Components/Stores/PlantStore";
 
 import HomeScreen from "./Components/HomeScreen/HomeScreen";
 import LoginScreen from "./Components/LoginScreen/LoginScreen";
@@ -48,6 +50,7 @@ import ContactUsScreen from "./Components/Informative/ContactUsScreen";
 import TermsAndConditionsScreen from "./Components/Informative/TermsAndConditionsScreen";
 import CartScreen from "./Components/Cart/CartScreen";
 import PlantDetail from "./Components/Detail/PlantDetail";
+import ItemDetail from "./Components/Detail/ItemDetail";
 import StatisticsMain from "./Components/Statistics/StatisticsMain";
 import DummySinglePlant from "./Components/Statistics/DummySinglePlant";
 import AddressConfirmation from "./Components/Cart/AddressConfirmation";
@@ -122,7 +125,8 @@ class App extends React.Component {
                 style={{
                   fontSize: 20,
                   alignSelf: "center",
-                  fontStyle: "italic"
+                  fontStyle: "italic",
+                  color: "white"
                 }}
               >
                 Grow to Eat... It's That Easy!
@@ -200,6 +204,7 @@ class Hidden extends React.Component {
     return null;
   }
 }
+
 const AppDrawerNavigator = createDrawerNavigator(
   {
     Home: {
@@ -209,6 +214,10 @@ const AppDrawerNavigator = createDrawerNavigator(
     Shop: { screen: PlantScreen },
     PlantDetail: {
       screen: PlantDetail,
+      navigationOptions: { drawerLabel: <Hidden /> }
+    },
+    ItemDetail: {
+      screen: ItemDetail,
       navigationOptions: { drawerLabel: <Hidden /> }
     },
     Statistics: { screen: StatisticsMain },
@@ -262,5 +271,11 @@ const AppDrawerNavigator = createDrawerNavigator(
     }
   }
 );
+
+const StackNavigatorApp = createStackNavigator({
+  AppDrawerNavigator: {
+    screen: AppDrawerNavigator
+  }
+});
 
 export default App;

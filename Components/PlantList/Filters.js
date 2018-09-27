@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
 import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 
 import {
   Form,
@@ -73,8 +74,8 @@ class FilterChoices extends Component {
               textStyle={{ fontSize: 15, width: 100 }}
             >
               <Picker.Item label="none" value="none" />
-              <Picker.Item label="Decoration (Easy)" value="Low" />
-              <Picker.Item label="Hobby (Difficult)" value="High" />
+              <Picker.Item label="Decoration (Easy)" value="easy" />
+              <Picker.Item label="Hobby (Difficult)" value="expert" />
             </Picker>
           </CardItem>
           <CardItem bordered>
@@ -115,13 +116,13 @@ class FilterChoices extends Component {
               <Picker.Item label="none" value="none" />
               <Picker.Item
                 label="Bright (5+ Hours of Sunlight)"
-                value="Bright"
+                value="bright"
               />
               <Picker.Item
                 label="Medium (2-5 Hours of Sunlight)"
-                value="Medium"
+                value="moderate"
               />
-              <Picker.Item label="Dark (Shade)" value="Dark" />
+              <Picker.Item label="Dark (Shade)" value="dim" />
             </Picker>
           </CardItem>
           <CardItem bordered>
@@ -163,9 +164,9 @@ class FilterChoices extends Component {
               textStyle={{ fontSize: 15, width: 100 }}
             >
               <Picker.Item label="none" value="none" />
-              <Picker.Item label="Desktop (Small)" value="Desktop" />
-              <Picker.Item label="Ground (Medium)" value="Ground" />
-              <Picker.Item label="Tall (Large)" value="Tall" />
+              <Picker.Item label="Desktop (Small)" value="desktop" />
+              <Picker.Item label="Ground (Medium)" value="ground" />
+              <Picker.Item label="Tall (Large)" value="tall" />
             </Picker>
           </CardItem>
           <CardItem bordered>
@@ -207,8 +208,8 @@ class FilterChoices extends Component {
               textStyle={{ fontSize: 15, width: 100 }}
             >
               <Picker.Item label="none" value="none" />
-              <Picker.Item label="Yes" value="Yes" />
-              <Picker.Item label="No" value="No" />
+              <Picker.Item label="Yes" value="yes" />
+              <Picker.Item label="No" value="no" />
             </Picker>
           </CardItem>
         </Card>
@@ -228,4 +229,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default observer(FilterChoices);
+export default withNavigation(observer(FilterChoices));

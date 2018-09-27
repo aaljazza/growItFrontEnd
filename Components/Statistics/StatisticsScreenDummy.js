@@ -19,6 +19,7 @@ import {
 } from "native-base";
 import moment from "moment";
 import PercentageCircle from "react-native-percentage-circle";
+import { observer } from "mobx-react";
 
 //import Stores
 import PlantStore from "../Stores/PlantStore";
@@ -154,4 +155,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default withNavigation(StatisticsScreenDummy);
+export default withNavigation(observer(StatisticsScreenDummy));

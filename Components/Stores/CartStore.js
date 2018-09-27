@@ -2,6 +2,8 @@ import { decorate, observable, computed, action } from "mobx";
 import axios from "axios";
 import { StyleSheet, Text, View } from "react-native";
 import PlantStore from "./PlantStore";
+import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
 
 class CartsStore {
   constructor() {
@@ -116,4 +118,4 @@ decorate(CartsStore, {
 });
 const CartStore = new CartsStore();
 
-export default CartStore;
+export default withNavigation(observer(CartStore));

@@ -19,6 +19,8 @@ import {
   Right
 } from "native-base";
 import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
+
 import PlantStore from "../Stores/PlantStore";
 import CartStore from "../Stores/CartStore";
 import HeaderBar from "../Header/Header";
@@ -42,7 +44,7 @@ class PlantDetail extends React.Component {
     let plant = PlantStore.selectedPlant[0];
     return (
       <Container>
-        <HeaderBar pageNameProp={plant.local_name} />
+        <HeaderBar pageNameProp={plant.name} />
         <Content>
           <Card
             style={{
@@ -55,7 +57,7 @@ class PlantDetail extends React.Component {
           >
             <CardItem>
               <Body>
-                <Text>{plant.local_name}</Text>
+                <Text>{plant.name}</Text>
                 <Text note>{plant.scientific_name}</Text>
               </Body>
             </CardItem>
@@ -67,10 +69,7 @@ class PlantDetail extends React.Component {
             </CardItem>
             <CardItem bordered style={{ flexDirection: "column" }}>
               <Text style={{ fontWeight: "bold" }}>About this Plant:</Text>
-              <Text note>
-                Plant information will go here to show which plant is the right
-                one for you.
-              </Text>
+              <Text note>{plant.description}</Text>
             </CardItem>
             <CardItem bordered style={{ flexDirection: "column" }}>
               <Text style={{ fontWeight: "bold" }}>Inside the Box:</Text>
@@ -116,6 +115,7 @@ class PlantDetail extends React.Component {
                 onPress={() => {
                   PlantStore.addProductToCart(plant.id, this.state.quant);
                   CartStore.addToCart(plant.id, this.state.quant);
+                  this.props.navigation.navigate("Shop");
                 }}
               >
                 {plant.quantity <= 0 ? (
@@ -128,15 +128,15 @@ class PlantDetail extends React.Component {
             <CardItem bordered>
               <Body>
                 <Text>Care Level:</Text>
-                <Text note>{plant.careLevel}</Text>
+                <Text note>{plant.care_level}</Text>
               </Body>
               <Body>
-                <Text>Toxic:</Text>
-                <Text note>No</Text>
+                <Text>Pet Friendly:</Text>
+                <Text note>{plant.pet_friendly ? "Yes" : "No"}</Text>
               </Body>
               <Body>
                 <Text>Size:</Text>
-                <Text note>Medium</Text>
+                <Text note>{plant.size}</Text>
               </Body>
             </CardItem>
             <CardItem bordered>
@@ -152,7 +152,7 @@ class PlantDetail extends React.Component {
             <CardItem bordered>
               <Body>
                 <Text>Watering:</Text>
-                <Text note>Every {plant.wateringFrequency} days</Text>
+                <Text note>Every {plant.watering_frequency} days</Text>
               </Body>
               <Body>
                 <Text>Ready to Eat:</Text>
@@ -180,4 +180,4 @@ class PlantDetail extends React.Component {
   }
 }
 
-export default observer(PlantDetail);
+export default withNavigation(observer(PlantDetail));

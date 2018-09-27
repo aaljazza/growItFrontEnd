@@ -11,6 +11,7 @@ import {
   Body
 } from "native-base";
 import moment from "moment";
+import { withNavigation } from "react-navigation";
 
 //import Stores
 import PlantStore from "../../Stores/PlantStore";
@@ -43,4 +44,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default OrderHistory;
+export default withNavigation(OrderHistory);

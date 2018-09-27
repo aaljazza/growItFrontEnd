@@ -20,6 +20,8 @@ import {
   FooterTab
 } from "native-base";
 import { observer } from "mobx-react";
+import { withNavigation } from "react-navigation";
+
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
 import CartStore from "../Stores/CartStore";
@@ -119,18 +121,96 @@ class AddressConfirmation extends React.Component {
   }
 
   render() {
+    let kuwaitiCities = [
+      "Abdullah AlSalim",
+      "Abu Ftaira",
+      "Abu Hulaifa",
+      "Adan",
+      "Adiliya",
+      "Ahmadi",
+      "Ali AlSalem",
+      "Aqaila",
+      "Bayan",
+      "Bidie",
+      "Bnaid AlGar",
+      "Bnaider",
+      "Daiya",
+      "Dasma",
+      "Dasman",
+      "Doha",
+      "Fahad AlAhmad",
+      "Fahaheel",
+      "Faiha",
+      "Fintas",
+      "Funaitis",
+      "Hadiya",
+      "Hawally",
+      "Hittin",
+      "Jaber AlAhmad",
+      "Jaber AlAli",
+      "Jabriya",
+      "Jibla",
+      "Jilaa",
+      "Kaifan",
+      "Khairan",
+      "Khaldiya",
+      "Kuwait City",
+      "Mahboula",
+      "Maidan Hawally",
+      "Mangaf",
+      "Mansouriya",
+      "Mina Abdulla",
+      "Magwa",
+      "Mirgab",
+      "Mishref",
+      "Messila",
+      "Mubarak AlJaber",
+      "Mubarak AlKabeer",
+      "Nahdha",
+      "Nigra",
+      "Nuwaiseeb",
+      "Nuzha",
+      "Qadsiya",
+      "Qurain",
+      "Qurnata",
+      "Qurtuba",
+      "Qosour",
+      "Rai",
+      "Rawda",
+      "Rigga",
+      "Rumaithiya",
+      "Sabah AlAhmad",
+      "Sabah Alsalem",
+      "Sabahiya",
+      "Sabhan",
+      "Salhiya",
+      "Salmiya",
+      "Salwa",
+      "Sawabir",
+      "Shaab",
+      "Shamiya",
+      "Sharq",
+      "Shuaiba",
+      "Shuwaikh",
+      "Jinob AlSurra",
+      "Sulaibikhat",
+      "Surra",
+      "Wafra",
+      "Yarmouk"
+    ];
+
     return (
       <Container>
         <HeaderBar pageNameProp="User Details" />
-        <Button
-          full
-          disabled
-          style={{ flexWrap: "wrap" }}
-          style={{ backgroundColor: "#119a50" }}
-        >
-          <Text>Please confirm the Delivery Information Below:</Text>
-        </Button>
         <Content>
+          <Button
+            full
+            disabled
+            style={{ flexWrap: "wrap" }}
+            style={{ backgroundColor: "#136c3c" }}
+          >
+            <Text>User Information:</Text>
+          </Button>
           <View padder>
             <Item>
               <Icon active name="ios-person" type="Ionicons" />
@@ -160,21 +240,26 @@ class AddressConfirmation extends React.Component {
               />
             </Item>
           </View>
-          <Button full style={{ flexWrap: "wrap" }}>
-            <Text>Please confirm the Delivery Information Below:</Text>
+          <Button
+            full
+            disabled
+            style={{ flexWrap: "wrap", backgroundColor: "#136c3c" }}
+          >
+            <Text>Delivery Information:</Text>
           </Button>
           <View padder>
             <Item disabled>
               <Input disabled placeholder="Country = Kuwait" />
               <Button
                 transparent
+                style={{ borderColor: "#119a50" }}
                 onPress={() =>
                   alert(
                     "Unfortunately we are only delivering inside Kuwait at this time."
                   )
                 }
               >
-                <Icon name="information-circle" />
+                <Icon name="information-circle" style={{ color: "#119a50" }} />
               </Button>
             </Item>
             <Item stackedLabel>
@@ -222,11 +307,6 @@ class AddressConfirmation extends React.Component {
                 keyboardType="number-pad"
               />
             </Item>
-          </View>
-          <Button full style={{ flexWrap: "wrap" }}>
-            <Text>Please confirm the Delivery Information Below:</Text>
-          </Button>
-          <View padder>
             <Item last>
               <Icon
                 active
@@ -240,21 +320,21 @@ class AddressConfirmation extends React.Component {
               />
             </Item>
           </View>
-          <Button
-            success
-            bordered
-            full
-            rounded
-            style={{ borderColor: "#119a50" }}
-            onPress={() => this.checkParameters()}
-          >
-            <Text
-              style={{ color: "#119a50", fontWeight: "bold", fontSize: 30 }}
+          <View padder>
+            <Button
+              success
+              full
+              rounded
+              style={{
+                backgroundColor: "#119a50",
+                shadowOpacity: 0.5,
+                shadowOffset: { width: 0, height: 5 }
+              }}
+              onPress={() => this.checkParameters()}
             >
-              {" "}
-              Save Details{" "}
-            </Text>
-          </Button>
+              <Text style={{ fontWeight: "bold" }}> SAVE DETAILS </Text>
+            </Button>
+          </View>
           <Image source={logo} style={{ width: 400, height: 400 }} />
         </Content>
         <FooterBar pageNameProp="User Details" />
@@ -264,4 +344,4 @@ class AddressConfirmation extends React.Component {
 }
 
 //make this component available to the app
-export default observer(AddressConfirmation);
+export default withNavigation(observer(AddressConfirmation));
