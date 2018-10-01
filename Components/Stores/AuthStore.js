@@ -23,7 +23,6 @@ class AuthsStore {
   setCurrentUser(decoded) {
     this.user = decoded;
     this.fetchUserProfile(decoded.user_id);
-    console.log(this.user);
   }
 
   get isAuthenticated() {

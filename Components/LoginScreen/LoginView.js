@@ -90,6 +90,7 @@ class LoginView extends React.Component {
         >
           <Label style={{ color: "black" }}> Password:</Label>
           <Input
+            autoCapitalize="none"
             secureTextEntry={true}
             placeholder="..."
             onChangeText={inputVal => this.setState({ password: inputVal })}

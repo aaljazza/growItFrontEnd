@@ -58,11 +58,21 @@ class AccessoriesRow extends React.Component {
           <View style={{ flexDirection: "column" }}>
             <View style={{ flexDirection: "row" }}>
               <Left>
-                <Thumbnail
-                  square
-                  source={{ uri: accessory.img }}
+                <Button
+                  transparent
                   style={{ height: 90 }}
-                />
+                  onPress={() => {
+                    PlantStore.updateSelectedItem(accessory.id);
+                    this.props.navigation.navigate("ItemDetail");
+                    HistoryStore.changePage("Shop");
+                  }}
+                >
+                  <Thumbnail
+                    square
+                    source={{ uri: accessory.img }}
+                    style={{ height: 90 }}
+                  />
+                </Button>
               </Left>
               <Right>
                 <Text style={{ fontSize: 12 }}>{accessory.name}</Text>
