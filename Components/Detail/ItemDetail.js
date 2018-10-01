@@ -24,6 +24,7 @@ import CartStore from "../Stores/CartStore";
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
 import { withNavigation } from "react-navigation";
+import HistoryStore from "../Stores/HistoryStore";
 
 class ItemDetail extends React.Component {
   constructor(props) {
@@ -43,7 +44,7 @@ class ItemDetail extends React.Component {
     let item = PlantStore.selectedItem[0];
     return (
       <Container>
-        <HeaderBar pageNameProp={item.name} />
+        <HeaderBar pageNameProp={item.name} screenNameProp="ItemDetail" />
         <Content>
           <Card
             style={{
@@ -107,6 +108,7 @@ class ItemDetail extends React.Component {
                   PlantStore.addProductToCart(item.id, this.state.quant);
                   CartStore.addToCart(item.id, this.state.quant);
                   this.props.navigation.navigate("Shop");
+                  HistoryStore.changePage("ItemDetail");
                 }}
               >
                 {item.quantity <= 0 ? (
@@ -118,7 +120,7 @@ class ItemDetail extends React.Component {
             </CardItem>
           </Card>
         </Content>
-        <FooterBar pageNameProp="Item" />
+        <FooterBar pageNameProp="Item" screenNameProp="ItemDetail" />
       </Container>
     );
   }

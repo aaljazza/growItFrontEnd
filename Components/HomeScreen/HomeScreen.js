@@ -23,6 +23,7 @@ import PlantStore from "../Stores/PlantStore";
 import PlantBackgroundDark from "../LoginScreen/PlantBackgroundDark.png";
 import accessBackPng from "./accessBackPng.png";
 import plantingBackPNG from "./plantingBackPNG.png";
+import HistoryStore from "../Stores/HistoryStore";
 
 class HomeScreen extends React.Component {
   render() {
@@ -30,7 +31,7 @@ class HomeScreen extends React.Component {
     plants = PlantStore.plants;
     return (
       <Container>
-        <HeaderBar pageNameProp="Home" />
+        <HeaderBar pageNameProp={"Grow It!"} screenNameProp="Home" />
         <Text> </Text>
         <Text
           style={{
@@ -85,6 +86,7 @@ class HomeScreen extends React.Component {
                 onPress={() => {
                   PlantStore.changeShopSegment(0);
                   this.props.navigation.navigate("Shop");
+                  HistoryStore.changePage("Home");
                 }}
                 style={{ justifyContent: "center", alignSelf: "center" }}
               >
@@ -135,6 +137,7 @@ class HomeScreen extends React.Component {
                 onPress={() => {
                   PlantStore.changeShopSegment(1);
                   this.props.navigation.navigate("Shop");
+                  HistoryStore.changePage("Home");
                 }}
                 style={{ justifyContent: "center", alignSelf: "center" }}
               >
@@ -145,7 +148,7 @@ class HomeScreen extends React.Component {
             </ImageBackground>
           </View>
         </Content>
-        <FooterBar pageNameProp="Home" />
+        <FooterBar pageNameProp="Home" screenNameProp="Home" />
       </Container>
     );
   }

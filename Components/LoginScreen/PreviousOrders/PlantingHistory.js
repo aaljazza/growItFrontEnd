@@ -21,6 +21,7 @@ import PercentageCircle from "react-native-percentage-circle";
 
 //import Stores
 import PlantStore from "../../Stores/PlantStore";
+import HistoryStore from "../../Stores/HistoryStore";
 
 // create a component
 class PlantingHistory extends Component {
@@ -76,6 +77,7 @@ class PlantingHistory extends Component {
             onPress={() => {
               PlantStore.updateStats(plant.trackID);
               this.props.navigation.navigate("StatisticsPlot");
+              HistoryStore.changePage("Statistics");
             }}
           >
             <PercentageCircle

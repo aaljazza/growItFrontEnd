@@ -42,6 +42,8 @@ import {
 } from "react-native-chart-kit";
 
 import Basil from "./DummyPlantPics/Basil.png";
+import PlantStore from "../Stores/PlantStore";
+import HistoryStore from "../Stores/HistoryStore";
 
 //Step Indicator Constants
 const customStyles = {
@@ -77,19 +79,25 @@ class DummySinglePlant extends React.Component {
     };
   }
   render() {
+    let indexVal = PlantStore.plants.findIndex(plant => plant.id === 1);
+    let plant = PlantStore.plants[indexVal];
     let stage1 = 0;
-    let stage2 = 24;
-    let stage3 = 63;
-    let stage4 = 103;
-    const labels = ["Germination", "Sprouting", "Maturing", "Eat"];
-
+    let stage2 = plant.stage_1day;
+    let stage3 = plant.stage_2day;
+    let stage4 = plant.stage_3day;
+    const labels = [
+      plant.stage_1des,
+      plant.stage_2des,
+      plant.stage_3des,
+      "Eat"
+    ];
     return (
       <Container>
         <ImageBackground
           source={PlantBackground}
           style={{ width: "100%", height: "100%" }}
         >
-          <HeaderBar pageNameProp="Test Plant" />
+          <HeaderBar pageNameProp="Test Plant" screenNameProp="Dummy" />
           <Text> </Text>
           <Button
             full
@@ -98,7 +106,10 @@ class DummySinglePlant extends React.Component {
               backgroundColor: "#0b701c",
               shadowOpacity: 80
             }}
-            onPress={() => this.props.navigation.navigate("Profile")}
+            onPress={() => {
+              this.props.navigation.navigate("Profile");
+              HistoryStore.changePage("Statistics");
+            }}
           >
             <Text
               style={{
@@ -116,7 +127,10 @@ class DummySinglePlant extends React.Component {
             style={{
               backgroundColor: "#0b701c"
             }}
-            onPress={() => this.props.navigation.navigate("Profile")}
+            onPress={() => {
+              this.props.navigation.navigate("Profile");
+              HistoryStore.changePage("Statistics");
+            }}
           >
             <Text
               style={{
@@ -138,21 +152,21 @@ class DummySinglePlant extends React.Component {
                 />
               </CardItem>
               <CardItem>
-                <Text style={{ fontWeight: "bold" }}>Basil</Text>
+                <Text style={{ fontWeight: "bold" }}>{plant.name}</Text>
               </CardItem>
               <CardItem bordered>
                 <Text note style={{ fontWeight: "bold" }}>
                   {" "}
-                  Ocimum basilicum
+                  {plant.scientific_name}
                 </Text>
               </CardItem>
               <CardItem bordered>
                 <Text>Age of Plant:</Text>
-                <Text style={{ fontWeight: "bold" }}> 74 days old</Text>
+                <Text style={{ fontWeight: "bold" }}> 37 days old</Text>
               </CardItem>
               <CardItem>
                 <Text>Plant Life Stage:</Text>
-                <Text style={{ fontWeight: "bold" }}> Maturing</Text>
+                <Text style={{ fontWeight: "bold" }}> {plant.stage_3des}</Text>
               </CardItem>
               <StepIndicator
                 customStyles={customStyles}
@@ -161,11 +175,7 @@ class DummySinglePlant extends React.Component {
                 labels={labels}
               />
               <CardItem bordered>
-                <Text note>
-                  Leaves should be fully forming, flowers are starting to
-                  blossom, and the chilis are forming slowly. Give it time to
-                  mature and soon you will be able to eat
-                </Text>
+                <Text note>{plant.stage_3det}</Text>
               </CardItem>
               <CardItem bordered>
                 <Left>
@@ -175,7 +185,7 @@ class DummySinglePlant extends React.Component {
                 <PercentageCircle
                   borderWidth={10}
                   radius={40}
-                  percent={(100 * (74 % 6)) / 6}
+                  percent={(100 * (37 % 6)) / 6}
                   color={"#318e00"}
                 >
                   <Text>{6 - (103 % 6)}</Text>
@@ -184,29 +194,29 @@ class DummySinglePlant extends React.Component {
               <CardItem bordered>
                 <Left>
                   <Text>Next Stage </Text>
-                  <Text note> About 103 days</Text>
+                  <Text note> About 60 days</Text>
                 </Left>
                 <PercentageCircle
                   borderWidth={10}
                   radius={40}
-                  percent={(100 * (103 - 29)) / 103}
+                  percent={(100 * (30 - 23)) / 30}
                   color={"#318e00"}
                 >
-                  <Text>29</Text>
+                  <Text>23</Text>
                 </PercentageCircle>
               </CardItem>
               <CardItem bordered>
                 <Left>
                   <Text>Ready to Eat! </Text>
-                  <Text note> About 103 days</Text>
+                  <Text note> About 60 days</Text>
                 </Left>
                 <PercentageCircle
                   radius={40}
                   borderWidth={10}
-                  percent={(100 * 74) / 103}
+                  percent={(100 * 37) / 60}
                   color={"#318e00"}
                 >
-                  <Text>{74 > 103 ? "Eat" : 103 - 74}</Text>
+                  <Text>{74 > 103 ? "Eat" : 23}</Text>
                 </PercentageCircle>
               </CardItem>
             </Card>
@@ -236,7 +246,7 @@ class DummySinglePlant extends React.Component {
               }}
             />
           </Content>
-          <FooterBar pageNameProp="Statistics" />
+          <FooterBar pageNameProp="Statistics" screenNameProp="Dummy" />
         </ImageBackground>
       </Container>
     );

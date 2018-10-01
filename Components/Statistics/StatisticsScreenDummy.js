@@ -30,6 +30,7 @@ import FooterBar from "../Footer/Footer";
 import PlantBackground from "../LoginScreen/PlantBackgroundBlur.png";
 import UserStore from "../Stores/UserStore";
 import Basil from "./DummyPlantPics/Basil.png";
+import HistoryStore from "../Stores/HistoryStore";
 
 // create a component
 class StatisticsScreenDummy extends Component {
@@ -48,19 +49,25 @@ class StatisticsScreenDummy extends Component {
   }
 
   render() {
+    let indexVal = PlantStore.plants.findIndex(plant => plant.id === 1);
+    let plant = PlantStore.plants[indexVal];
+
     return (
       <Container>
         <ImageBackground
           source={PlantBackground}
           style={{ width: "100%", height: "100%" }}
         >
-          <HeaderBar pageNameProp="Test Stats" />
+          <HeaderBar pageNameProp="Test Stats" screenNameProp="Statistics" />
           <Text> </Text>
           <Button
             full
             success
             style={{ backgroundColor: "#0b701c", shadowOpacity: 80 }}
-            onPress={() => this.props.navigation.navigate("Profile")}
+            onPress={() => {
+              this.props.navigation.navigate("Profile");
+              HistoryStore.changePage("Statistics");
+            }}
           >
             <Text
               style={{
@@ -85,15 +92,15 @@ class StatisticsScreenDummy extends Component {
           <Content>
             <Card>
               <CardItem bordered style={{ height: 100 }}>
-                <Thumbnail source={Basil} style={{ height: 90 }} />
+                <Thumbnail source={{ uri: plant.img }} style={{ height: 90 }} />
                 <Text> </Text>
                 <Body>
                   <Text style={{ fontSize: 20 }}>Basil</Text>
-                  <Text note>74 days old</Text>
+                  <Text note>37 days old</Text>
                   <Text style={{ fontSize: 14, fontWeight: "bold" }}>
                     Current Stage:
                   </Text>
-                  <Text note>Budding</Text>
+                  <Text note>{plant.stage_3des}</Text>
                 </Body>
                 <Right
                   style={{ flexDirection: "row", justifyContent: "flex-end" }}
@@ -103,13 +110,14 @@ class StatisticsScreenDummy extends Component {
                     transparent
                     onPress={() => {
                       this.props.navigation.navigate("Dummy");
+                      HistoryStore.changePage("Statistics");
                     }}
                     style={{ height: 150 }}
                   >
                     <PercentageCircle
                       radius={35}
                       borderWidth={7}
-                      percent={(100 * 74) / 120}
+                      percent={(100 * 37) / 60}
                       color={"#318e00"}
                     >
                       <Text
@@ -119,7 +127,7 @@ class StatisticsScreenDummy extends Component {
                           fontSize: 18
                         }}
                       >
-                        46
+                        23
                       </Text>
                     </PercentageCircle>
                     <Icon
@@ -137,7 +145,7 @@ class StatisticsScreenDummy extends Component {
               </CardItem>
             </Card>
           </Content>
-          <FooterBar pageNameProp="Statistics" />
+          <FooterBar pageNameProp="Statistics" screenNameProp="Statistics" />
         </ImageBackground>
       </Container>
     );

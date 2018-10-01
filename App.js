@@ -129,7 +129,7 @@ class App extends React.Component {
                   color: "white"
                 }}
               >
-                Grow to Eat... It's That Easy!
+                It's That Easy!
               </Text>
               <Text> </Text>
               <Button
@@ -140,7 +140,9 @@ class App extends React.Component {
                   width: 250,
                   borderColor: "#119a50"
                 }}
-                onPress={() => this.setState({ moveOn: true })}
+                onPress={() => {
+                  this.setState({ moveOn: true });
+                }}
               >
                 <Text
                   style={{ fontWeight: "bold", fontSize: 20, color: "#119a50" }}
@@ -232,10 +234,6 @@ const AppDrawerNavigator = createDrawerNavigator(
       }
     },
     Profile: LoginScreen,
-    "About Us": {
-      screen: AboutUsScreen,
-      navigationOptions: { drawerLabel: <Hidden /> }
-    },
     "Contact Us": {
       screen: ContactUsScreen,
       navigationOptions: { drawerLabel: <Hidden /> }
@@ -252,6 +250,9 @@ const AppDrawerNavigator = createDrawerNavigator(
     OrderComplete: {
       screen: OrderComplete,
       navigationOptions: { drawerLabel: <Hidden /> }
+    },
+    "About Us": {
+      screen: AboutUsScreen
     },
     FinalOrderConfirmation: {
       screen: FinalOrderConfirmation,

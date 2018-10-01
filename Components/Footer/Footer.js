@@ -20,11 +20,14 @@ import { LinearGradient } from "expo";
 
 //import Stores
 import PlantStore from "../Stores/PlantStore";
+import HistoryStore from "../Stores/HistoryStore";
 
 // create a component
 class FooterBar extends Component {
   render() {
     let pageName = this.props.pageNameProp;
+    let screenName = this.props.screenNameProp;
+
     return (
       <Footer style={{ borderColor: "#136c3c", borderTopWidth: 5 }}>
         <FooterTab>
@@ -40,7 +43,10 @@ class FooterBar extends Component {
           />
           <Button
             vertical
-            onPress={() => this.props.navigation.navigate("Shop")}
+            onPress={() => {
+              this.props.navigation.navigate("Shop");
+              HistoryStore.changePage(screenName);
+            }}
           >
             <Icon
               style={
@@ -63,7 +69,10 @@ class FooterBar extends Component {
           </Button>
           <Button
             vertical
-            onPress={() => this.props.navigation.navigate("Statistics")}
+            onPress={() => {
+              this.props.navigation.navigate("Statistics");
+              HistoryStore.changePage(screenName);
+            }}
           >
             <Icon
               style={
@@ -85,7 +94,10 @@ class FooterBar extends Component {
           </Button>
           <Button
             vertical
-            onPress={() => this.props.navigation.navigate("Profile")}
+            onPress={() => {
+              this.props.navigation.navigate("Profile");
+              HistoryStore.changePage(screenName);
+            }}
           >
             <Icon
               style={

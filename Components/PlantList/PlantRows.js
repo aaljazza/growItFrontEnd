@@ -24,6 +24,7 @@ import { withNavigation } from "react-navigation";
 
 import PlantStore from "../Stores/PlantStore";
 import CartStore from "../Stores/CartStore";
+import HistoryStore from "../Stores/HistoryStore";
 
 class PlantRow extends React.Component {
   constructor(props) {
@@ -63,6 +64,7 @@ class PlantRow extends React.Component {
                   onPress={() => {
                     PlantStore.updateSelectedPlant(plant.id);
                     this.props.navigation.navigate("PlantDetail");
+                    HistoryStore.changePage("Shop");
                   }}
                 >
                   <Thumbnail
@@ -161,6 +163,7 @@ class PlantRow extends React.Component {
               onPress={() => {
                 PlantStore.updateSelectedPlant(plant.id);
                 this.props.navigation.navigate("PlantDetail");
+                HistoryStore.changePage("Shop");
               }}
             >
               <Text>More Info</Text>

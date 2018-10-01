@@ -76,7 +76,10 @@ class TermsAndConditionsScreen extends Component {
     }
     return (
       <Container>
-        <HeaderBar pageNameProp="Contact Us" />
+        <HeaderBar
+          pageNameProp="Terms and Conditions"
+          screenNameProp="Terms and Conditions"
+        />
         {filter === 1 && (
           <Button
             danger
@@ -115,7 +118,10 @@ class TermsAndConditionsScreen extends Component {
             {plantItems}
           </Card>
         </Content>
-        <FooterBar pageNameProp="Contact" />
+        <FooterBar
+          pageNameProp="Terms and Conditions"
+          screenNameProp="Terms and Conditions"
+        />
       </Container>
     );
   }

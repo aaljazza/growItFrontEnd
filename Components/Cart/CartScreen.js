@@ -24,6 +24,7 @@ import CartStore from "../Stores/CartStore";
 import CartRow from "./CartRows";
 import PlantStore from "../Stores/PlantStore";
 import UserStore from "../Stores/UserStore";
+import HistoryStore from "../Stores/HistoryStore";
 
 class CartScreen extends React.Component {
   _emptyCartAlert = () => {
@@ -42,16 +43,16 @@ class CartScreen extends React.Component {
   };
 
   _checkOutAlert = () => {
-    Alert.alert(`Checkout`, "Would you like to Sign In/Up?", [
+    Alert.alert(`Checkout`, "Kindly Sign In to Checkout", [
       {
         text: "Sign In",
         onPress: () => {
           this.props.navigation.navigate("Profile");
+          HistoryStore.changePage("Cart");
         }
       },
       {
-        text: "Continue as Guest",
-        onPress: () => this.props.navigation.navigate("AddressConfirmation")
+        text: "Cancel"
       }
     ]);
   };
@@ -81,7 +82,7 @@ class CartScreen extends React.Component {
     }
     return (
       <Container>
-        <HeaderBar pageNameProp="Cart" />
+        <HeaderBar pageNameProp="Cart" screenNameProp="Cart" />
         {totalPrice > 0 && (
           <Button
             disabled
@@ -125,6 +126,7 @@ class CartScreen extends React.Component {
                 onPress={() => {
                   if (UserStore.signedIn) {
                     this.props.navigation.navigate("AddressConfirmation");
+                    HistoryStore.changePage("Cart");
                   } else {
                     this._checkOutAlert();
                   }
@@ -165,6 +167,7 @@ class CartScreen extends React.Component {
                 onPress={() => {
                   PlantStore.changeShopSegment(0);
                   this.props.navigation.navigate("Shop");
+                  HistoryStore.changePage("Cart");
                 }}
               >
                 <Text style={{ fontWeight: "bold" }}>SHOP FOR PLANTS</Text>
@@ -172,7 +175,7 @@ class CartScreen extends React.Component {
             )}
           </View>
         </Content>
-        <FooterBar pageNameProp="Cart" />
+        <FooterBar pageNameProp="Cart" screenNameProp="Cart" />
       </Container>
     );
   }

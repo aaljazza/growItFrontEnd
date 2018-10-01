@@ -4,6 +4,11 @@ import { StyleSheet, Text, View } from "react-native";
 import PlantStore from "./PlantStore";
 import { observer } from "mobx-react";
 import { withNavigation } from "react-navigation";
+import AuthStore from "./AuthStore";
+
+const instance = axios.create({
+  baseURL: "http://178.128.205.28/"
+});
 
 class CartsStore {
   constructor() {
@@ -33,8 +38,8 @@ class CartsStore {
     apartmentNumber,
     deliveryInstructions
   ) {
-    this.name = name;
-    this.email = email;
+    this.name = AuthStore.user.username;
+    this.email = AuthStore.user.email;
     this.phone = phone;
     this.city = city;
     this.block = block;
@@ -100,6 +105,26 @@ class CartsStore {
       );
     }
     this.orders = [];
+  }
+
+  postOrderRequest() {
+    let data = [];
+    for (let i = 0; i < this.orders.length; i++) {
+      data.push({
+        productID: this.orders[i].product,
+        quantity: this.orders[i].quantity
+      });
+    }
+    finalOrderData = { items: data };
+    return instance
+      .post("/createorder/?format=json", finalOrderData)
+      .then(res => res.data)
+      .then(res => {
+        console.log("success");
+        this.orders = [];
+        this.props.navigation.navigate("OrderComplete");
+      })
+      .catch(err => console.log(err.response));
   }
 }
 decorate(CartsStore, {

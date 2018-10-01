@@ -30,6 +30,7 @@ import PlantStore from "../Stores/PlantStore";
 import UserStore from "../Stores/UserStore";
 import OrderRows from "./OrderRows";
 import logo from "../Logo/logoWithText.png";
+import HistoryStore from "../Stores/HistoryStore";
 
 // create a component
 class OrderComplete extends React.Component {
@@ -49,7 +50,7 @@ class OrderComplete extends React.Component {
   render() {
     return (
       <Container>
-        <HeaderBar pageNameProp="Confirm Order" />
+        <HeaderBar pageNameProp="Order Complete" screenNameProp="Shop" />
         <Button full disabled success style={{ backgroundColor: "#119a50" }}>
           <Text>Your Order Has Been Submitted:</Text>
         </Button>
@@ -94,7 +95,10 @@ class OrderComplete extends React.Component {
               success
               bordered
               style={{ borderColor: "#119a50" }}
-              onPress={() => this.props.navigation.navigate("Shop")}
+              onPress={() => {
+                this.props.navigation.navigate("Shop");
+                HistoryStore.changePage("Shop");
+              }}
             >
               <Text style={{ color: "#119a50", fontWeight: "bold" }}>
                 Continue Shopping
@@ -106,7 +110,10 @@ class OrderComplete extends React.Component {
               success
               bordered
               style={{ borderColor: "#119a50" }}
-              onPress={() => this.props.navigation.navigate("Profile")}
+              onPress={() => {
+                this.props.navigation.navigate("Profile");
+                HistoryStore.changePage("Shop");
+              }}
             >
               <Text style={{ color: "#119a50", fontWeight: "bold" }}>
                 Go to My Profile
@@ -114,7 +121,7 @@ class OrderComplete extends React.Component {
             </Button>
           </Animated.View>
         </Content>
-        <FooterBar pageNameProp="Confirm Order" />
+        <FooterBar pageNameProp="Confirm Order" screenNameProp="Shop" />
       </Container>
     );
   }

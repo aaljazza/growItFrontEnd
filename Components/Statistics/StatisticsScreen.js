@@ -174,7 +174,10 @@ class StatisticsScreen extends React.Component {
           source={PlantBackground}
           style={{ width: "100%", height: "100%" }}
         >
-          <HeaderBar pageNameProp="Statistics" />
+          <HeaderBar
+            pageNameProp="Statistics"
+            screenNameProp="StatisticsPlot"
+          />
           <Content padder>
             <View />
             <Card>
@@ -299,7 +302,10 @@ class StatisticsScreen extends React.Component {
               }}
             />
           </Content>
-          <FooterBar pageNameProp="Statistics" />
+          <FooterBar
+            pageNameProp="Statistics"
+            screenNameProp="StatisticsPlot"
+          />
         </ImageBackground>
       </Container>
     );
