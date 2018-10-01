@@ -41,7 +41,7 @@ class HomeScreen extends React.Component {
             color: "#136c3c"
           }}
         >
-          Choose an option Below:
+          Choose an option below:
         </Text>
         <Text> </Text>
         <Content>

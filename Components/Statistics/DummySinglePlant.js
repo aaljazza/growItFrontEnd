@@ -106,10 +106,7 @@ class DummySinglePlant extends React.Component {
               backgroundColor: "#0b701c",
               shadowOpacity: 80
             }}
-            onPress={() => {
-              this.props.navigation.navigate("Profile");
-              HistoryStore.changePage("Statistics");
-            }}
+            onPress={() => {}}
           >
             <Text
               style={{
@@ -118,28 +115,7 @@ class DummySinglePlant extends React.Component {
                 fontSize: 25
               }}
             >
-              This is a Test Screen
-            </Text>
-          </Button>
-          <Button
-            full
-            success
-            style={{
-              backgroundColor: "#0b701c"
-            }}
-            onPress={() => {
-              this.props.navigation.navigate("Profile");
-              HistoryStore.changePage("Statistics");
-            }}
-          >
-            <Text
-              style={{
-                fontWeight: "bold",
-                color: "white",
-                fontSize: 25
-              }}
-            >
-              Login to Activate
+              Coming Soon
             </Text>
           </Button>
           <Content padder>

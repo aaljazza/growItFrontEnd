@@ -126,10 +126,13 @@ class App extends React.Component {
                   fontSize: 20,
                   alignSelf: "center",
                   fontStyle: "italic",
-                  color: "white"
+                  color: "white",
+                  justifyContent: "center",
+                  textAlign: "center",
+                  width: 280
                 }}
               >
-                It's That Easy!
+                Welcome! Grow It helps you grow your plants.
               </Text>
               <Text> </Text>
               <Button
