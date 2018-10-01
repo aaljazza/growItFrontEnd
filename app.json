@@ -2,14 +2,15 @@
   "expo": {
     "name": "Grow It",
     "icon": "./Components/Logo/logo.png",
-    "version": "1.1.5",
+    "version": "2.0.0",
     "slug": "grow-it",
     "sdkVersion": "27.0.0",
     "ios": {
       "bundleIdentifier": "com.codeexample.growit"
     },
     "android": {
-      "package": "com.codeexample.growit"
+      "package": "com.codeexample.growit",
+      "permissions": []
     }
   }
 }

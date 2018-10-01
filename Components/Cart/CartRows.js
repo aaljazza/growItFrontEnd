@@ -22,6 +22,7 @@ import { observer } from "mobx-react";
 import PlantStore from "../Stores/PlantStore";
 import { withNavigation } from "react-navigation";
 import CartStore from "../Stores/CartStore";
+import HistoryStore from "../Stores/HistoryStore";
 
 class CartRow extends React.Component {
   removeItemAlert(plantName, productID, quantity) {
@@ -41,17 +42,21 @@ class CartRow extends React.Component {
   }
   render() {
     let productID = this.props.productID;
+    let type;
     let indexVal = PlantStore.plants.findIndex(
       product => product.id === productID
     );
     let plant;
+    let typeProduct;
     if (indexVal >= 0) {
       plant = PlantStore.plants[indexVal];
+      typeProduct = "plant";
     } else {
       indexVal = PlantStore.accessories.findIndex(
         accessory => accessory.id === productID
       );
       plant = PlantStore.accessories[indexVal];
+      typeProduct = "item";
     }
     let cartIndex = CartStore.orders.findIndex(
       order => order.product === productID
@@ -66,7 +71,22 @@ class CartRow extends React.Component {
       >
         <CardItem>
           <Left>
-            <Thumbnail source={{ uri: plant.img }} style={{ height: 50 }} />
+            <Button
+              transparent
+              onPress={() => {
+                if (typeProduct === "plant") {
+                  PlantStore.updateSelectedPlant(plant.id);
+                  this.props.navigation.navigate("PlantDetail");
+                  HistoryStore.changePage("Cart");
+                } else {
+                  PlantStore.updateSelectedItem(plant.id);
+                  this.props.navigation.navigate("ItemDetail");
+                  HistoryStore.changePage("Cart");
+                }
+              }}
+            >
+              <Thumbnail source={{ uri: plant.img }} style={{ height: 50 }} />
+            </Button>
           </Left>
           <Body>
             <View style={{ flexDirection: "column" }}>
