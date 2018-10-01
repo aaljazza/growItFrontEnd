@@ -78,11 +78,11 @@ export default class ContactUsScreen extends Component {
     ));
     return (
       <Container>
-        <HeaderBar pageNameProp="Contact Us" />
+        <HeaderBar pageNameProp="Contact Us" screenNameProp="Contact Us" />
         <Content>
           <Text>Contact Us Here</Text>
         </Content>
-        <FooterBar pageNameProp="Contact" />
+        <FooterBar pageNameProp="Contact" screenNameProp="Contact Us" />
       </Container>
     );
   }

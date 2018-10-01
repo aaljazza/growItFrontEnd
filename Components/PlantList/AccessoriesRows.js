@@ -24,6 +24,7 @@ import { withNavigation } from "react-navigation";
 
 import PlantStore from "../Stores/PlantStore";
 import CartStore from "../Stores/CartStore";
+import HistoryStore from "../Stores/HistoryStore";
 
 class AccessoriesRow extends React.Component {
   constructor(props) {
@@ -142,6 +143,7 @@ class AccessoriesRow extends React.Component {
               onPress={() => {
                 PlantStore.updateSelectedItem(accessory.id);
                 this.props.navigation.navigate("ItemDetail");
+                HistoryStore.changePage("Shop");
               }}
             >
               <Text>More Info</Text>

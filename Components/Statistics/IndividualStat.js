@@ -164,7 +164,7 @@ class StatisticsScreen extends React.Component {
 
     return (
       <Container>
-        <HeaderBar pageNameProp="Statistics" />
+        <HeaderBar pageNameProp="Statistics" screenNameProp="StatisticsPlot" />
         <Content padder>
           <View />
           <Card>
@@ -287,7 +287,7 @@ class StatisticsScreen extends React.Component {
             }}
           />
         </Content>
-        <FooterBar pageNameProp="Statistics" />
+        <FooterBar pageNameProp="Statistics" screenNameProp="StatisticsPlot" />
       </Container>
     );
   }

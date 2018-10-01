@@ -29,6 +29,7 @@ import Filters from "./Filters";
 import AccessoriesRows from "./AccessoriesRows";
 import AccessoryCategories from "./AccessoryCategories";
 import CartStore from "../Stores/CartStore";
+import HistoryStore from "../Stores/HistoryStore";
 
 class PlantScreen extends React.Component {
   constructor(props) {
@@ -46,7 +47,7 @@ class PlantScreen extends React.Component {
     ));
     let AccessoryItems;
     let list = ["Soil", "Pots", "Sprays", "Tools", "Lights", "Seeds"];
-    AccessoryItems = list.map((accessory, index) => (
+    AccessoryItems = PlantStore.categories.map((accessory, index) => (
       <AccessoryCategories key={index} accessory={accessory} />
     ));
     filtAccessory = PlantStore.filteredAccessory.map((accessory, index) => (
@@ -65,7 +66,7 @@ class PlantScreen extends React.Component {
     }
     return (
       <Container>
-        <HeaderBar pageNameProp="Shop" />
+        <HeaderBar pageNameProp="Shop" screenNameProp="Shop" />
         <Segment
           style={{
             justifyContent: "center",
@@ -104,7 +105,10 @@ class PlantScreen extends React.Component {
                 PlantStore.shopSegment === 1 ? "#119a50" : "white",
               borderColor: "#119a50"
             }}
-            onPress={() => PlantStore.changeShopSegment(1)}
+            onPress={() => {
+              this.setState({ filter: false });
+              PlantStore.changeShopSegment(1);
+            }}
           >
             <Text
               style={{
@@ -127,7 +131,10 @@ class PlantScreen extends React.Component {
                   PlantStore.shopSegment === 2 ? "#119a50" : "white",
                 borderColor: "#119a50"
               }}
-              onPress={() => PlantStore.changeShopSegment(2)}
+              onPress={() => {
+                this.setState({ filter: false });
+                PlantStore.changeShopSegment(2);
+              }}
             >
               <Text
                 style={{
@@ -180,7 +187,11 @@ class PlantScreen extends React.Component {
             </Item>
           </View>
         )}
-        {!this.state.filter ? <View /> : <Filters />}
+        {this.state.filter & (this.state.segment === 0) ? (
+          <Filters />
+        ) : (
+          <View />
+        )}
         <Content padder>
           <View
             style={{
@@ -205,13 +216,16 @@ class PlantScreen extends React.Component {
                 shadowOpacity: 0.5,
                 shadowOffset: { width: 0, height: 5 }
               }}
-              onPress={() => this.props.navigation.navigate("Cart")}
+              onPress={() => {
+                this.props.navigation.navigate("Cart");
+                HistoryStore.changePage("Shop");
+              }}
             >
               <Text style={{ fontWeight: "bold" }}>VIEW CART</Text>
             </Button>
           )}
         </Content>
-        <FooterBar pageNameProp="Plants" />
+        <FooterBar pageNameProp="Plants" screenNameProp="Shop" />
       </Container>
     );
   }

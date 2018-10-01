@@ -2,9 +2,15 @@ var userdatabase = [
   {
     id: 1,
     name: "Abdulla Al-Jazzaf",
-    created_date: "2018-09-11T17:48:54.523381Z",
     email: "aaljazza@gmail.com",
     phone: 97666886,
+    city: "",
+    block: "",
+    street: "",
+    avenue: "",
+    house: "",
+    apartment: "",
+    deliveryInstructions: "",
     orderHistory: [
       {
         orderId: 1,

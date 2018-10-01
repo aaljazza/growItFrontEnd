@@ -28,6 +28,7 @@ import ProfileView from "./ProfileView";
 import ToggleSwitch from "toggle-switch-react-native";
 import PlantBackground from "./PlantBackgroundBlur.png";
 import UserStore from "../Stores/UserStore";
+import AuthStore from "../Stores/AuthStore";
 
 class LoginScreen extends React.Component {
   constructor(props) {
@@ -40,25 +41,15 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <Container>
-        <HeaderBar pageNameProp="Login Screen" />
+        <HeaderBar
+          pageNameProp={UserStore.signedIn ? "Profile" : "Login"}
+          screenNameProp="Profile"
+        />
         <Content padder>
-          {!UserStore.signedIn && (
-            <ToggleSwitch
-              isOn={UserStore.signedIn}
-              onColor="green"
-              offColor="red"
-              label={
-                UserStore.signedIn ? "Click to Sign Out" : "Click to Sign In"
-              }
-              labelStyle={{ color: "black", fontWeight: "900" }}
-              size="medium"
-              onToggle={() => UserStore.userSignedIn()}
-            />
-          )}
           {UserStore.signedIn ? <ProfileView /> : <LoginView />}
         </Content>
 
-        <FooterBar pageNameProp="Login" />
+        <FooterBar pageNameProp="Login" screenNameProp="Profile" />
       </Container>
     );
   }

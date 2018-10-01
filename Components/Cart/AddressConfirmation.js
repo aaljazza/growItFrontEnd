@@ -29,20 +29,22 @@ import CartRow from "./CartRows";
 import PlantStore from "../Stores/PlantStore";
 import UserStore from "../Stores/UserStore";
 import logo from "../Logo/logoWithText.png";
+import AuthStore from "../Stores/AuthStore";
+import HistoryStore from "../Stores/HistoryStore";
 
 // create a component
 class AddressConfirmation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      email: "",
-      phone: "",
+      name: UserStore.user.username,
+      email: UserStore.user.email,
+      phone: null,
       city: "",
-      block: "",
+      block: null,
       street: "",
-      avenue: "",
-      house: "",
+      avenue: null,
+      house: null,
       apartmentNumber: "",
       deliveryInstructions: ""
     };
@@ -50,18 +52,18 @@ class AddressConfirmation extends React.Component {
 
   componentDidMount() {
     if (UserStore.signedIn) {
-      let user = UserStore.user[0];
+      let user = AuthStore.user;
       this.setState({
-        name: user.name + "",
+        name: user.username,
         email: user.email,
-        phone: user.phone + "",
-        city: CartStore.city + "",
-        block: CartStore.block + "",
-        street: CartStore.street + "",
-        avenue: CartStore.avenue + "",
-        house: CartStore.house + "",
-        apartmentNumber: CartStore.apartmentNumber + "",
-        deliveryInstructions: CartStore.deliveryInstructions + ""
+        phone: UserStore.phone,
+        city: UserStore.city,
+        block: UserStore.block,
+        street: UserStore.street,
+        avenue: UserStore.avenue,
+        house: UserStore.house_number,
+        apartmentNumber: UserStore.apt_number,
+        deliveryInstructions: UserStore.del_instructions
       });
     }
   }
@@ -72,17 +74,17 @@ class AddressConfirmation extends React.Component {
     } else if (stateVal === 1) {
       this.setState({ email: inputVal + "" });
     } else if (stateVal === 2) {
-      this.setState({ phone: inputVal + "" });
+      this.setState({ phone: inputVal });
     } else if (stateVal === 3) {
       this.setState({ city: inputVal + "" });
     } else if (stateVal === 4) {
-      this.setState({ block: inputVal + "" });
+      this.setState({ block: inputVal });
     } else if (stateVal === 5) {
       this.setState({ street: inputVal + "" });
     } else if (stateVal === 6) {
-      this.setState({ avenue: inputVal + "" });
+      this.setState({ avenue: inputVal });
     } else if (stateVal === 7) {
-      this.setState({ house: inputVal + "" });
+      this.setState({ house: inputVal });
     } else if (stateVal === 8) {
       this.setState({ apartmentNumber: inputVal + "" });
     } else if (stateVal === 9) {
@@ -91,19 +93,20 @@ class AddressConfirmation extends React.Component {
   }
 
   checkParameters() {
-    if (this.state.name.length < 3) {
-      alert("Please write in a valid Name");
-    } else if (this.state.phone.length !== 8) {
+    if (this.state.phone === null || isNaN(this.state.phone)) {
       alert("Please write in a valid Number");
     } else if (this.state.city.length < 3) {
       alert("Please write in a valid City");
-    } else if (this.state.block.length === 0) {
+    } else if (this.state.block === null || isNaN(this.state.block)) {
       alert("Please write in a valid Block Number");
-    } else if (this.state.street.length === 0) {
+    } else if (this.state.street.length < 1) {
       alert("Please write in a street Name/Number");
-    } else if (this.state.house.length === 0) {
+    } else if (this.state.house === null || isNaN(this.state.house)) {
       alert("Please write in a house number");
+    } else if (isNaN(this.state.avenue)) {
+      alert("Please write in a valid Avenue Number");
     } else {
+      AuthStore.updateProfileInformation();
       CartStore.sendOrder(
         this.state.name,
         this.state.email,
@@ -117,91 +120,71 @@ class AddressConfirmation extends React.Component {
         this.state.deliveryInstructions
       );
       this.props.navigation.navigate("FinalOrderConfirmation");
+      HistoryStore.changePage("AddressConfirmation");
     }
   }
 
   render() {
-    let kuwaitiCities = [
-      "Abdullah AlSalim",
-      "Abu Ftaira",
-      "Abu Hulaifa",
-      "Adan",
-      "Adiliya",
-      "Ahmadi",
-      "Ali AlSalem",
-      "Aqaila",
-      "Bayan",
-      "Bidie",
-      "Bnaid AlGar",
-      "Bnaider",
-      "Daiya",
-      "Dasma",
-      "Dasman",
-      "Doha",
-      "Fahad AlAhmad",
-      "Fahaheel",
-      "Faiha",
-      "Fintas",
-      "Funaitis",
-      "Hadiya",
-      "Hawally",
-      "Hittin",
-      "Jaber AlAhmad",
-      "Jaber AlAli",
-      "Jabriya",
-      "Jibla",
-      "Jilaa",
-      "Kaifan",
-      "Khairan",
-      "Khaldiya",
-      "Kuwait City",
-      "Mahboula",
-      "Maidan Hawally",
-      "Mangaf",
-      "Mansouriya",
-      "Mina Abdulla",
-      "Magwa",
-      "Mirgab",
-      "Mishref",
-      "Messila",
-      "Mubarak AlJaber",
-      "Mubarak AlKabeer",
-      "Nahdha",
-      "Nigra",
-      "Nuwaiseeb",
-      "Nuzha",
-      "Qadsiya",
-      "Qurain",
-      "Qurnata",
-      "Qurtuba",
-      "Qosour",
-      "Rai",
-      "Rawda",
-      "Rigga",
-      "Rumaithiya",
-      "Sabah AlAhmad",
-      "Sabah Alsalem",
-      "Sabahiya",
-      "Sabhan",
-      "Salhiya",
-      "Salmiya",
-      "Salwa",
-      "Sawabir",
-      "Shaab",
-      "Shamiya",
-      "Sharq",
-      "Shuaiba",
-      "Shuwaikh",
-      "Jinob AlSurra",
-      "Sulaibikhat",
-      "Surra",
-      "Wafra",
-      "Yarmouk"
-    ];
+    let submitCheck;
+    if (
+      this.state.phone === null ||
+      isNaN(this.state.phone) ||
+      this.state.phone < 10000000 ||
+      this.state.phone > 99999999
+    ) {
+      submitCheck = "Update Phone Number";
+    } else if (this.state.city.length < 3) {
+      submitCheck = "Update City Name";
+    } else if (this.state.block === null || isNaN(this.state.block)) {
+      submitCheck = "Update Block Number";
+    } else if (this.state.street.length < 1) {
+      submitCheck = "Update Street";
+    } else if (this.state.house === null || isNaN(this.state.house)) {
+      submitCheck = "Update House Number";
+    } else if (this.state.house === null || isNaN(this.state.house)) {
+      submitCheck = "Update House Number";
+    } else {
+      submitCheck = "Submit";
+    }
+
+    let saveDetailButton;
+    if (submitCheck === "Submit") {
+      saveDetailButton = (
+        <Button
+          success
+          full
+          rounded
+          style={{
+            backgroundColor: "#119a50",
+            shadowOpacity: 0.5,
+            shadowOffset: { width: 0, height: 5 }
+          }}
+          onPress={() => this.checkParameters()}
+        >
+          <Text style={{ fontWeight: "bold" }}> {submitCheck}</Text>
+        </Button>
+      );
+    } else {
+      saveDetailButton = (
+        <Button
+          danger
+          bordered
+          full
+          rounded
+          onPress={() => this.checkParameters()}
+        >
+          <Text style={{ fontWeight: "bold" }}> {submitCheck}</Text>
+        </Button>
+      );
+    }
 
     return (
       <Container>
-        <HeaderBar pageNameProp="User Details" />
+        <HeaderBar
+          pageNameProp="User Details"
+          screenNameProp="AddressConfirmation"
+        />
+        <View padder>{saveDetailButton}</View>
         <Content>
           <Button
             full
@@ -216,6 +199,7 @@ class AddressConfirmation extends React.Component {
               <Icon active name="ios-person" type="Ionicons" />
               <Input
                 placeholder="Name"
+                disabled
                 value={this.state.name}
                 style={{ alignSelf: "center" }}
                 onChangeText={inputVal => this.updateparameter(inputVal, 0)}
@@ -225,6 +209,7 @@ class AddressConfirmation extends React.Component {
               <Icon active name="email" type="Zocial" />
               <Input
                 placeholder="Email"
+                disabled
                 value={this.state.email}
                 onChangeText={inputVal => this.updateparameter(inputVal, 1)}
                 keyboardType="email-address"
@@ -234,8 +219,11 @@ class AddressConfirmation extends React.Component {
               <Icon active name="phone" type="FontAwesome" />
               <Input
                 placeholder="Phone Number"
-                value={this.state.phone}
-                onChangeText={inputVal => this.updateparameter(inputVal, 2)}
+                value={UserStore.phone_number}
+                onChangeText={inputVal => {
+                  UserStore.updateProfileInitial(inputVal, "phone_number");
+                  this.updateparameter(inputVal, 2);
+                }}
                 keyboardType="number-pad"
               />
             </Item>
@@ -265,45 +253,63 @@ class AddressConfirmation extends React.Component {
             <Item stackedLabel>
               <Label>City</Label>
               <Input
-                value={this.state.city}
-                onChangeText={inputVal => this.updateparameter(inputVal, 3)}
+                value={UserStore.city}
+                onChangeText={inputVal => {
+                  UserStore.updateProfileInitial(inputVal, "city");
+                  this.updateparameter(inputVal, 3);
+                }}
               />
             </Item>
             <Item stackedLabel>
               <Label>Block</Label>
               <Input
-                value={this.state.block}
-                onChangeText={inputVal => this.updateparameter(inputVal, 4)}
+                value={UserStore.block}
+                onChangeText={inputVal => {
+                  UserStore.updateProfileInitial(inputVal, "block");
+                  this.updateparameter(inputVal, 4);
+                }}
                 keyboardType="number-pad"
               />
             </Item>
             <Item stackedLabel>
               <Label>Street</Label>
               <Input
-                value={this.state.street}
-                onChangeText={inputVal => this.updateparameter(inputVal, 5)}
+                value={UserStore.street}
+                onChangeText={inputVal => {
+                  UserStore.updateProfileInitial(inputVal, "street");
+                  this.updateparameter(inputVal, 5);
+                }}
               />
             </Item>
             <Item stackedLabel>
               <Label>Avenue/Jaddah (Optional)</Label>
               <Input
-                value={this.state.avenue}
-                onChangeText={inputVal => this.updateparameter(inputVal, 6)}
+                value={UserStore.avenue}
+                onChangeText={inputVal => {
+                  UserStore.updateProfileInitial(inputVal, "avenue");
+                  this.updateparameter(inputVal, 6);
+                }}
               />
             </Item>
             <Item stackedLabel>
               <Label>House Number</Label>
               <Input
-                value={this.state.house}
-                onChangeText={inputVal => this.updateparameter(inputVal, 7)}
+                value={UserStore.house_number}
+                onChangeText={inputVal => {
+                  UserStore.updateProfileInitial(inputVal, "house_number");
+                  this.updateparameter(inputVal, 7);
+                }}
                 keyboardType="number-pad"
               />
             </Item>
             <Item stackedLabel>
               <Label>Apartment Number (Optional)</Label>
               <Input
-                value={this.state.apartmentNumber}
-                onChangeText={inputVal => this.updateparameter(inputVal, 8)}
+                value={UserStore.apt_number}
+                onChangeText={inputVal => {
+                  UserStore.updateProfileInitial(inputVal, "apt_number");
+                  this.updateparameter(inputVal, 8);
+                }}
                 keyboardType="number-pad"
               />
             </Item>
@@ -315,29 +321,20 @@ class AddressConfirmation extends React.Component {
               />
               <Input
                 placeholder="Delivery Instructions"
-                value={this.state.deliveryInstructions}
-                onChangeText={inputVal => this.updateparameter(inputVal, 9)}
+                value={UserStore.del_instructions}
+                onChangeText={inputVal => {
+                  UserStore.updateProfileInitial(inputVal, "del_instructions");
+                  this.updateparameter(inputVal, 9);
+                }}
               />
             </Item>
           </View>
-          <View padder>
-            <Button
-              success
-              full
-              rounded
-              style={{
-                backgroundColor: "#119a50",
-                shadowOpacity: 0.5,
-                shadowOffset: { width: 0, height: 5 }
-              }}
-              onPress={() => this.checkParameters()}
-            >
-              <Text style={{ fontWeight: "bold" }}> SAVE DETAILS </Text>
-            </Button>
-          </View>
           <Image source={logo} style={{ width: 400, height: 400 }} />
         </Content>
-        <FooterBar pageNameProp="User Details" />
+        <FooterBar
+          pageNameProp="User Details"
+          screenNameProp="AddressConfirmation"
+        />
       </Container>
     );
   }

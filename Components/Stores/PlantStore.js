@@ -10,8 +10,9 @@ import plantdabase from "./databases/plantdatabase";
 import userdatabase from "./databases/userdatabase";
 import trackinghistory from "./databases/TrackingHistory";
 import accessoriesdatabase from "./databases/accessoriesdatabase";
+import AuthStore from "./AuthStore";
 
-const instance = axios.create({
+let instance = axios.create({
   baseURL: "http://178.128.205.28/"
 });
 let serverReady = "Yes";
@@ -36,6 +37,7 @@ class PlantsStore {
     this.shopSegment = 0;
     this.subSection = "";
     this.accessoryFilter = "Soil";
+    this.categories = [];
   }
   resetAllFilter() {
     this.careFilter = "";
@@ -194,6 +196,17 @@ class PlantsStore {
       `${accessory.name}`.toLowerCase().includes(this.accessorySearch)
     );
   }
+  fetchCategories() {
+    if (serverReady === "Yes") {
+      return instance
+        .get("/categorieslist/?format=json")
+        .then(res => res.data)
+        .then(category => (this.categories = category))
+        .catch(err => console.error(err));
+    } else {
+      this.accessories = accessoriesdatabase;
+    }
+  }
 
   fetchAccessory() {
     if (serverReady === "Yes") {
@@ -225,14 +238,8 @@ class PlantsStore {
       this.plants = plantdabase;
     }
   }
-
   postRequest() {
-    let data = [
-      { productID: 1, quantity: 2 },
-      { productID: 1, quantity: 1 },
-      { productID: 2, quantity: 1 }
-    ];
-
+    let data = { items: [{ productID: 1, quantity: 2 }] };
     return instance
       .post("/createorder/?format=json", data)
       .then(res => res.data)
@@ -243,6 +250,7 @@ class PlantsStore {
 
 decorate(PlantsStore, {
   plants: observable,
+  categories: observable,
   typeFilter: observable,
   accessories: observable,
   currentUser: observable,
@@ -269,4 +277,4 @@ const PlantStore = new PlantsStore();
 export default withNavigation(observer(PlantStore));
 PlantStore.fetchPlants();
 PlantStore.fetchAccessory();
-PlantStore.updatePlantQuantity();
+PlantStore.fetchCategories();

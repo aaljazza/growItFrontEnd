@@ -55,7 +55,7 @@ class StatiscticsMain extends Component {
           source={PlantBackground}
           style={{ width: "100%", height: "100%" }}
         >
-          <HeaderBar pageNameProp="My Stats" />
+          <HeaderBar pageNameProp="My Stats" screenNameProp="Statistics" />
           <Card padder>
             <CardItem header>
               <Text style={{ fontSize: 24, fontWeight: "bold" }}>
@@ -118,7 +118,7 @@ class StatiscticsMain extends Component {
               </View>
             )}
           </Content>
-          <FooterBar pageNameProp="Statistics" />
+          <FooterBar pageNameProp="Statistics" screenNameProp="Statistics" />
         </ImageBackground>
       </Container>
     );

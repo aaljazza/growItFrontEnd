@@ -19,12 +19,13 @@ import { withNavigation } from "react-navigation";
 
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
+import HistoryStore from "../Stores/HistoryStore";
 
 class OrderHistoryScreen extends React.Component {
   render() {
     return (
       <Container>
-        <HeaderBar pageNameProp="Orders" />
+        <HeaderBar pageNameProp="Orders" screenNameProp="Shop" />
         <Content padder>
           <Card>
             <CardItem>
@@ -38,7 +39,10 @@ class OrderHistoryScreen extends React.Component {
             rounded
             dark
             style={{ marginTop: 10 }}
-            onPress={() => this.props.navigation.navigate("Plants")}
+            onPress={() => {
+              this.props.navigation.navigate("Plants");
+              HistoryStore.changePage("Home");
+            }}
           >
             <Text>Check out Plants</Text>
           </Button>
@@ -47,12 +51,15 @@ class OrderHistoryScreen extends React.Component {
             rounded
             primary
             style={{ marginTop: 10 }}
-            onPress={() => this.props.navigation.navigate("Login")}
+            onPress={() => {
+              this.props.navigation.navigate("Login");
+              HistoryStore.changePage("Home");
+            }}
           >
             <Text>Login Here</Text>
           </Button>
         </Content>
-        <FooterBar pageNameProp="Orders" />
+        <FooterBar pageNameProp="Orders" screenNameProp="Shop" />
       </Container>
     );
   }

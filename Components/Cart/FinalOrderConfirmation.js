@@ -30,6 +30,8 @@ import CartRow from "./CartRows";
 import PlantStore from "../Stores/PlantStore";
 import UserStore from "../Stores/UserStore";
 import OrderRows from "./OrderRows";
+import HistoryStore from "../Stores/HistoryStore";
+import AuthStore from "../Stores/AuthStore";
 
 // create a component
 class FinalOrderConfirmation extends React.Component {
@@ -56,7 +58,10 @@ class FinalOrderConfirmation extends React.Component {
 
     return (
       <Container>
-        <HeaderBar pageNameProp="Checkout" />
+        <HeaderBar
+          pageNameProp="Checkout"
+          screenNameProp="FinalOrderConfirmation"
+        />
         <Button full disabled success style={{ backgroundColor: "#136c3c" }}>
           <Text>Confirm Your Order Below:</Text>
         </Button>
@@ -66,8 +71,12 @@ class FinalOrderConfirmation extends React.Component {
               <View style={{ flexDirection: "row" }}>
                 <View style={{ flexDirection: "column" }}>
                   <Text style={{ fontWeight: "bold" }}>User Details:</Text>
-                  <Text style={{ fontSize: 14 }}>Name: {CartStore.name}</Text>
-                  <Text style={{ fontSize: 14 }}>Email: {CartStore.email}</Text>
+                  <Text style={{ fontSize: 14 }}>
+                    Name: {AuthStore.user.username}
+                  </Text>
+                  <Text style={{ fontSize: 14 }}>
+                    Email: {AuthStore.user.email}
+                  </Text>
                   <Text style={{ fontSize: 14 }}>Phone: {CartStore.phone}</Text>
                 </View>
               </View>
@@ -97,6 +106,9 @@ class FinalOrderConfirmation extends React.Component {
                     <Text style={{ fontSize: 14 }}>
                       Apartment: {CartStore.apartmentNumber}
                     </Text>
+                    <Text style={{ fontSize: 14 }}>
+                      Delivery Instructions: {CartStore.deliveryInstructions}
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -107,9 +119,10 @@ class FinalOrderConfirmation extends React.Component {
                 danger
                 bordered
                 full
-                onPress={() =>
-                  this.props.navigation.navigate("AddressConfirmation")
-                }
+                onPress={() => {
+                  this.props.navigation.navigate("AddressConfirmation");
+                  HistoryStore.changePage("FinalOrderConfirmation");
+                }}
               >
                 <Text style={{ fontSize: 12 }}>Edit </Text>
               </Button>
@@ -132,7 +145,10 @@ class FinalOrderConfirmation extends React.Component {
                 danger
                 bordered
                 full
-                onPress={() => this.props.navigation.navigate("Cart")}
+                onPress={() => {
+                  this.props.navigation.navigate("Cart");
+                  HistoryStore.changePage("FinalOrderConfirmation");
+                }}
               >
                 <Text style={{ fontSize: 12 }}>Edit </Text>
               </Button>
@@ -152,7 +168,7 @@ class FinalOrderConfirmation extends React.Component {
             }}
             onPress={() => {
               this.props.navigation.navigate("OrderComplete");
-              CartStore.emptyCart();
+              CartStore.postOrderRequest();
             }}
           >
             <Text style={{ fontWeight: "bold" }}> Submit Order </Text>
@@ -170,7 +186,10 @@ class FinalOrderConfirmation extends React.Component {
             </CardItem>
           </Card>
         </Content>
-        <FooterBar pageNameProp="Confirm Order" />
+        <FooterBar
+          pageNameProp="Confirm Order"
+          screenNameProp="FinalOrderConfirmation"
+        />
       </Container>
     );
   }

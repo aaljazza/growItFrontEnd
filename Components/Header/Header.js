@@ -27,11 +27,13 @@ import { withNavigation } from "react-navigation";
 import { LinearGradient } from "expo";
 import CartStore from "../Stores/CartStore";
 import { observer } from "mobx-react";
+import HistoryStore from "../Stores/HistoryStore";
 
 // create a component
 class HeaderBar extends Component {
   render() {
     let pageName = this.props.pageNameProp;
+    let screenName = this.props.screenNameProp;
     let pageNameCaps = pageName.toUpperCase();
     return (
       <Header
@@ -49,14 +51,16 @@ class HeaderBar extends Component {
             transparent
             onPress={() => this.props.navigation.openDrawer()}
           >
-            <Icon
-              style={{ color: "#136c3c" }}
-              name="ios-leaf"
-              type="Ionicons"
-            />
+            <Icon style={{ color: "#136c3c" }} name="menu" type="Entypo" />
           </Button>
           <Text> </Text>
-          <Button transparent onPress={() => this.props.navigation.goBack()}>
+          <Button
+            transparent
+            onPress={() => {
+              this.props.navigation.navigate(HistoryStore.lastPage);
+              HistoryStore.changePage("Shop");
+            }}
+          >
             <Icon style={{ color: "#136c3c" }} name="ios-arrow-back" />
           </Button>
         </Left>
@@ -72,7 +76,10 @@ class HeaderBar extends Component {
         <Right>
           <Button
             transparent
-            onPress={() => this.props.navigation.navigate("Cart")}
+            onPress={() => {
+              this.props.navigation.navigate("Cart");
+              HistoryStore.changePage(screenName);
+            }}
           >
             {CartStore.orders.length > 0 && (
               <Badge bordered style={{ backgroundColor: "#136c3c" }}>

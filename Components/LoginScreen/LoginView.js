@@ -30,6 +30,7 @@ import {
   Right
 } from "native-base";
 import UserStore from "../Stores/UserStore";
+import AuthStore from "../Stores/AuthStore";
 
 class LoginView extends React.Component {
   constructor(props) {
@@ -37,13 +38,28 @@ class LoginView extends React.Component {
     this.state = {
       username: "",
       password: "",
+      email: "",
       signUp: 1
     };
+  }
+
+  registerUser() {
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(this.state.email) == true) {
+      UserStore.registerUser(
+        this.state.username,
+        this.state.password,
+        this.state.email
+      );
+    } else {
+      alert("Please insert a valid email");
+    }
   }
 
   onClickListener = viewId => {
     Alert.alert("Alert", "Button pressed " + viewId);
   };
+
   render() {
     return (
       <View>
@@ -56,7 +72,11 @@ class LoginView extends React.Component {
           }}
         >
           <Label style={{ color: "black" }}> Username:</Label>
-          <Input autoCapitalize="none" placeholder="..." />
+          <Input
+            autoCapitalize="none"
+            placeholder="..."
+            onChangeText={inputVal => this.setState({ username: inputVal })}
+          />
         </Item>
         <Item
           fixedLabel
@@ -69,7 +89,11 @@ class LoginView extends React.Component {
           }}
         >
           <Label style={{ color: "black" }}> Password:</Label>
-          <Input secureTextEntry={true} placeholder="..." />
+          <Input
+            secureTextEntry={true}
+            placeholder="..."
+            onChangeText={inputVal => this.setState({ password: inputVal })}
+          />
         </Item>
         <Item style={{ borderColor: "transparent" }}>
           <Text> </Text>
@@ -88,51 +112,14 @@ class LoginView extends React.Component {
                   color: "black"
                 }}
               >
-                {" "}
-                Name:
-              </Label>
-              <Input placeholder="..." />
-            </Item>
-            <Item
-              fixedLabel
-              style={{
-                backgroundColor: "transparent",
-                borderWidth: 5
-              }}
-            >
-              <Label
-                style={{
-                  color: "black"
-                }}
-              >
-                {" "}
                 E-Mail:
               </Label>
               <Input
                 placeholder="..."
                 autoCapitalize="none"
                 keyboardType="email-address"
-              />
-            </Item>
-            <Item
-              fixedLabel
-              style={{
-                backgroundColor: "transparent",
-                borderWidth: 5
-              }}
-            >
-              <Label
-                style={{
-                  color: "black"
-                }}
-              >
-                {" "}
-                Mob: +965
-              </Label>
-              <Input
-                placeholder="..."
-                autoCapitalize="none"
-                keyboardType="numeric"
+                value={this.state.email}
+                onChangeText={inputVal => this.setState({ email: inputVal })}
               />
             </Item>
             <Item style={{ borderColor: "transparent" }}>
@@ -150,6 +137,13 @@ class LoginView extends React.Component {
               shadowOpacity: 0.5,
               shadowOffset: { width: 0, height: 5 }
             }}
+            onPress={() => {
+              AuthStore.loginUser(
+                this.state.username,
+                this.state.password,
+                "No"
+              );
+            }}
           >
             <Text
               style={{
@@ -159,7 +153,7 @@ class LoginView extends React.Component {
                 color: "white"
               }}
             >
-              Sign In
+              SIGN IN
             </Text>
           </Button>
         )}
@@ -179,8 +173,13 @@ class LoginView extends React.Component {
             if (this.state.signUp === 1) {
               this.setState({ signUp: 0 });
             } else {
-              console.log("activate sign in");
-              UserStore.userSignedIn();
+              if (this.state.password.length < 8) {
+                alert("Password is Too Short");
+              } else if (this.state.username.length < 4) {
+                alert("Username is Too Short");
+              } else {
+                this.registerUser();
+              }
             }
           }}
         >
