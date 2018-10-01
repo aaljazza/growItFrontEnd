@@ -5,10 +5,10 @@ import { Container, Content, Text, Card, Button } from "native-base";
 import { observer } from "mobx-react";
 
 //Picture
-import blur from "../backgrounds/blur1.png";
+import blur from "../backgrounds/blur5.png";
 
 // create a component
-class Step1 extends Component {
+class Step4 extends Component {
   render() {
     return (
       <View
@@ -46,7 +46,7 @@ class Step1 extends Component {
                 width: 200
               }}
             >
-              Step 1
+              Step 4
             </Text>
           </Button>
           <Card
@@ -65,7 +65,7 @@ class Step1 extends Component {
                 textAlign: "center"
               }}
             >
-              Order online and get it delivered within 24 hours.
+              Feel good and enjoy.
             </Text>
           </Card>
         </ImageBackground>
@@ -75,4 +75,4 @@ class Step1 extends Component {
 }
 
 //make this component available to the app
-export default observer(Step1);
+export default observer(Step4);

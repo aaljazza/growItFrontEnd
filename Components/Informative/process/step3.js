@@ -65,8 +65,7 @@ class Step3 extends Component {
                 textAlign: "center"
               }}
             >
-              Watch Your Plant Grow and Enjoy the Fruits of Your Labor...
-              Literally.
+              Add the tracking code into your app and start tracking your plant.
             </Text>
           </Card>
         </ImageBackground>

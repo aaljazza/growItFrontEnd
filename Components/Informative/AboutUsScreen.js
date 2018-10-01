@@ -22,6 +22,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 import Step1 from "./process/step1";
 import Step2 from "./process/step2";
 import Step3 from "./process/step3";
+import Step4 from "./process/step4";
 
 const customStyles = {
   stepIndicatorSize: 10,
@@ -50,7 +51,7 @@ const customStyles = {
 const labels = ["", "", ""];
 
 export default class AboutUsScreen extends Component {
-  SCREENS = [<Step1 />, <Step2 />, <Step3 />];
+  SCREENS = [<Step4 />, <Step3 />, <Step2 />, <Step1 />];
 
   constructor(props) {
     super(props);
@@ -226,6 +227,15 @@ export default class AboutUsScreen extends Component {
         >
           <HeaderBar pageNameProp="About Us" screenNameProp="About Us" />
           <Content>
+            <Button
+              full
+              success
+              disabled
+              style={{ backgroundColor: "#136c3c" }}
+            >
+              <Text style={{ fontSize: 24 }}>Who are We?</Text>
+            </Button>
+            <Text> </Text>
             <Card
               padder
               style={{
@@ -249,10 +259,29 @@ export default class AboutUsScreen extends Component {
                     textAlign: "center"
                   }}
                 >
-                  Growing a seed into a plant can be a difficult process.
+                  The only app in Kuwait that simplifies indoor planting.
                 </Text>
               </CardItem>
-              <Text style={{ fontSize: 4 }}> </Text>
+            </Card>
+            <Text> </Text>
+            <Button
+              full
+              success
+              disabled
+              style={{ backgroundColor: "#136c3c" }}
+            >
+              <Text style={{ fontSize: 24 }}>What is Grow It?</Text>
+            </Button>
+            <Text> </Text>
+            <Card
+              padder
+              style={{
+                alignSelf: "center",
+                backgroundColor: "transparent",
+                borderColor: "transparent",
+                width: "90%"
+              }}
+            >
               <CardItem
                 style={{
                   backgroundColor: "white",
@@ -267,8 +296,50 @@ export default class AboutUsScreen extends Component {
                     textAlign: "center"
                   }}
                 >
-                  We are here to make it Easy! A tracking process embedded in
-                  your phone will guide you from when you plant the seed to when
+                  Grow It is a platform created to make indoor planting simple
+                  and easy. We aim to simplify the process of growing plants by
+                  helping you choose your plant through easy steps, getting it
+                  delivered to you very fast within 24 hours and guide you
+                  throughout the plant's different stages with our smart plant's
+                  tracking feature.
+                </Text>
+              </CardItem>
+            </Card>
+            <Text> </Text>
+            <Button
+              full
+              success
+              disabled
+              style={{ backgroundColor: "#136c3c" }}
+            >
+              <Text style={{ fontSize: 20 }}>Planting Seems Difficult...</Text>
+            </Button>
+            <Text> </Text>
+            <Card
+              padder
+              style={{
+                alignSelf: "center",
+                backgroundColor: "transparent",
+                borderColor: "transparent",
+                width: "90%"
+              }}
+            >
+              <CardItem
+                style={{
+                  backgroundColor: "white",
+                  borderColor: "#119a50",
+                  borderWidth: 3
+                }}
+              >
+                <Text
+                  style={{
+                    alignSelf: "center",
+                    fontSize: 20,
+                    textAlign: "center"
+                  }}
+                >
+                  We are here to make it easy! A tracking process embedded in
+                  your phone will guide you from when you plant a seed to when
                   the plant matures.
                 </Text>
               </CardItem>
@@ -294,12 +365,7 @@ export default class AboutUsScreen extends Component {
               slideStyle={{ width: SCREEN_WIDTH }}
               inactiveSlideOpacity={0.3}
               inactiveSlideScale={0.3}
-            />
-            <StepIndicator
-              customStyles={customStyles}
-              currentPosition={this.state.activeTab}
-              stepCount={3}
-              labels={labels}
+              firstItem={3}
             />
             <Text> </Text>
             <Button
@@ -356,9 +422,9 @@ export default class AboutUsScreen extends Component {
               onSnapToItem={i => this.setState({ activeTab: i })}
               sliderWidth={SCREEN_WIDTH}
               itemWidth={SCREEN_WIDTH}
-              slideStyle={{ width: SCREEN_WIDTH }}
-              inactiveSlideOpacity={0.3}
-              inactiveSlideScale={0.3}
+              inactiveSlideOpacity={0.9}
+              inactiveSlideScale={1}
+              firstItem={5}
             />
             <Text> </Text>
             <Button
@@ -410,6 +476,7 @@ export default class AboutUsScreen extends Component {
               slideStyle={{ width: SCREEN_WIDTH }}
               inactiveSlideOpacity={0.3}
               inactiveSlideScale={0.3}
+              firstItem={3}
             />
             <Text> </Text>
             <Button
@@ -460,6 +527,7 @@ export default class AboutUsScreen extends Component {
               slideStyle={{ width: SCREEN_WIDTH }}
               inactiveSlideOpacity={0.3}
               inactiveSlideScale={0.3}
+              firstItem={4}
             />
             <Text> </Text>
             <Button
@@ -510,6 +578,7 @@ export default class AboutUsScreen extends Component {
               slideStyle={{ width: SCREEN_WIDTH }}
               inactiveSlideOpacity={0.3}
               inactiveSlideScale={0.3}
+              firstItem={5}
             />
             <Text> </Text>
           </Content>

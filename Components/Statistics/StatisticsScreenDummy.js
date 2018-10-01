@@ -64,10 +64,7 @@ class StatisticsScreenDummy extends Component {
             full
             success
             style={{ backgroundColor: "#0b701c", shadowOpacity: 80 }}
-            onPress={() => {
-              this.props.navigation.navigate("Profile");
-              HistoryStore.changePage("Statistics");
-            }}
+            onPress={() => {}}
           >
             <Text
               style={{
@@ -76,7 +73,7 @@ class StatisticsScreenDummy extends Component {
                 fontSize: 25
               }}
             >
-              Login to Activate
+              Coming Soon
             </Text>
           </Button>
           <Card padder>

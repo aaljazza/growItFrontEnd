@@ -65,8 +65,8 @@ class Step2 extends Component {
                 textAlign: "center"
               }}
             >
-              Start Planting and Add The Tracking Code Into The App To Get Real
-              Time Statistics.
+              Read the guidelines card received with your order to start
+              planting right away.
             </Text>
           </Card>
         </ImageBackground>
