@@ -20,7 +20,7 @@ import { withNavigation } from "react-navigation";
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
 import PlantStore from "../Stores/PlantStore";
-import PlantBackgroundDark from "../LoginScreen/PlantBackgroundDark.png";
+import PlantBackground from "../LoginScreen/plantBackground2.png";
 import accessBackPng from "./accessBackPng.png";
 import plantingBackPNG from "./plantingBackPNG.png";
 import HistoryStore from "../Stores/HistoryStore";
@@ -31,124 +31,129 @@ class HomeScreen extends React.Component {
     plants = PlantStore.plants;
     return (
       <Container>
-        <HeaderBar pageNameProp={"Grow It!"} screenNameProp="Home" />
-        <Text> </Text>
-        <Text
-          style={{
-            alignSelf: "center",
-            fontWeight: "bold",
-            fontSize: 20,
-            color: "#136c3c"
-          }}
+        <ImageBackground
+          source={PlantBackground}
+          style={{ width: "100%", height: "100%" }}
         >
-          Choose an option below:
-        </Text>
-        <Text> </Text>
-        <Content>
-          <View
+          <HeaderBar pageNameProp={"Grow It!"} screenNameProp="Home" />
+          <Text> </Text>
+          <Text
             style={{
-              shadowOpacity: 0.5,
-              shadowOffset: { width: 5, height: 5 }
+              alignSelf: "center",
+              fontWeight: "bold",
+              fontSize: 20,
+              color: "#136c3c"
             }}
           >
-            <ImageBackground
-              source={plantingBackPNG}
-              style={{
-                alignSelf: "center",
-                width: 350,
-                height: 200,
-                borderWidth: 0,
-                overflow: "hidden"
-              }}
-              resizeMode="cover"
-            >
-              <Text> </Text>
-              <Text> </Text>
-              <Text
-                style={{
-                  opacity: 1,
-                  alignSelf: "center",
-                  fontSize: 32,
-                  fontWeight: "bold",
-                  alignContent: "center",
-                  textAlign: "center",
-                  color: "white",
-                  width: 300
-                }}
-              >
-                From Seed to Food
-              </Text>
-              <Text> </Text>
-              <Text> </Text>
-              <Button
-                light
-                bordered
-                onPress={() => {
-                  PlantStore.changeShopSegment(0);
-                  this.props.navigation.navigate("Shop");
-                  HistoryStore.changePage("Home");
-                }}
-                style={{ justifyContent: "center", alignSelf: "center" }}
-              >
-                <Text style={{ fontSize: 30, fontWeight: "bold" }}>
-                  See Packages
-                </Text>
-              </Button>
-            </ImageBackground>
-          </View>
+            Choose an option below:
+          </Text>
           <Text> </Text>
-          <Text> </Text>
-          <View
-            style={{
-              shadowOpacity: 0.5,
-              shadowOffset: { width: 5, height: 5 }
-            }}
-          >
-            <ImageBackground
-              source={accessBackPng}
+          <Content>
+            <View
               style={{
-                alignSelf: "center",
-                width: 350,
-                height: 200,
-                borderWidth: 0,
-                overflow: "hidden"
+                shadowOpacity: 0.5,
+                shadowOffset: { width: 5, height: 5 }
               }}
-              resizeMode="cover"
             >
-              <Text> </Text>
-              <Text
+              <ImageBackground
+                source={plantingBackPNG}
                 style={{
-                  opacity: 1,
                   alignSelf: "center",
-                  fontSize: 32,
-                  fontWeight: "bold",
-                  alignContent: "center",
-                  textAlign: "center",
-                  color: "white",
-                  width: 300
+                  width: 350,
+                  height: 200,
+                  borderWidth: 0,
+                  overflow: "hidden"
                 }}
+                resizeMode="cover"
               >
-                Looking for Accessories?
-              </Text>
-              <Text> </Text>
-              <Button
-                light
-                bordered
-                onPress={() => {
-                  PlantStore.changeShopSegment(1);
-                  this.props.navigation.navigate("Shop");
-                  HistoryStore.changePage("Home");
-                }}
-                style={{ justifyContent: "center", alignSelf: "center" }}
-              >
-                <Text style={{ fontSize: 30, fontWeight: "bold" }}>
-                  See Accessories
+                <Text> </Text>
+                <Text> </Text>
+                <Text
+                  style={{
+                    opacity: 1,
+                    alignSelf: "center",
+                    fontSize: 32,
+                    fontWeight: "bold",
+                    alignContent: "center",
+                    textAlign: "center",
+                    color: "white",
+                    width: 300
+                  }}
+                >
+                  From Seed to Food
                 </Text>
-              </Button>
-            </ImageBackground>
-          </View>
-        </Content>
-        <FooterBar pageNameProp="Home" screenNameProp="Home" />
+                <Text> </Text>
+                <Text> </Text>
+                <Button
+                  light
+                  bordered
+                  onPress={() => {
+                    PlantStore.changeShopSegment(0);
+                    this.props.navigation.navigate("Shop");
+                    HistoryStore.changePage("Home");
+                  }}
+                  style={{ justifyContent: "center", alignSelf: "center" }}
+                >
+                  <Text style={{ fontSize: 30, fontWeight: "bold" }}>
+                    See Packages
+                  </Text>
+                </Button>
+              </ImageBackground>
+            </View>
+            <Text> </Text>
+            <Text> </Text>
+            <View
+              style={{
+                shadowOpacity: 0.5,
+                shadowOffset: { width: 5, height: 5 }
+              }}
+            >
+              <ImageBackground
+                source={accessBackPng}
+                style={{
+                  alignSelf: "center",
+                  width: 350,
+                  height: 200,
+                  borderWidth: 0,
+                  overflow: "hidden"
+                }}
+                resizeMode="cover"
+              >
+                <Text> </Text>
+                <Text
+                  style={{
+                    opacity: 1,
+                    alignSelf: "center",
+                    fontSize: 32,
+                    fontWeight: "bold",
+                    alignContent: "center",
+                    textAlign: "center",
+                    color: "white",
+                    width: 300
+                  }}
+                >
+                  Looking for Accessories?
+                </Text>
+                <Text> </Text>
+                <Button
+                  light
+                  bordered
+                  onPress={() => {
+                    PlantStore.changeShopSegment(1);
+                    this.props.navigation.navigate("Shop");
+                    HistoryStore.changePage("Home");
+                  }}
+                  style={{ justifyContent: "center", alignSelf: "center" }}
+                >
+                  <Text style={{ fontSize: 30, fontWeight: "bold" }}>
+                    See Accessories
+                  </Text>
+                </Button>
+              </ImageBackground>
+            </View>
+          </Content>
+          <FooterBar pageNameProp="Home" screenNameProp="Home" />
+        </ImageBackground>
       </Container>
     );
   }

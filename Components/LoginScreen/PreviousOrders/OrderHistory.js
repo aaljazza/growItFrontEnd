@@ -12,6 +12,7 @@ import {
 } from "native-base";
 import moment from "moment";
 import { withNavigation } from "react-navigation";
+import { observer } from "mobx-react";
 
 //import Stores
 import PlantStore from "../../Stores/PlantStore";
@@ -24,9 +25,8 @@ class OrderHistory extends Component {
       <Card>
         <CardItem header>
           <Text>
-            Order {order.id} on {moment(order.date).format("DD-MMM-YY")}{" "}
+            Order {order.id} on {moment(order.date_created).format("DD-MMM-YY")}
           </Text>
-          <Text note>Total = {order.price} K.D.</Text>
         </CardItem>
       </Card>
     );
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default withNavigation(OrderHistory);
+export default withNavigation(observer(OrderHistory));

@@ -49,19 +49,25 @@ class ProfileView extends React.Component {
     let currentUser = PlantStore.currentUser[0];
     let user = AuthStore.user;
     let plants = PlantStore.plants;
-    let orders = currentUser.orderHistory.map((order, index) => (
+    let orders = UserStore.orders.map((order, index) => (
       <OrderHistory order={order} key={index} />
     ));
-    let tracking = currentUser.plantingHistory.map((track, index) => (
-      <PlantingHistory plant={track} key={index} />
+    let countOrders = UserStore.orders.length;
+    let countTrackers = 0;
+    for (let j = 0; j < UserStore.updatedTrackList.length; j++) {
+      if (UserStore.updatedTrackList[j].active === true) {
+        countTrackers += 1;
+      }
+    }
+    let tracking = UserStore.updatedTrackList.map((track, index) => (
+      <PlantingHistory track={track} key={index} />
     ));
-    console.log(AuthStore.user.username);
     return (
       <View>
         <Card>
           <CardItem header bordered>
             <Text style={{ fontSize: 24, fontWeight: "bold", color: "black" }}>
-              {AuthStore.user.username}
+              {AuthStore.user.username && AuthStore.user.username.toUpperCase()}
             </Text>
           </CardItem>
           <CardItem>
@@ -72,12 +78,12 @@ class ProfileView extends React.Component {
           <Card>
             <CardItem bordered>
               <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                Tracked Plants:
+                {countTrackers} Tracked Plant
+                {countTrackers !== 1 && "s"}:
               </Text>
               <Right>
                 <Button
                   transparent
-                  disabled
                   color="green"
                   onPress={() =>
                     this.setState({ trackOpen: !this.state.trackOpen })
@@ -104,7 +110,8 @@ class ProfileView extends React.Component {
           <Card>
             <CardItem bordered>
               <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                Previous Orders:
+                {countOrders} Previous Order
+                {countOrders !== 1 && "s"}:
               </Text>
               <Right>
                 <Button
@@ -162,11 +169,6 @@ class ProfileView extends React.Component {
             full
             bordered
             rounded
-            style={{
-              backgroundColor: "white",
-              shadowOffset: 0.5,
-              shadowOffset: { width: 10, height: 10 }
-            }}
             onPress={() => {
               AuthStore.logoutUser();
               UserStore.userSignedIn();

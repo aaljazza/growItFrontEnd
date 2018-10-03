@@ -1,6 +1,6 @@
 import React from "react";
 
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, View, ImageBackground } from "react-native";
 import {
   Text,
   Container,
@@ -30,6 +30,7 @@ import AccessoriesRows from "./AccessoriesRows";
 import AccessoryCategories from "./AccessoryCategories";
 import CartStore from "../Stores/CartStore";
 import HistoryStore from "../Stores/HistoryStore";
+import PlantBackground from "../LoginScreen/plantBackground2.png";
 
 class PlantScreen extends React.Component {
   constructor(props) {
@@ -46,8 +47,7 @@ class PlantScreen extends React.Component {
       <PlantRow key={index} plant={plantItem} />
     ));
     let AccessoryItems;
-    let list = ["Soil", "Pots", "Sprays", "Tools", "Lights", "Seeds"];
-    AccessoryItems = PlantStore.categories.map((accessory, index) => (
+    AccessoryItems = PlantStore.filteredCategories.map((accessory, index) => (
       <AccessoryCategories key={index} accessory={accessory} />
     ));
     filtAccessory = PlantStore.filteredAccessory.map((accessory, index) => (
@@ -66,166 +66,183 @@ class PlantScreen extends React.Component {
     }
     return (
       <Container>
-        <HeaderBar pageNameProp="Shop" screenNameProp="Shop" />
-        <Segment
-          style={{
-            justifyContent: "center",
-            backgroundColor: "white"
-          }}
+        <ImageBackground
+          source={PlantBackground}
+          style={{ width: "100%", height: "100%" }}
         >
-          <Button
-            active={PlantStore.shopSegment === 0}
-            first
+          <HeaderBar pageNameProp="Shop" screenNameProp="Shop" />
+          <Segment
             style={{
-              width: 100,
               justifyContent: "center",
-              backgroundColor:
-                PlantStore.shopSegment === 0 ? "#119a50" : "white",
-              borderColor: "#119a50"
-            }}
-            onPress={() => PlantStore.changeShopSegment(0)}
-          >
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 10,
-                color: PlantStore.shopSegment === 0 ? "white" : "#119a50"
-              }}
-            >
-              Packages
-            </Text>
-          </Button>
-          <Button
-            active={PlantStore.shopSegment === 1}
-            last={this.state.subSection === ""}
-            style={{
-              width: 100,
-              justifyContent: "center",
-              backgroundColor:
-                PlantStore.shopSegment === 1 ? "#119a50" : "white",
-              borderColor: "#119a50"
-            }}
-            onPress={() => {
-              this.setState({ filter: false });
-              PlantStore.changeShopSegment(1);
+              backgroundColor: "white"
             }}
           >
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 10,
-                color: PlantStore.shopSegment === 1 ? "white" : "#119a50"
-              }}
-            >
-              Full Shop
-            </Text>
-          </Button>
-          {PlantStore.subSection !== "" && (
             <Button
-              last
-              active={PlantStore.shopSegment === 2}
+              active={PlantStore.shopSegment === 0}
+              first
               style={{
                 width: 100,
                 justifyContent: "center",
                 backgroundColor:
-                  PlantStore.shopSegment === 2 ? "#119a50" : "white",
+                  PlantStore.shopSegment === 0 ? "#119a50" : "white",
+                borderColor: "#119a50"
+              }}
+              onPress={() => PlantStore.changeShopSegment(0)}
+            >
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 10,
+                  color: PlantStore.shopSegment === 0 ? "white" : "#119a50"
+                }}
+              >
+                Packages
+              </Text>
+            </Button>
+            <Button
+              active={PlantStore.shopSegment === 1}
+              last={this.state.subSection === ""}
+              style={{
+                width: 100,
+                justifyContent: "center",
+                backgroundColor:
+                  PlantStore.shopSegment === 1 ? "#119a50" : "white",
                 borderColor: "#119a50"
               }}
               onPress={() => {
                 this.setState({ filter: false });
-                PlantStore.changeShopSegment(2);
+                PlantStore.changeShopSegment(1);
               }}
             >
               <Text
                 style={{
                   fontWeight: "bold",
                   fontSize: 10,
-                  color: PlantStore.shopSegment === 2 ? "white" : "#119a50"
+                  color: PlantStore.shopSegment === 1 ? "white" : "#119a50"
                 }}
               >
-                {PlantStore.subSection}
+                Full Shop
               </Text>
             </Button>
-          )}
-        </Segment>
-        {filter === 1 && (
-          <Button
-            danger
-            outline
-            rounded
-            small
-            full
-            onPress={() => PlantStore.resetAllFilter()}
-            style={{ borderColor: "#136c3c" }}
-          >
-            <Text style={{ fontWeight: "bold" }}>Clear Filters</Text>
-          </Button>
-        )}
-        {PlantStore.shopSegment === 0 && (
-          <View>
-            <Item rounded>
-              <Text> </Text>
-              <Icon name="ios-search" />
-              <Input
-                placeholder="Search"
-                value={PlantStore.plantSearch}
-                onChangeText={inputVal => PlantStore.plantSearchInput(inputVal)}
-              />
-              <Text> </Text>
+            {PlantStore.subSection !== "" && (
               <Button
-                transparent
-                rounded
-                onPress={() => this.setState({ filter: !this.state.filter })}
+                last
+                active={PlantStore.shopSegment === 2}
+                style={{
+                  width: 100,
+                  justifyContent: "center",
+                  backgroundColor:
+                    PlantStore.shopSegment === 2 ? "#119a50" : "white",
+                  borderColor: "#119a50"
+                }}
+                onPress={() => {
+                  this.setState({ filter: false });
+                  PlantStore.changeShopSegment(2);
+                }}
               >
-                <Icon
-                  name="filter"
-                  type="FontAwesome"
-                  active={false}
-                  style={{ color: "#136c3c" }}
-                />
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: 10,
+                    color: PlantStore.shopSegment === 2 ? "white" : "#119a50"
+                  }}
+                >
+                  {PlantStore.subSection}
+                </Text>
               </Button>
-            </Item>
-          </View>
-        )}
-        {this.state.filter & (this.state.segment === 0) ? (
-          <Filters />
-        ) : (
-          <View />
-        )}
-        <Content padder>
-          <View
-            style={{
-              alignItems: "center",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              justifyContent: "space-evenly"
-            }}
-          >
-            {PlantStore.shopSegment === 0 && plantItems}
-            {PlantStore.shopSegment === 1 && AccessoryItems}
-            {PlantStore.shopSegment === 2 && filtAccessory}
-          </View>
-          <Text> </Text>
-          {CartStore.orders.length > 0 && (
+            )}
+          </Segment>
+          {filter === 1 && (
             <Button
-              success
-              full
+              danger
+              outline
               rounded
-              style={{
-                backgroundColor: "#119a50",
-                shadowOpacity: 0.5,
-                shadowOffset: { width: 0, height: 5 }
-              }}
-              onPress={() => {
-                this.props.navigation.navigate("Cart");
-                HistoryStore.changePage("Shop");
-              }}
+              small
+              full
+              onPress={() => PlantStore.resetAllFilter()}
+              style={{ borderColor: "#136c3c" }}
             >
-              <Text style={{ fontWeight: "bold" }}>VIEW CART</Text>
+              <Text style={{ fontWeight: "bold" }}>Clear Filters</Text>
             </Button>
           )}
-        </Content>
-        <FooterBar pageNameProp="Plants" screenNameProp="Shop" />
+          {PlantStore.shopSegment === 0 && (
+            <View>
+              <Item rounded>
+                <Text> </Text>
+                <Icon name="ios-search" />
+                <Input
+                  placeholder="Search"
+                  value={PlantStore.plantSearch}
+                  onChangeText={inputVal =>
+                    PlantStore.plantSearchInput(inputVal)
+                  }
+                />
+                <Text> </Text>
+                <Button
+                  transparent
+                  rounded
+                  onPress={() => this.setState({ filter: !this.state.filter })}
+                >
+                  <Icon
+                    name="filter"
+                    type="FontAwesome"
+                    active={false}
+                    style={{ color: "#136c3c" }}
+                  />
+                </Button>
+              </Item>
+            </View>
+          )}
+          {this.state.filter & (this.state.segment === 0) ? (
+            <Filters />
+          ) : (
+            <View />
+          )}
+          <Content padder>
+            <View
+              style={{
+                alignItems: "center",
+                flexDirection: "row",
+                flexWrap: "wrap",
+                justifyContent: "space-evenly"
+              }}
+            >
+              {PlantStore.shopSegment === 0 && plantItems}
+              {PlantStore.shopSegment === 1 && (
+                <View
+                  style={{
+                    justifyContent: "space-evenly",
+                    flexDirection: "row",
+                    flexWrap: "wrap"
+                  }}
+                >
+                  {AccessoryItems}
+                </View>
+              )}
+              {PlantStore.shopSegment === 2 && filtAccessory}
+            </View>
+            <Text> </Text>
+            {CartStore.orders.length > 0 && (
+              <Button
+                success
+                full
+                rounded
+                style={{
+                  backgroundColor: "#119a50",
+                  shadowOpacity: 0.5,
+                  shadowOffset: { width: 0, height: 5 }
+                }}
+                onPress={() => {
+                  this.props.navigation.navigate("Cart");
+                  HistoryStore.changePage("Shop");
+                }}
+              >
+                <Text style={{ fontWeight: "bold" }}>VIEW CART</Text>
+              </Button>
+            )}
+          </Content>
+          <FooterBar pageNameProp="Plants" screenNameProp="Shop" />
+        </ImageBackground>
       </Container>
     );
   }

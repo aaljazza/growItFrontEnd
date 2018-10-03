@@ -3,17 +3,17 @@ import axios from "axios";
 import { StyleSheet, Text, View } from "react-native";
 import { observer } from "mobx-react";
 import { withNavigation } from "react-navigation";
+import moment from "moment";
 
 //Import Stores
 import plantdabase from "./databases/plantdatabase";
 import userdatabase from "./databases/userdatabase";
-import trackinghistory from "./databases/TrackingHistory";
 import accessoriesdatabase from "./databases/accessoriesdatabase";
 import AuthStore from "./AuthStore";
 // import AuthStore from "./AuthStore";
 
 const instance = axios.create({
-  baseURL: "http://178.128.205.28/"
+  baseURL: "http://142.93.163.231/"
 });
 const serverReady = "Yes";
 
@@ -29,7 +29,26 @@ class UsersStore {
     this.house_number = null;
     this.apt_number = null;
     this.del_instructions = "";
+    this.trackinghistory = [];
+    this.orders = [];
+    this.trackingPlant = {};
   }
+
+  // get updateLabels() {
+  //   let label = [0];
+  //   let dateVal;
+  //   if (this.trackingPlant !== 0) {
+  //     for (let i = 0; i < this.trackingPlant.plantheight_set.length; i++) {
+  //       if (this.trackingPlant.plantheight_set[i].active === true) {
+  //         dateVal =
+  //           moment().diff(this.trackingPlant.planted_on, "days") -
+  //           moment().diff(this.trackingPlant.plantheight_set[i].days, "days");
+  //         label.push(dateVal);
+  //       }
+  //     }
+  //   }
+  //   return label;
+  // }
 
   resetProfile() {
     this.user = {};
@@ -71,6 +90,109 @@ class UsersStore {
     // AuthStore.loginUser(usernmane, password, "no");
   }
 
+  createHeight(height, track) {
+    let data = {
+      track: track,
+      active: true,
+      height: height / 10
+    };
+    return instance
+      .post("/heightcreate/?format=json", data)
+      .then(res => res.data)
+      .then(res => {
+        alert("Height Added");
+        this.fetchTrackHistory();
+      })
+      .catch(err => {
+        alert("Error Occured, Try Again Later");
+        console.log(err.response);
+      });
+  }
+
+  addTrackPlant(plantID) {
+    let data = {
+      active: true,
+      plant: plantID,
+      user: AuthStore.user.user_id
+    };
+    return instance
+      .post("/track/?format=json", data)
+      .then(res => res.data)
+      .then(res => {
+        this.fetchTrackHistory();
+        alert("Tracked Plant Added");
+      })
+      .catch(err => {
+        console.log(err.response);
+        alert("An error occured. Try again later.");
+      });
+  }
+
+  removeTrackPlant(plantID, trackID) {
+    let data = {
+      plant: plantID,
+      active: false,
+      user: AuthStore.user.user_id
+    };
+    return instance
+      .put("/trackupdate/" + trackID + "/?format=json", data)
+      .then(res => res.data)
+      .then(res => {
+        this.fetchTrackHistory();
+        alert("Tracked Plant Removed");
+      })
+      .catch(err => {
+        console.log(err.response);
+        alert("An error occured. Try again later.");
+      });
+  }
+
+  updatePlantHeight(heightID, height, track) {
+    let data = {
+      track: track,
+      active: false,
+      height: height
+    };
+    return instance
+      .put("/heightupdate/" + heightID + "/?format=json", data)
+      .then(res => res.data)
+      .then(res => {
+        this.fetchTrackHistory();
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
+  }
+
+  fetchOrderHistory() {
+    return instance
+      .get("/order/" + 1 + "/?format=json")
+      .then(res => res.data)
+      .then(res => {
+        this.orders = res;
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
+  }
+
+  fetchTrackHistory() {
+    return instance
+      .get("/tracklist/" + 1 + "/?format=json")
+      .then(res => res.data)
+      .then(res => {
+        this.trackinghistory = res;
+        this.fetchOrderHistory();
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
+  }
+
+  get updatedTrackList() {
+    return this.trackinghistory.filter(active => active.active === true);
+  }
+
   registerUser(username, password, email) {
     // AuthStore.registerUser(username, password);
     const userData = {
@@ -110,7 +232,11 @@ decorate(UsersStore, {
   avenue: observable,
   house_number: observable,
   apt_number: observable,
-  del_instructions: observable
+  del_instructions: observable,
+  orders: observable,
+  trackingPlant: observable,
+  trackinghistory: observable,
+  updatedTrackList: computed
 });
 const UserStore = new UsersStore();
 export default withNavigation(observer(UserStore));

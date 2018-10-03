@@ -16,7 +16,7 @@ import StepIndicator from "react-native-step-indicator";
 import { observer } from "mobx-react";
 
 //imports
-import blur from "../LoginScreen/PlantBackgroundBlur.png";
+import blur from "../LoginScreen/plantBackground3.png";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 import Step1 from "./process/step1";
@@ -356,6 +356,7 @@ export default class AboutUsScreen extends Component {
             <Text> </Text>
             <Carousel
               layout={"stack"}
+              loop={true}
               ref={ref => (this.carouselRef = ref)}
               data={this.SCREENS}
               renderItem={({ item }) => item}
@@ -416,6 +417,7 @@ export default class AboutUsScreen extends Component {
             </Card>
             <Carousel
               layout={"stack"}
+              loop={true}
               ref={ref => (this.carouselRef = ref)}
               data={smartViews}
               renderItem={({ item }) => item}
@@ -424,7 +426,6 @@ export default class AboutUsScreen extends Component {
               itemWidth={SCREEN_WIDTH}
               inactiveSlideOpacity={0.9}
               inactiveSlideScale={1}
-              firstItem={5}
             />
             <Text> </Text>
             <Button
@@ -467,6 +468,7 @@ export default class AboutUsScreen extends Component {
             </Card>
             <Carousel
               layout={"stack"}
+              loop={true}
               ref={ref => (this.carouselRef = ref)}
               data={airViews}
               renderItem={({ item }) => item}
@@ -476,7 +478,6 @@ export default class AboutUsScreen extends Component {
               slideStyle={{ width: SCREEN_WIDTH }}
               inactiveSlideOpacity={0.3}
               inactiveSlideScale={0.3}
-              firstItem={3}
             />
             <Text> </Text>
             <Button
@@ -518,6 +519,7 @@ export default class AboutUsScreen extends Component {
             </Card>
             <Carousel
               layout={"stack"}
+              loop={true}
               ref={ref => (this.carouselRef = ref)}
               data={humViews}
               renderItem={({ item }) => item}
@@ -527,7 +529,6 @@ export default class AboutUsScreen extends Component {
               slideStyle={{ width: SCREEN_WIDTH }}
               inactiveSlideOpacity={0.3}
               inactiveSlideScale={0.3}
-              firstItem={4}
             />
             <Text> </Text>
             <Button
@@ -569,6 +570,7 @@ export default class AboutUsScreen extends Component {
             </Card>
             <Carousel
               layout={"stack"}
+              loop={true}
               ref={ref => (this.carouselRef = ref)}
               data={moodViews}
               renderItem={({ item }) => item}
@@ -578,7 +580,6 @@ export default class AboutUsScreen extends Component {
               slideStyle={{ width: SCREEN_WIDTH }}
               inactiveSlideOpacity={0.3}
               inactiveSlideScale={0.3}
-              firstItem={5}
             />
             <Text> </Text>
           </Content>

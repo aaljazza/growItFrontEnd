@@ -4,7 +4,8 @@ import {
   Dimensions,
   ScrollView,
   Image,
-  ImageBackground
+  ImageBackground,
+  Alert
 } from "react-native";
 import {
   Button,
@@ -18,6 +19,8 @@ import {
   Title,
   View,
   Left,
+  Item,
+  Input,
   Icon,
   Right
 } from "native-base";
@@ -29,7 +32,7 @@ import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
 // import Store
 import PlantStore from "../Stores/PlantStore";
-import PlantBackground from "../LoginScreen/PlantBackgroundBlur.png";
+import PlantBackground from "../LoginScreen/plantBackground5.png";
 
 import moment from "moment";
 import PureChart from "react-native-pure-chart";
@@ -43,6 +46,8 @@ import {
   ProgressChart,
   ContributionGraph
 } from "react-native-chart-kit";
+import UserStore from "../Stores/UserStore";
+import HeightRow from "./HeightRow";
 
 //Step Indicator Constants
 const customStyles = {
@@ -70,27 +75,49 @@ const customStyles = {
 };
 
 class StatisticsScreen extends React.Component {
+  removeItemAlert(plantName, plantID, trackID) {
+    Alert.alert(
+      `Delete Tracking ${plantName}`,
+      "Kindly note this is not reversable, you will lose all data.",
+      [
+        {
+          text: "Yes, Delete",
+          onPress: () => {
+            UserStore.removeTrackPlant(plantID, trackID);
+            this.props.navigation.navigate("Statistics");
+          }
+        },
+        {
+          text: "No, Leave it",
+          onPress: () => console.log("canceled")
+        }
+      ]
+    );
+  }
   constructor(props) {
     super(props);
     this.state = {
       currentPosition: 0,
-      notificationToggle: false
+      notificationToggle: false,
+      newHeight: null,
+      initialLabels: [],
+      initialData: [],
+      orderOpen: false
     };
   }
   render() {
-    let trackID = PlantStore.trackID;
-    let trackIndex = PlantStore.trackedPlants.findIndex(
-      track => track.trackID === trackID
+    let trackID = PlantStore.trackID; //this is the tracking ID
+    let trackIndex = UserStore.updatedTrackList.findIndex(
+      track => track.id === trackID
     );
-    let trackedPlant = PlantStore.trackedPlants[trackIndex];
-
+    let trackedPlant = UserStore.updatedTrackList[trackIndex]; //this is the tracking Object
     let plantIndex = PlantStore.plants.findIndex(
-      plant => plant.id === PlantStore.trackedPlants[trackIndex].plantID
-    );
+      plant => plant.id === trackedPlant.plant
+    ); //this is the plant ID
 
-    storePlant = PlantStore.plants[plantIndex];
+    storePlant = PlantStore.plants[plantIndex]; //this is the plant object
 
-    let daysPassed = moment().diff(trackedPlant.plantedOn, "days");
+    let daysPassed = moment().diff(trackedPlant.planted_on, "days");
     let daysPrint = null;
     let description = null;
     let finalStage = null;
@@ -98,76 +125,83 @@ class StatisticsScreen extends React.Component {
     let daysForThisStage = null;
     if (
       daysPassed >
-      storePlant.stage1day + storePlant.stage2day + storePlant.stage3day
+      storePlant.stage_1day + storePlant.stage_2day + storePlant.stage_3day
     ) {
       daysPrint = 3;
-      description = storePlant.stage4det;
+      description = storePlant.stage_4det;
       finalStage = "Eat";
       daysRemainingStage = 0;
       daysForThisStage = 1;
-    } else if (daysPassed > storePlant.stage1day + storePlant.stage2day) {
+    } else if (daysPassed > storePlant.stage_1day + storePlant.stage_2day) {
       daysPrint = 2;
-      description = storePlant.stage3det;
-      finalStage = storePlant.stage3des;
+      description = storePlant.stage_3det;
+      finalStage = storePlant.stage_3des;
       daysRemainingStage =
-        storePlant.stage1day +
-        storePlant.stage2day +
-        storePlant.stage3day -
+        storePlant.stage_1day +
+        storePlant.stage_2day +
+        storePlant.stage_3day -
         daysPassed;
-      daysForThisStage = storePlant.stage3day;
-    } else if (daysPassed > storePlant.stage1day) {
-      description = storePlant.stage2det;
-      finalStage = storePlant.stage2des;
+      daysForThisStage = storePlant.stage_3day;
+    } else if (daysPassed > storePlant.stage_1day) {
+      description = storePlant.stage_2det;
+      finalStage = storePlant.stage_2des;
       daysPrint = 1;
       daysRemainingStage =
-        storePlant.stage1day + storePlant.stage2day - daysPassed;
-      daysForThisStage = storePlant.stage2day;
+        storePlant.stage_1day + storePlant.stage_2day - daysPassed;
+      daysForThisStage = storePlant.stage_2day;
     } else {
       daysPrint = 0;
-      description = storePlant.stage1det;
-      finalStage = storePlant.stage1des;
-      daysRemainingStage = storePlant.stage1day - daysPassed;
-      daysForThisStage = storePlant.stage1day;
+      description = storePlant.stage_1det;
+      finalStage = storePlant.stage_1des;
+      daysRemainingStage = storePlant.stage_1day - daysPassed;
+      daysForThisStage = storePlant.stage_1day;
     }
-
-    let sampleData = [
-      {
-        seriesName: "series1",
-        data: [
-          { x: "2018-02-01", y: 0 },
-          { x: "2018-02-02", y: 5 },
-          { x: "2018-02-03", y: 10 },
-          { x: "2018-02-04", y: 20 },
-          { x: "2018-02-05", y: 30 },
-          { x: "2018-02-06", y: 35 },
-          { x: "2018-02-07", y: 35 }
-        ],
-        color: "#ffffff"
-      },
-      {
-        seriesName: "series2",
-        data: [
-          { x: "2018-02-01", y: 0 },
-          { x: "2018-02-02", y: 20 },
-          { x: "2018-02-03", y: 30 },
-          { x: "2018-02-04", y: 35 },
-          { x: "2018-02-04", y: 40 }
-        ],
-        color: "#ffffff"
-      }
-    ];
     let stage1 = 0;
-    let stage2 = storePlant.stage1day;
-    let stage3 = storePlant.stage1day + storePlant.stage2day;
+    let stage2 = storePlant.stage_1day;
+    let stage3 = storePlant.stage_1day + storePlant.stage_2day;
     let stage4 =
-      storePlant.stage1day + storePlant.stage2day + storePlant.stage3day;
+      storePlant.stage_1day + storePlant.stage_2day + storePlant.stage_3day;
     const labels = [
-      storePlant.stage1des,
-      storePlant.stage2des,
-      storePlant.stage3des,
+      storePlant.stage_1des,
+      storePlant.stage_2des,
+      storePlant.stage_3des,
       "Eat"
     ];
+    let dataUpd = [0];
+    let labUpd = [0];
+    let dateVal;
+    let sampleData = [];
+    let heightRowView;
+    let sampleCount = 0;
+    for (let i = 0; i < trackedPlant.plantheight_set.length; i++) {
+      if (trackedPlant.plantheight_set[i].active === true) {
+        dataUpd.push(Math.round(trackedPlant.plantheight_set[i].height));
+        dateVal =
+          moment().diff(trackedPlant.planted_on, "days") -
+          moment().diff(trackedPlant.plantheight_set[i].days, "days");
+        labUpd.push(dateVal);
+        sampleCount += 1;
+      }
+    }
+    heightRowView = trackedPlant.plantheight_set.map((height, index) => (
+      <HeightRow height={height} key={index} />
+    ));
 
+    lastHeightCheck = "yes";
+    newHeightCheck = "yes";
+    let lastHeight = 0;
+    let dayPlanted = moment().diff(trackedPlant.planted_on, "days") + 0;
+    if (dayPlanted - labUpd[labUpd.length - 1] <= 0) {
+      lastHeightCheck = "no";
+      newHeightCheck = "no";
+    } else if (
+      isNaN(this.state.newHeight) ||
+      this.state.newHeight === null ||
+      this.state.newHeight === "" ||
+      this.state.newHeight > 99
+    ) {
+      newHeightCheck = "no";
+    }
     return (
       <Container>
         <ImageBackground
@@ -202,7 +236,7 @@ class StatisticsScreen extends React.Component {
                 <Text>Age of Plant:</Text>
                 <Text style={{ fontWeight: "bold" }}>
                   {" "}
-                  {moment(trackedPlant.plantedOn).toNow(true)} old
+                  {moment(trackedPlant.planted_on).toNow(true)} old
                 </Text>
               </CardItem>
               <CardItem>
@@ -221,20 +255,20 @@ class StatisticsScreen extends React.Component {
               <CardItem bordered>
                 <Left>
                   <Text>Next Watering </Text>
-                  <Text note>Every {storePlant.wateringFrequency} days</Text>
+                  <Text note>Every {storePlant.watering_frequency} days</Text>
                 </Left>
                 <PercentageCircle
                   borderWidth={10}
                   radius={40}
                   percent={
-                    (100 * (daysPassed % storePlant.wateringFrequency)) /
-                    storePlant.wateringFrequency
+                    (100 * (daysPassed % storePlant.watering_frequency)) /
+                    storePlant.watering_frequency
                   }
                   color={"#119a50"}
                 >
                   <Text>
-                    {storePlant.wateringFrequency -
-                      (daysPassed % storePlant.wateringFrequency)}
+                    {storePlant.watering_frequency -
+                      (daysPassed % storePlant.watering_frequency)}
                   </Text>
                 </PercentageCircle>
               </CardItem>
@@ -276,12 +310,67 @@ class StatisticsScreen extends React.Component {
                 </PercentageCircle>
               </CardItem>
             </Card>
+            <Card
+              style={{
+                shadowOpacity: 0.5,
+                borderRadius: 10,
+                shadowRadius: 20,
+                shadowOffset: { width: null, height: 10 }
+              }}
+            >
+              <CardItem style={{ borderRadius: 10 }}>
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    alignSelf: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  {lastHeightCheck === "yes"
+                    ? "Record Today's Height"
+                    : "Height recorded successfully. Next height input will be available tomorrow."}
+                </Text>
+              </CardItem>
+              {lastHeightCheck === "yes" && (
+                <Item style={{ borderRadius: 10 }}>
+                  <Input
+                    placeholder="..."
+                    disabled={lastHeightCheck === "no"}
+                    style={{ width: 50, fontWeight: "bold" }}
+                    value={this.state.newHeight}
+                    onChangeText={inputVal =>
+                      this.setState({ newHeight: inputVal })
+                    }
+                    keyboardType="numeric"
+                  />
+                  <Button disabled light>
+                    <Text style={{ fontWeight: "bold", color: "black" }}>
+                      in cm
+                    </Text>
+                  </Button>
+                  <Button
+                    success={newHeightCheck === "yes"}
+                    transparent={newHeightCheck === "no"}
+                    disabled={newHeightCheck === "no"}
+                    onPress={() => {
+                      UserStore.createHeight(
+                        this.state.newHeight + 0,
+                        trackedPlant.id
+                      );
+                      this.setState({ newHeight: null });
+                    }}
+                  >
+                    <Text>{newHeightCheck === "yes" ? "Submit" : ""}</Text>
+                  </Button>
+                </Item>
+              )}
+            </Card>
             <LineChart
               data={{
-                labels: [0, 20, 40, 60, 80, 100, 120, 140],
+                labels: labUpd,
                 datasets: [
                   {
-                    data: [0, 0, 10, 15, 20, 25, 25]
+                    data: dataUpd
                   }
                 ]
               }}
@@ -301,6 +390,52 @@ class StatisticsScreen extends React.Component {
                 borderRadius: 16
               }}
             />
+            <Card>
+              <CardItem bordered>
+                <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                  {sampleCount} Data Point
+                  {sampleCount !== 1 && "s"}
+                </Text>
+                <Right>
+                  <Button
+                    transparent
+                    onPress={() =>
+                      this.setState({ orderOpen: !this.state.orderOpen })
+                    }
+                  >
+                    {this.state.orderOpen ? (
+                      <Icon
+                        type="Entypo"
+                        name="chevron-up"
+                        style={{ fontSize: 25, color: "#119a50" }}
+                      />
+                    ) : (
+                      <Icon
+                        type="Entypo"
+                        name="chevron-down"
+                        style={{ fontSize: 25, color: "#119a50" }}
+                      />
+                    )}
+                  </Button>
+                </Right>
+              </CardItem>
+              {this.state.orderOpen && heightRowView}
+            </Card>
+            <Button
+              danger
+              full
+              rounded
+              bordered
+              onPress={() =>
+                this.removeItemAlert(
+                  storePlant.name,
+                  storePlant.id,
+                  trackedPlant.id
+                )
+              }
+            >
+              <Text>Delete this plant.</Text>
+            </Button>
           </Content>
           <FooterBar
             pageNameProp="Statistics"

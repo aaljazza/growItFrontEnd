@@ -47,7 +47,7 @@ class LoginView extends React.Component {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(this.state.email) == true) {
       UserStore.registerUser(
-        this.state.username,
+        this.state.username.toLowerCase(),
         this.state.password,
         this.state.email
       );
@@ -75,6 +75,7 @@ class LoginView extends React.Component {
           <Input
             autoCapitalize="none"
             placeholder="..."
+            style={{ fontWeight: "bold" }}
             onChangeText={inputVal => this.setState({ username: inputVal })}
           />
         </Item>
@@ -92,6 +93,7 @@ class LoginView extends React.Component {
           <Input
             autoCapitalize="none"
             secureTextEntry={true}
+            style={{ fontWeight: "bold" }}
             placeholder="..."
             onChangeText={inputVal => this.setState({ password: inputVal })}
           />
@@ -118,6 +120,7 @@ class LoginView extends React.Component {
               <Input
                 placeholder="..."
                 autoCapitalize="none"
+                style={{ fontWeight: "bold" }}
                 keyboardType="email-address"
                 value={this.state.email}
                 onChangeText={inputVal => this.setState({ email: inputVal })}
@@ -140,7 +143,7 @@ class LoginView extends React.Component {
             }}
             onPress={() => {
               AuthStore.loginUser(
-                this.state.username,
+                this.state.username.toLowerCase(),
                 this.state.password,
                 "No"
               );

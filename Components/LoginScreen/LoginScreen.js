@@ -26,7 +26,7 @@ import ProfileView from "./ProfileView";
 
 //Others
 import ToggleSwitch from "toggle-switch-react-native";
-import PlantBackground from "./PlantBackgroundBlur.png";
+import PlantBackground from "../Experience/Pictures/back5.png";
 import UserStore from "../Stores/UserStore";
 import AuthStore from "../Stores/AuthStore";
 
@@ -41,15 +41,20 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <Container>
-        <HeaderBar
-          pageNameProp={UserStore.signedIn ? "Profile" : "Login"}
-          screenNameProp="Profile"
-        />
-        <Content padder>
-          {UserStore.signedIn ? <ProfileView /> : <LoginView />}
-        </Content>
+        <ImageBackground
+          source={PlantBackground}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <HeaderBar
+            pageNameProp={UserStore.signedIn ? "Profile" : "Login"}
+            screenNameProp="Profile"
+          />
+          <Content padder>
+            {UserStore.signedIn ? <ProfileView /> : <LoginView />}
+          </Content>
 
-        <FooterBar pageNameProp="Login" screenNameProp="Profile" />
+          <FooterBar pageNameProp="Login" screenNameProp="Profile" />
+        </ImageBackground>
       </Container>
     );
   }

@@ -29,8 +29,13 @@ class FooterBar extends Component {
     let screenName = this.props.screenNameProp;
 
     return (
-      <Footer style={{ borderColor: "#136c3c", borderTopWidth: 5 }}>
-        <FooterTab>
+      <Footer
+        style={{
+          borderColor: "#136c3c",
+          borderTopWidth: 5
+        }}
+      >
+        <FooterTab style={{ backgroundColor: "transparent" }}>
           <LinearGradient
             colors={["#ffffff", "#ffffff"]}
             style={{

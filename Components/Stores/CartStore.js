@@ -5,9 +5,10 @@ import PlantStore from "./PlantStore";
 import { observer } from "mobx-react";
 import { withNavigation } from "react-navigation";
 import AuthStore from "./AuthStore";
+import UserStore from "./UserStore";
 
 const instance = axios.create({
-  baseURL: "http://178.128.205.28/"
+  baseURL: "http://142.93.163.231/"
 });
 
 class CartsStore {
@@ -121,6 +122,7 @@ class CartsStore {
       .then(res => res.data)
       .then(res => {
         console.log("success");
+        UserStore.fetchOrderHistory();
         this.orders = [];
         this.props.navigation.navigate("OrderComplete");
       })
