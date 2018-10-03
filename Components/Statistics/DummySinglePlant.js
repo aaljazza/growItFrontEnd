@@ -19,7 +19,9 @@ import {
   View,
   Left,
   Icon,
-  Right
+  Right,
+  Item,
+  Input
 } from "native-base";
 import { LinearGradient } from "expo";
 import { observer } from "mobx-react";
@@ -27,7 +29,7 @@ import { withNavigation } from "react-navigation";
 
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
-import PlantBackground from "../LoginScreen/PlantBackgroundBlur.png";
+import PlantBackground from "../LoginScreen/plantBackground5.png";
 // import Store
 
 import StepIndicator from "react-native-step-indicator";
@@ -70,16 +72,22 @@ const customStyles = {
   currentStepLabelColor: "#41ba00"
 };
 
+let initialLabels = [0, 5, 10, 15, 20, 25, 30, 35, 37];
+let initialData = [0, 0, 3, 6, 12, 15, 19, 18, 20];
+
 class DummySinglePlant extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       currentPosition: 0,
-      notificationToggle: false
+      notificationToggle: false,
+      newHeight: null,
+      initialLabels: [0, 5, 10, 15, 20, 25, 30, 35, 37],
+      initialData: [0, 0, 3, 6, 12, 15, 19, 18, 20]
     };
   }
   render() {
-    let indexVal = PlantStore.plants.findIndex(plant => plant.id === 1);
+    let indexVal = PlantStore.plants.findIndex(plant => plant.id === 3);
     let plant = PlantStore.plants[indexVal];
     let stage1 = 0;
     let stage2 = plant.stage_1day;
@@ -91,13 +99,37 @@ class DummySinglePlant extends React.Component {
       plant.stage_3des,
       "Eat"
     ];
+
+    let newHeightCheck;
+    if (
+      this.state.initialData.length > 9 ||
+      isNaN(this.state.newHeight) ||
+      this.state.newHeight === null ||
+      this.state.newHeight === "" ||
+      this.state.newHeight > 99
+    ) {
+      newHeightCheck = "no";
+    } else {
+      newHeightCheck = "yes";
+    }
+    let lastHeightCheck;
+    if (
+      39 - this.state.initialLabels[this.state.initialLabels.length - 1] <=
+      1
+    ) {
+      lastHeightCheck = "no";
+      newHeightCheck = "no";
+    } else {
+      lastHeightCheck = "yes";
+    }
+
     return (
       <Container>
         <ImageBackground
           source={PlantBackground}
           style={{ width: "100%", height: "100%" }}
         >
-          <HeaderBar pageNameProp="Test Plant" screenNameProp="Dummy" />
+          <HeaderBar pageNameProp="Sample" screenNameProp="Dummy" />
           <Text> </Text>
           <Button
             full
@@ -106,7 +138,10 @@ class DummySinglePlant extends React.Component {
               backgroundColor: "#0b701c",
               shadowOpacity: 80
             }}
-            onPress={() => {}}
+            onPress={() => {
+              this.props.navigation.navigate("Profile");
+              HistoryStore.changePage("Statistics");
+            }}
           >
             <Text
               style={{
@@ -115,7 +150,7 @@ class DummySinglePlant extends React.Component {
                 fontSize: 25
               }}
             >
-              Coming Soon
+              Click here to login.
             </Text>
           </Button>
           <Content padder>
@@ -196,14 +231,59 @@ class DummySinglePlant extends React.Component {
                 </PercentageCircle>
               </CardItem>
             </Card>
+            <Card
+              style={{
+                shadowOpacity: 0.5,
+                borderRadius: 10,
+                shadowRadius: 20,
+                shadowOffset: { width: null, height: 10 }
+              }}
+            >
+              <CardItem style={{ borderRadius: 10 }}>
+                <Text style={{ fontWeight: "bold", alignSelf: "center" }}>
+                  {lastHeightCheck === "yes"
+                    ? "Record Today's Height"
+                    : "Height Recorded Successfully"}
+                </Text>
+              </CardItem>
+              <Item style={{ borderRadius: 10 }}>
+                <Input
+                  placeholder="..."
+                  disabled={lastHeightCheck === "no"}
+                  style={{ width: 50, fontWeight: "bold" }}
+                  onChangeText={inputVal =>
+                    this.setState({ newHeight: inputVal })
+                  }
+                  keyboardType="numeric"
+                />
+                <Button disabled light>
+                  <Text style={{ fontWeight: "bold", color: "black" }}>
+                    in cm
+                  </Text>
+                </Button>
+                <Button
+                  success={newHeightCheck === "yes"}
+                  disabled={newHeightCheck === "no"}
+                  onPress={() => {
+                    let data = this.state.initialData;
+                    data.push(this.state.newHeight);
+                    let label = this.state.initialLabels;
+                    label.push(
+                      this.state.initialLabels[
+                        this.state.initialLabels.length - 1
+                      ] + 1
+                    );
+                    this.setState({ initialData: data, initialLabels: label });
+                  }}
+                >
+                  <Text>Submit</Text>
+                </Button>
+              </Item>
+            </Card>
             <LineChart
               data={{
-                labels: [0, 20, 40, 60, 80, 100, 120, 140],
-                datasets: [
-                  {
-                    data: [0, 0, 10, 15, 20, 25, 30, 30]
-                  }
-                ]
+                labels: this.state.initialLabels,
+                datasets: [{ data: this.state.initialData }]
               }}
               width={Dimensions.get("window").width - 25} // from react-native
               height={220}

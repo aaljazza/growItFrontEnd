@@ -9,14 +9,7 @@ import StepIndicator from "react-native-step-indicator";
 //imports
 import PlantStore from "../Stores/PlantStore";
 import PlantRow from "../PlantList/PlantRows";
-import PlantCards from "./PlantCards";
-import PlantBackground from "../LoginScreen/PlantBackground.png";
 
-import Question1 from "../Experience/question1";
-import Question2 from "../Experience/question2";
-import Question3 from "../Experience/question3";
-import Question4 from "../Experience/question4";
-import Question5 from "../Experience/question5";
 import SelectedPlant from "../Experience/SelectedPlants/SelectedPlants";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;

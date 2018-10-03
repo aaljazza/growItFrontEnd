@@ -35,17 +35,84 @@ class HeaderBar extends Component {
     let pageName = this.props.pageNameProp;
     let screenName = this.props.screenNameProp;
     let pageNameCaps = pageName.toUpperCase();
+    if (
+      pageNameCaps === "MY STATS" ||
+      pageNameCaps === "SAMPLE" ||
+      pageNameCaps === "STATISTICS"
+    ) {
+      return (
+        <Header
+          style={{
+            borderBottomColor: "#136c3c",
+            borderBottomWidth: 5,
+            alignItems: "center",
+            backgroundColor: "white"
+          }}
+        >
+          {Platform.OS !== "ios" && <StatusBar hidden={true} />}
+          <Left style={{ flexDirection: "row" }}>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.openDrawer()}
+            >
+              <Icon style={{ color: "#136c3c" }} name="menu" type="Entypo" />
+            </Button>
+            <Text> </Text>
+            <Button
+              transparent
+              onPress={() => {
+                this.props.navigation.navigate(HistoryStore.lastPage);
+                HistoryStore.changePage("Shop");
+              }}
+            >
+              <Icon style={{ color: "#136c3c" }} name="ios-arrow-back" />
+            </Button>
+          </Left>
+          <Title
+            style={{
+              color: "#136c3c",
+              alignSelf: "center",
+              fontWeight: "bold"
+            }}
+          >
+            {pageNameCaps}
+          </Title>
+          <Right>
+            <Button
+              transparent
+              onPress={() => {
+                this.props.navigation.navigate("Cart");
+                HistoryStore.changePage(screenName);
+              }}
+            >
+              {CartStore.orders.length > 0 && (
+                <Badge bordered style={{ backgroundColor: "#136c3c" }}>
+                  <Text note style={{ fontWeight: "bold", color: "white" }}>
+                    {CartStore.quantityCart}
+                  </Text>
+                </Badge>
+              )}
+              <Icon
+                active={pageName === "Cart"}
+                style={{ color: "#136c3c" }}
+                name="cart"
+              />
+            </Button>
+          </Right>
+        </Header>
+      );
+    }
+
     return (
       <Header
         style={{
           borderBottomColor: "#136c3c",
           borderBottomWidth: 5,
           alignItems: "center",
-          backgroundColor: "white"
+          backgroundColor: "transparent"
         }}
       >
         {Platform.OS !== "ios" && <StatusBar hidden={true} />}
-
         <Left style={{ flexDirection: "row" }}>
           <Button
             transparent

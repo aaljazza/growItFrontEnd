@@ -26,28 +26,28 @@ import HistoryStore from "../../Stores/HistoryStore";
 // create a component
 class PlantingHistory extends Component {
   render() {
-    let plant = this.props.plant;
+    let track = this.props.track;
     let indexVal = PlantStore.plants.findIndex(
-      store => store.id === plant.plantid
+      plant => plant.id === track.plant
     );
-    let daysOld = moment().diff(plant.plantedOn, "days");
-    let stage2 = PlantStore.plants[indexVal].stage1day;
+    let daysOld = moment().diff(track.planted_on, "days");
+    let stage2 = PlantStore.plants[indexVal].stage_1day;
     let stage3 =
-      PlantStore.plants[indexVal].stage1day +
-      PlantStore.plants[indexVal].stage2day;
+      PlantStore.plants[indexVal].stage_1day +
+      PlantStore.plants[indexVal].stage_2day;
     let stage4 =
-      PlantStore.plants[indexVal].stage1day +
-      PlantStore.plants[indexVal].stage2day +
-      PlantStore.plants[indexVal].stage3day;
+      PlantStore.plants[indexVal].stage_1day +
+      PlantStore.plants[indexVal].stage_2day +
+      PlantStore.plants[indexVal].stage_3day;
     let currentStage;
     if (daysOld > stage4) {
       currentStage = "Eat";
     } else if (daysOld > stage3) {
-      currentStage = PlantStore.plants[indexVal].stage3des;
+      currentStage = PlantStore.plants[indexVal].stage_3des;
     } else if (daysOld > stage2) {
-      currentStage = PlantStore.plants[indexVal].stage2des;
+      currentStage = PlantStore.plants[indexVal].stage_2des;
     } else {
-      currentStage = PlantStore.plants[indexVal];
+      currentStage = PlantStore.plants[indexVal].stage_1des;
     }
 
     return (
@@ -75,7 +75,7 @@ class PlantingHistory extends Component {
             transparent
             style={{ height: 150 }}
             onPress={() => {
-              PlantStore.updateStats(plant.trackID);
+              PlantStore.updateStats(track.id);
               this.props.navigation.navigate("StatisticsPlot");
               HistoryStore.changePage("Statistics");
             }}

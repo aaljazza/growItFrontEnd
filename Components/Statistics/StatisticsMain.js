@@ -27,9 +27,10 @@ import PlantingHistory from "../LoginScreen/PreviousOrders/PlantingHistory";
 import userdatabase from "../Stores/databases/userdatabase";
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
-import PlantBackground from "../LoginScreen/PlantBackgroundBlur.png";
+import PlantBackground from "../LoginScreen/plantBackground5.png";
 import UserStore from "../Stores/UserStore";
 import StatisticsScreenDummy from "./StatisticsScreenDummy";
+import AuthStore from "../Stores/AuthStore";
 
 // create a component
 class StatiscticsMain extends Component {
@@ -40,14 +41,34 @@ class StatiscticsMain extends Component {
       newTrackingCode: ""
     };
   }
+
   render() {
-    let currentUser = PlantStore.currentUser[0];
+    let currentUser = AuthStore.user.username;
     let plants = PlantStore.plants;
-    let tracking = currentUser.plantingHistory.map((track, index) => (
-      <PlantingHistory plant={track} key={index} />
+    let tracking = UserStore.updatedTrackList.map((track, index) => (
+      <PlantingHistory track={track} key={index} />
     ));
-    if (!UserStore.signedIn || UserStore.signedIn) {
+    if (!UserStore.signedIn) {
       return <StatisticsScreenDummy />;
+    }
+    let newCodeStatus = false;
+    let plantName = "";
+    let plantID = null;
+    let countTrackers = 0;
+    for (let j = 0; j < UserStore.updatedTrackList.length; j++) {
+      if (UserStore.updatedTrackList[j].active === true) {
+        countTrackers += 1;
+      }
+    }
+    for (let i = 0; i < PlantStore.plants.length; i++) {
+      if (
+        this.state.newTrackingCode.toLowerCase() ===
+        PlantStore.plants[i].tracking_code.toLowerCase()
+      ) {
+        newCodeStatus = true;
+        plantName = PlantStore.plants[i].name;
+        plantID = PlantStore.plants[i].id;
+      }
     }
     return (
       <Container>
@@ -56,25 +77,32 @@ class StatiscticsMain extends Component {
           style={{ width: "100%", height: "100%" }}
         >
           <HeaderBar pageNameProp="My Stats" screenNameProp="Statistics" />
-          <Card padder>
-            <CardItem header>
+          <Card padder style={{ shadowOpacity: 0.7, shadowRadius: 20 }}>
+            <CardItem bordered header>
               <Text style={{ fontSize: 24, fontWeight: "bold" }}>
-                {currentUser.name}
+                {currentUser && currentUser.toUpperCase()}
               </Text>
             </CardItem>
-            <CardItem bordered>
-              <Text note>
-                User Since:{" "}
-                {moment(currentUser.created_date).format("DD-MMM-YY")}
+            <CardItem bordered style={{ flexDirection: "row" }}>
+              <Text style={{ fontWeight: "bold", fontSize: 24 }}>
+                {countTrackers}
+              </Text>
+              <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                {" "}
+                Tracked Plant
+                {countTrackers !== 1 && "s"}
               </Text>
             </CardItem>
           </Card>
-          <Content>
-            <Card>{tracking}</Card>
+          <Content padder>
+            <Card style={{ shadowOpacity: 80, shadowRadius: 5 }}>
+              {tracking}
+            </Card>
             <Text> </Text>
             {!this.state.openTrack ? (
               <Button
                 full
+                rounded
                 success
                 style={{ shadowOpacity: 80 }}
                 onPress={() => this.setState({ openTrack: true })}
@@ -85,8 +113,25 @@ class StatiscticsMain extends Component {
               </Button>
             ) : (
               <View>
-                <Item rounded style={{ backgroundColor: "transparent" }}>
-                  <Text> </Text>
+                <Button
+                  full
+                  success
+                  disabled={newCodeStatus === false}
+                  rounded
+                  style={{ shadowOpacity: 80 }}
+                  onPress={() => {
+                    UserStore.addTrackPlant(plantID);
+                    this.setState({ openTrack: false, newTrackingCode: "" });
+                  }}
+                >
+                  <Text style={{ fontWeight: "bold", color: "white" }}>
+                    {newCodeStatus
+                      ? `Submit, start tracking a ${plantName} plant!`
+                      : "Invalid Code"}
+                  </Text>
+                </Button>
+                <Text> </Text>
+                <Item rounded style={{ backgroundColor: "white" }}>
                   <Icon name="ios-search" />
                   <Input
                     placeholder="Write in Activation Code..."
@@ -97,12 +142,6 @@ class StatiscticsMain extends Component {
                     style={{ fontWeight: "bold" }}
                   />
                 </Item>
-                <Text> </Text>
-                <Button full success rounded style={{ shadowOpacity: 80 }}>
-                  <Text style={{ fontWeight: "bold", color: "white" }}>
-                    Submit
-                  </Text>
-                </Button>
                 <Text> </Text>
                 <Button
                   full

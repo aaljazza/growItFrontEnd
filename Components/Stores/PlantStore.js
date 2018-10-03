@@ -8,12 +8,11 @@ import { withNavigation } from "react-navigation";
 //Import Stores
 import plantdabase from "./databases/plantdatabase";
 import userdatabase from "./databases/userdatabase";
-import trackinghistory from "./databases/TrackingHistory";
 import accessoriesdatabase from "./databases/accessoriesdatabase";
 import AuthStore from "./AuthStore";
 
 let instance = axios.create({
-  baseURL: "http://178.128.205.28/"
+  baseURL: "http://142.93.163.231/"
 });
 let serverReady = "Yes";
 
@@ -122,21 +121,6 @@ class PlantsStore {
       if (this.accessories[j].quantity > 4) {
         this.accessories[j].quantity = 4;
       }
-      if (this.accessories[j].category === 2) {
-        this.accessories[j].category = "Soil";
-      }
-      if (this.accessories[j].category === 3) {
-        this.accessories[j].category = "Pots";
-      }
-      if (this.accessories[j].category === 5) {
-        this.accessories[j].category = "Sprays";
-      }
-      if (this.accessories[j].category === 6) {
-        this.accessories[j].category = "Tools";
-      }
-      if (this.accessories[j].category === 7) {
-        this.accessories[j].category = "Lights";
-      }
     }
   }
 
@@ -156,6 +140,10 @@ class PlantsStore {
     return this.accessories.filter(
       item => +item.id === +this.singleItemProduct
     );
+  }
+
+  get filteredCategories() {
+    return this.categories.filter(category => category.category !== "Plants");
   }
 
   get filteredAccessory() {
@@ -225,7 +213,6 @@ class PlantsStore {
   fetchPlants() {
     if (serverReady === "Yes") {
       this.currentUser = userdatabase;
-      this.trackedPlants = trackinghistory;
       return instance
         .get("/plantslist/?format=json")
         .then(res => res.data)
@@ -271,7 +258,8 @@ decorate(PlantsStore, {
   filteredMultipleAccessory: computed,
   shopSegment: observable,
   accessoryFilter: observable,
-  filteredAccessory: computed
+  filteredAccessory: computed,
+  filteredCategories: computed
 });
 const PlantStore = new PlantsStore();
 export default withNavigation(observer(PlantStore));

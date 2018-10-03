@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, ListView, SafeAreaView, Image } from "react-native";
+import { View, ListView, SafeAreaView, Image, Dimensions } from "react-native";
 import {
   Container,
   Header,
@@ -26,6 +26,9 @@ import CartStore from "../Stores/CartStore";
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
 import HistoryStore from "../Stores/HistoryStore";
+import packagePic from "./package.png";
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 class PlantDetail extends React.Component {
   constructor(props) {
@@ -75,9 +78,18 @@ class PlantDetail extends React.Component {
             <CardItem bordered style={{ flexDirection: "column" }}>
               <Text style={{ fontWeight: "bold" }}>Inside the Box:</Text>
               <Text note>
-                The box will include Seeds, Germination box, Plant Pot, Trowel,
-                and Soil.
+                The box will include Seeds, Germination box, Full Size Pot, LED
+                Timer USB Light, and sufficient soil for the life of the plant.
               </Text>
+            </CardItem>
+            <CardItem
+              bordered
+              style={{ alignItems: "center", justifyContent: "center" }}
+            >
+              <Image
+                source={packagePic}
+                style={{ width: SCREEN_WIDTH - 100, maxHeight: 50 }}
+              />
             </CardItem>
             <CardItem bordered style={{ flexDirection: "row" }}>
               <Button
@@ -136,15 +148,11 @@ class PlantDetail extends React.Component {
                 <Text>Pet Friendly:</Text>
                 <Text note>{plant.pet_friendly ? "Yes" : "No"}</Text>
               </Body>
-              <Body>
-                <Text>Size:</Text>
-                <Text note>{plant.size}</Text>
-              </Body>
             </CardItem>
             <CardItem bordered>
               <Body>
-                <Text>Location:</Text>
-                <Text note>{plant.location}</Text>
+                <Text>Size:</Text>
+                <Text note>{plant.size}</Text>
               </Body>
               <Body>
                 <Text>Color:</Text>
@@ -159,7 +167,7 @@ class PlantDetail extends React.Component {
               <Body>
                 <Text>Ready to Eat:</Text>
                 <Text note>
-                  About {plant.stage1day + plant.stage2day + plant.stage3day}{" "}
+                  About {plant.stage_1day + plant.stage_2day + plant.stage_3day}{" "}
                   days
                 </Text>
               </Body>

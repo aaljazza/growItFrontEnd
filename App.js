@@ -188,8 +188,6 @@ const CustomDrawerComponent = props => (
         <Text> </Text>
         <Text> </Text>
         <Text> </Text>
-        <Text> </Text>
-        <Text> </Text>
       </View>
       <View
         style={{

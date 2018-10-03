@@ -11,7 +11,7 @@ import setAuthToken from "../../utils/setAuthToken";
 // Stores
 
 const instance = axios.create({
-  baseURL: "http://178.128.205.28/"
+  baseURL: "http://142.93.163.231/"
 });
 
 class AuthsStore {
@@ -23,6 +23,7 @@ class AuthsStore {
   setCurrentUser(decoded) {
     this.user = decoded;
     this.fetchUserProfile(decoded.user_id);
+    UserStore.fetchTrackHistory();
   }
 
   get isAuthenticated() {
