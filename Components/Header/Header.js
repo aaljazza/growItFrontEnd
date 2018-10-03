@@ -37,7 +37,7 @@ class HeaderBar extends Component {
     let pageNameCaps = pageName.toUpperCase();
     if (
       pageNameCaps === "MY STATS" ||
-      pageNameCaps === "SAMPLE" ||
+      pageNameCaps === "DEMO" ||
       pageNameCaps === "STATISTICS"
     ) {
       return (
@@ -75,7 +75,9 @@ class HeaderBar extends Component {
               fontWeight: "bold"
             }}
           >
-            {pageNameCaps}
+            {pageNameCaps.length > 9
+              ? pageNameCaps.substring(0, 9)
+              : pageNameCaps}
           </Title>
           <Right>
             <Button
@@ -138,7 +140,9 @@ class HeaderBar extends Component {
             fontWeight: "bold"
           }}
         >
-          {pageNameCaps}
+          {pageNameCaps.length > 9
+            ? pageNameCaps.substring(0, 9) + "..."
+            : pageNameCaps}
         </Title>
         <Right>
           <Button

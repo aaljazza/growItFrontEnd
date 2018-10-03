@@ -21,11 +21,13 @@ import PlantStore from "../../Stores/PlantStore";
 class OrderHistory extends Component {
   render() {
     let order = this.props.order;
+    orderCount = this.props.orderCount;
     return (
       <Card>
         <CardItem header>
           <Text>
-            Order {order.id} on {moment(order.date_created).format("DD-MMM-YY")}
+            Order {orderCount} on{" "}
+            {moment(order.date_created).format("DD-MMM-YY")}
           </Text>
         </CardItem>
       </Card>

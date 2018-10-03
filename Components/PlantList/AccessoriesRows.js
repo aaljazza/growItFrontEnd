@@ -140,7 +140,7 @@ class AccessoriesRow extends React.Component {
                     : { color: "green" }
                 }
               >
-                {accessory.quantity === 0 ? "Limited Quantity" : "Add"}
+                {accessory.quantity === 0 ? "Sold Out" : "Add"}
               </Text>
             </Button>
             <Text style={{ fontSize: 5 }}> </Text>

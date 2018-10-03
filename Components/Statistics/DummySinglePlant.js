@@ -129,30 +129,35 @@ class DummySinglePlant extends React.Component {
           source={PlantBackground}
           style={{ width: "100%", height: "100%" }}
         >
-          <HeaderBar pageNameProp="Sample" screenNameProp="Dummy" />
+          <HeaderBar pageNameProp="DEMO" screenNameProp="Dummy" />
           <Text> </Text>
-          <Button
-            full
-            success
-            style={{
-              backgroundColor: "#0b701c",
-              shadowOpacity: 80
-            }}
-            onPress={() => {
-              this.props.navigation.navigate("Profile");
-              HistoryStore.changePage("Statistics");
-            }}
-          >
-            <Text
+          <View padder>
+            <Button
+              full
+              rounded
               style={{
-                fontWeight: "bold",
-                color: "white",
-                fontSize: 25
+                marginTop: 10,
+                shadowOpacity: 80,
+                backgroundColor: "#119a50",
+                shadowOffset: { width: 0, height: 5 },
+                borderColor: "black",
+                borderWidth: 1
+              }}
+              onPress={() => {
+                this.props.navigation.navigate("Profile");
+                HistoryStore.changePage("Statistics");
               }}
             >
-              Click here to login.
-            </Text>
-          </Button>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  color: "white"
+                }}
+              >
+                CLICK TO LOGIN
+              </Text>
+            </Button>
+          </View>
           <Content padder>
             <View />
             <Card>
