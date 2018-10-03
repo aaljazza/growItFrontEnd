@@ -150,7 +150,7 @@ class PlantRow extends React.Component {
                     : { color: "green" }
                 }
               >
-                {plant.quantity === 0 ? "Limited Quantity" : "Add"}
+                {plant.quantity === 0 ? "Sold Out" : "Add"}
               </Text>
             </Button>
             <Text style={{ fontSize: 5 }}> </Text>

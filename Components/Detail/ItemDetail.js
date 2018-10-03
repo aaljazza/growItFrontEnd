@@ -112,7 +112,7 @@ class ItemDetail extends React.Component {
                 }}
               >
                 {item.quantity <= 0 ? (
-                  <Text>Limited Quantity</Text>
+                  <Text>Sold Out</Text>
                 ) : (
                   <Text>Add {this.state.quant} to Cart</Text>
                 )}

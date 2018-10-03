@@ -241,6 +241,16 @@ class PlantScreen extends React.Component {
               </Button>
             )}
           </Content>
+          <Button
+            full
+            disabled
+            danger
+            style={{ height: 30, backgroundColor: "#136c3c" }}
+          >
+            <Text style={{ fontSize: 12, fontWeight: "bold" }}>
+              Stay Tuned. More items coming soon.
+            </Text>
+          </Button>
           <FooterBar pageNameProp="Plants" screenNameProp="Shop" />
         </ImageBackground>
       </Container>

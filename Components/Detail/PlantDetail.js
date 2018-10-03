@@ -26,7 +26,7 @@ import CartStore from "../Stores/CartStore";
 import HeaderBar from "../Header/Header";
 import FooterBar from "../Footer/Footer";
 import HistoryStore from "../Stores/HistoryStore";
-import packagePic from "./package.png";
+import packagePic from "./packageNoLamp.png";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -35,7 +35,8 @@ class PlantDetail extends React.Component {
     super(props);
     this.state = {
       open: true,
-      quant: 1
+      quant: 1,
+      orderOpen: false
     };
   }
   componentDidUpdate() {
@@ -74,22 +75,6 @@ class PlantDetail extends React.Component {
             <CardItem bordered style={{ flexDirection: "column" }}>
               <Text style={{ fontWeight: "bold" }}>About this Plant:</Text>
               <Text note>{plant.description}</Text>
-            </CardItem>
-            <CardItem bordered style={{ flexDirection: "column" }}>
-              <Text style={{ fontWeight: "bold" }}>Inside the Box:</Text>
-              <Text note>
-                The box will include Seeds, Germination box, Full Size Pot, LED
-                Timer USB Light, and sufficient soil for the life of the plant.
-              </Text>
-            </CardItem>
-            <CardItem
-              bordered
-              style={{ alignItems: "center", justifyContent: "center" }}
-            >
-              <Image
-                source={packagePic}
-                style={{ width: SCREEN_WIDTH - 100, maxHeight: 50 }}
-              />
             </CardItem>
             <CardItem bordered style={{ flexDirection: "row" }}>
               <Button
@@ -133,12 +118,105 @@ class PlantDetail extends React.Component {
                 }}
               >
                 {plant.quantity <= 0 ? (
-                  <Text>Limited Quantity</Text>
+                  <Text>Sold Out</Text>
                 ) : (
                   <Text>Add {this.state.quant} to Cart</Text>
                 )}
               </Button>
             </CardItem>
+          </Card>
+          <Card
+            style={{
+              alignSelf: "center",
+              shadowOpacity: 0.3,
+              shadowRadius: 20,
+              shadowOffset: { width: 20, height: 20 },
+              borderRadius: 20
+            }}
+          >
+            <CardItem bordered style={{ flexDirection: "column" }}>
+              <Text style={{ fontWeight: "bold" }}>Inside the Box:</Text>
+              <Text note>
+                The box will include Seeds, Germination box, Full Size Pot, and
+                sufficient soil for the life of the plant.
+              </Text>
+            </CardItem>
+            <CardItem bordered>
+              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                Details Inside the Box:
+              </Text>
+              <Right>
+                <Button
+                  transparent
+                  onPress={() =>
+                    this.setState({ orderOpen: !this.state.orderOpen })
+                  }
+                >
+                  {this.state.orderOpen ? (
+                    <Icon
+                      type="Entypo"
+                      name="chevron-up"
+                      style={{ fontSize: 25, color: "#119a50" }}
+                    />
+                  ) : (
+                    <Icon
+                      type="Entypo"
+                      name="chevron-down"
+                      style={{ fontSize: 25, color: "#119a50" }}
+                    />
+                  )}
+                </Button>
+              </Right>
+            </CardItem>
+            {this.state.orderOpen && (
+              <View>
+                <CardItem
+                  bordered
+                  style={{ alignItems: "center", justifyContent: "center" }}
+                >
+                  <Image
+                    source={packagePic}
+                    style={{ width: SCREEN_WIDTH - 100, maxHeight: 50 }}
+                  />
+                </CardItem>
+                <CardItem bordered>
+                  <Text note>Plant Seeds sufficient for multiple pots.</Text>
+                </CardItem>
+                <CardItem bordered>
+                  <Text note>
+                    Reusable nursery which can handle 9 at a single time.
+                  </Text>
+                </CardItem>
+                <CardItem bordered>
+                  <Text note>
+                    A suitable pot for the selected plant which will cover the
+                    life of the plant.
+                  </Text>
+                </CardItem>
+                <CardItem bordered>
+                  <Text note>
+                    Sufficeint amount of soil for the life of the plant with
+                    pre-mixed perlite to help the plants grow stronger.
+                  </Text>
+                </CardItem>
+                <CardItem bordered>
+                  <Text note>
+                    A tracking code for the plant to get real-time statistics
+                    for your plant through this app.
+                  </Text>
+                </CardItem>
+              </View>
+            )}
+          </Card>
+          <Card
+            style={{
+              alignSelf: "center",
+              shadowOpacity: 0.3,
+              shadowRadius: 20,
+              shadowOffset: { width: 20, height: 20 },
+              borderRadius: 20
+            }}
+          >
             <CardItem bordered>
               <Body>
                 <Text>Care Level:</Text>

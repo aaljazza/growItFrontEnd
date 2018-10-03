@@ -50,7 +50,7 @@ class ProfileView extends React.Component {
     let user = AuthStore.user;
     let plants = PlantStore.plants;
     let orders = UserStore.orders.map((order, index) => (
-      <OrderHistory order={order} key={index} />
+      <OrderHistory order={order} key={index} orderCount={index + 1} />
     ));
     let countOrders = UserStore.orders.length;
     let countTrackers = 0;

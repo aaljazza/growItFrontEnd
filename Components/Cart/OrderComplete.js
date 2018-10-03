@@ -50,7 +50,7 @@ class OrderComplete extends React.Component {
   render() {
     return (
       <Container>
-        <HeaderBar pageNameProp="Order Complete" screenNameProp="Shop" />
+        <HeaderBar pageNameProp="Approved" screenNameProp="Shop" />
         <Button full disabled success style={{ backgroundColor: "#119a50" }}>
           <Text>Your Order Has Been Submitted:</Text>
         </Button>

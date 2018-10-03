@@ -43,7 +43,7 @@ class StatisticsScreenDummy extends Component {
   }
 
   componentDidMount() {
-    alert("This is a test screen, please sign in to Track your plants.");
+    alert("This is a demo screen, please sign in to Track your plants.");
   }
 
   render() {
@@ -56,42 +56,47 @@ class StatisticsScreenDummy extends Component {
           source={PlantBackground}
           style={{ width: "100%", height: "100%" }}
         >
-          <HeaderBar pageNameProp="Sample" screenNameProp="Statistics" />
+          <HeaderBar pageNameProp="DEMO" screenNameProp="Statistics" />
           <Text> </Text>
-          <Button
-            full
-            success
-            style={{
-              backgroundColor: "#0b701c",
-              shadowOpacity: 80
-            }}
-            onPress={() => {
-              this.props.navigation.navigate("Profile");
-              HistoryStore.changePage("Statistics");
-            }}
-          >
-            <Text
+          <View padder>
+            <Button
+              full
+              rounded
               style={{
-                fontWeight: "bold",
-                color: "white",
-                fontSize: 18
+                marginTop: 10,
+                shadowOpacity: 80,
+                backgroundColor: "#119a50",
+                shadowOffset: { width: 0, height: 5 },
+                borderColor: "black",
+                borderWidth: 1
+              }}
+              onPress={() => {
+                this.props.navigation.navigate("Profile");
+                HistoryStore.changePage("Statistics");
               }}
             >
-              Click here to login.
-            </Text>
-          </Button>
-          <Card padder style={{ shadowOpacity: 0.7, shadowRadius: 20 }}>
-            <CardItem bordered header>
-              <Text style={{ fontSize: 24, fontWeight: "bold" }}>
-                Your Name Goes Here
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  color: "white"
+                }}
+              >
+                CLICK TO LOGIN
               </Text>
-            </CardItem>
-            <CardItem bordered>
-              <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-                1 Tracked Plant
-              </Text>
-            </CardItem>
-          </Card>
+            </Button>
+            <Card padder style={{ shadowOpacity: 0.7, shadowRadius: 20 }}>
+              <CardItem bordered header>
+                <Text style={{ fontSize: 24, fontWeight: "bold" }}>
+                  Your Name Goes Here
+                </Text>
+              </CardItem>
+              <CardItem bordered>
+                <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                  1 Tracked Plant
+                </Text>
+              </CardItem>
+            </Card>
+          </View>
           <Content>
             <Card>
               <CardItem bordered style={{ height: 100 }}>
